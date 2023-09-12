@@ -1,0 +1,20 @@
+# _config.yml
+title: Michael.Krzyzanski
+description: Über mich und Integrierte Management Systeme
+url: "https://megatraveller.github.io" # die URL deiner Website
+baseurl: "" # der Basispfad deiner Website, normalerweise ""
+
+# E-Mail und Autor Informationen (optional)
+email: michael@krzyzanski.de
+author: Michael Krzyzanski
+
+# Jekyll und Plugin Einstellungen
+markdown: kramdown
+theme: jekyll-theme-yat
+
+# Build Einstellungen
+exclude:
+  - Gemfile
+  - Gemfile.lock
+
+# Weitere Konfigurationen können hier hinzugefügt werden, je nach den spezifischen Anforderungen deiner Website.
