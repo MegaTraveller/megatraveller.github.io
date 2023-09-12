@@ -10,7 +10,9 @@ author: Michael Krzyzanski
 
 # Jekyll und Plugin Einstellungen
 markdown: kramdown
-theme: jekyll-theme-yat
+# theme: jekyll-theme-yat
+# theme: owner/name --> Don't forget to remove/comment the gem-based theme option
+remote_theme: "jeffreytse/jekyll-theme-yat"
 
 # Build Einstellungen
 exclude:
