@@ -24,3 +24,7 @@
 - lang: ru
   img: https://cdn.countryflags.com/thumbs/russia/flag-400.png
   text: Russian
+
+- lang: de
+  img: https://cdn.countryflags.com/thumbs/germany/flag-400.png
+  text: German
