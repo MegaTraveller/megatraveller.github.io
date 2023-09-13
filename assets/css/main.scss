@@ -53,3 +53,21 @@ $selection-background-color: unquote("{{ site.selection.background_color }}");
 }
 
 @import "yat";
+
+.box-note {
+  border: 2px solid green;
+  padding: 10px;
+  background-color: #f0f8f0;
+}
+
+.box-warning {
+  border: 2px solid yellow;
+  padding: 10px;
+  background-color: #fff8e1;
+}
+
+.box-error {
+  border: 2px solid red;
+  padding: 10px;
+  background-color: #ffe6e6;
+}
