@@ -54,20 +54,44 @@ $selection-background-color: unquote("{{ site.selection.background_color }}");
 
 @import "yat";
 
-.box-note {
-  border: 2px solid green;
+.box-note, .box-warning, .box-error {
+  position: relative;
+  border-left: 5px solid transparent;
   padding: 10px;
-  background-color: #f0f8f0;
+  background-color: transparent;
+  margin-bottom: 10px;
+}
+
+.box-note::before, .box-warning::before, .box-error::before {
+  content: attr(data-title);
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.box-note {
+  border-color: green;
+}
+
+.box-note::before {
+  color: green;
+  content: "Note";
 }
 
 .box-warning {
-  border: 2px solid yellow;
-  padding: 10px;
-  background-color: #fff8e1;
+  border-color: yellow;
+}
+
+.box-warning::before {
+  color: yellow;
+  content: "Warning";
 }
 
 .box-error {
-  border: 2px solid red;
-  padding: 10px;
-  background-color: #ffe6e6;
+  border-color: red;
+}
+
+.box-error::before {
+  color: red;
+  content: "Error";
 }
