@@ -1,6 +1,10 @@
 # Translate languages
 # langs refer to https://cloud.google.com/translate/docs/languages
 
+- lang: de
+  img: https://cdn.countryflags.com/thumbs/germany/flag-400.png
+  text: German
+
 - lang: en
   img: https://cdn.countryflags.com/thumbs/united-states-of-america/flag-400.png
   text: English
@@ -24,7 +28,3 @@
 - lang: ru
   img: https://cdn.countryflags.com/thumbs/russia/flag-400.png
   text: Russian
-
-- lang: de
-  img: https://cdn.countryflags.com/thumbs/germany/flag-400.png
-  text: German
