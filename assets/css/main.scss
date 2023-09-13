@@ -75,7 +75,7 @@ $selection-background-color: unquote("{{ site.selection.background_color }}");
 
 .box-note::before {
   color: green;
-  content: " Note";
+  content: " Notiz";
 }
 
 .box-warning {
@@ -84,7 +84,7 @@ $selection-background-color: unquote("{{ site.selection.background_color }}");
 
 .box-warning::before {
   color: yellow;
-  content: "Warning";
+  content: "Warnung";
 }
 
 .box-error {
@@ -93,5 +93,5 @@ $selection-background-color: unquote("{{ site.selection.background_color }}");
 
 .box-error::before {
   color: red;
-  content: "Error";
+  content: "Fehler";
 }
