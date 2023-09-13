@@ -74,3 +74,26 @@ You can add notification, warning and error boxes like this:
 
 {: .box-error}
 **Error:** This is an error box.
+
+
+<div class="box-note">
+  
+**Note:** This is a notification box.
+
+</div>
+
+### Warning
+
+<div class="box-warning">
+  
+**Warning:** This is a warning box.
+
+</div>
+
+### Error
+
+<div class="box-error">
+  
+**Error:** This is an error box.
+
+</div>
