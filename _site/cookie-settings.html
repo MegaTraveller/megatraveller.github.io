@@ -1,53 +1,143 @@
 <!-- cookie-settings.html -->
----
-layout: default
-title: Cookie Settings
----
+--- layout: default title: Cookie Einstellungen ---
 
-<h1>Cookie Settings</h1>
-<p>Select which cookies you want to allow:</p>
+<h1>Cookie Einstellungen</h1>
+<p>Wählen Sie aus, welche Cookies Sie erlauben möchten:</p>
 <form id="cookie-settings-form">
-  <label>
-    <input type="checkbox" name="necessary" checked disabled> Necessary
-  </label><br>
-  <label>
-    <input type="checkbox" name="statistics"> Statistics
-  </label><br>
-  <label>
-    <input type="checkbox" name="marketing"> Marketing
-  </label><br>
-  <button type="button" onclick="saveCookieSettings();" style="background: #003366; color: white; border: none; padding: 10px; cursor: pointer;">Save</button>
+    <label>
+        <input type="checkbox" name="necessary" checked disabled />
+        Notwendig </label
+    ><br />
+    <label>
+        <input type="checkbox" name="statistics" id="statistics-checkbox" />
+        Statistik </label
+    ><br />
+    <label>
+        <input type="checkbox" name="google-analytics" /> Google Analytics </label
+    ><br />
+    <label>
+        <input type="checkbox" name="marketing" id="marketing-checkbox" />
+        Marketing </label
+    ><br />
+    <label> <input type="checkbox" name="disqus" /> Disqus </label><br />
+    <label> <input type="checkbox" name="gitment" /> Gitment </label><br />
+    <label>
+        <input type="checkbox" name="google-translate" /> Google Translate </label
+    ><br />
+    <label> <input type="checkbox" name="highlight-js" /> Highlight.js </label
+    ><br />
+    <label> <input type="checkbox" name="geopattern" /> GeoPattern </label
+    ><br />
+    <label> <input type="checkbox" name="mathjax" /> MathJax </label><br />
+    <label> <input type="checkbox" name="photoswipe" /> PhotoSwipe </label
+    ><br />
+    <label> <input type="checkbox" name="trianglify" /> Trianglify </label
+    ><br />
+    <button
+        type="button"
+        onclick="saveCookieSettings();"
+        style="
+            background: #003366;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        "
+    >
+        Speichern
+    </button>
 </form>
 
 <script>
-function saveCookieSettings() {
-  var form = document.getElementById('cookie-settings-form');
-  var settings = {
-    necessary: form.necessary.checked,
-    statistics: form.statistics.checked,
-    marketing: form.marketing.checked
-  };
-  document.cookie = "cookie-settings=" + JSON.stringify(settings) + "; path=/; max-age=31536000"; // 1 year
-  alert("Your settings have been saved.");
-}
-
-window.onload = function() {
-  var cookies = document.cookie.split(';');
-  var settings = {};
-  for (var i = 0; i < cookies.length; i++) {
-    var cookie = cookies[i].trim();
-    if (cookie.indexOf("cookie-settings=") == 0) {
-      settings = JSON.parse(cookie.substring("cookie-settings=".length));
+    function saveCookieSettings() {
+        var form = document.getElementById("cookie-settings-form");
+        var settings = {
+            necessary: form.necessary.checked,
+            statistics: form.statistics.checked,
+            googleAnalytics: form["google-analytics"].checked,
+            marketing: form.marketing.checked,
+            disqus: form.disqus.checked,
+            gitment: form.gitment.checked,
+            googleTranslate: form["google-translate"].checked,
+            highlightJs: form["highlight-js"].checked,
+            geopattern: form.geopattern.checked,
+            mathjax: form.mathjax.checked,
+            photoswipe: form.photoswipe.checked,
+            trianglify: form.trianglify.checked,
+        };
+        document.cookie =
+            "cookie-settings=" +
+            JSON.stringify(settings) +
+            "; path=/; max-age=31536000"; // 1 year
+        alert("Ihre Einstellungen wurden gespeichert.");
     }
-  }
-  if (settings.statistics) {
-    document.cookie = "cookie-consent-statistics=true; path=/; max-age=31536000"; // 1 year
-  }
-  if (settings.marketing) {
-    document.cookie = "cookie-consent-marketing=true; path=/; max-age=31536000"; // 1 year
-  }
-  var form = document.getElementById('cookie-settings-form');
-  form.statistics.checked = settings.statistics || false;
-  form.marketing.checked = settings.marketing || false;
-}
+
+    window.onload = function () {
+        var cookies = document.cookie.split(";");
+        var settings = {};
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            if (cookie.indexOf("cookie-settings=") == 0) {
+                settings = JSON.parse(
+                    cookie.substring("cookie-settings=".length),
+                );
+            }
+        }
+        if (settings.statistics) {
+            document.cookie =
+                "cookie-consent-statistics=true; path=/; max-age=31536000"; // 1 year
+        }
+        if (settings.googleAnalytics) {
+            document.cookie =
+                "cookie-consent-google-analytics=true; path=/; max-age=31536000"; // 1 year
+        }
+        if (settings.marketing) {
+            document.cookie =
+                "cookie-consent-marketing=true; path=/; max-age=31536000"; // 1 year
+        }
+        if (settings.disqus) {
+            document.cookie =
+                "cookie-consent-disqus=true; path=/; max-age=31536000"; // 1 year
+        }
+        if (settings.gitment) {
+            document.cookie =
+                "cookie-consent-gitment=true; path=/; max-age=31536000"; // 1 year
+        }
+        if (settings.googleTranslate) {
+            document.cookie =
+                "cookie-consent-google-translate=true; path=/; max-age=31536000"; // 1 year
+        }
+        if (settings.highlightJs) {
+            document.cookie =
+                "cookie-consent-highlight-js=true; path=/; max-age=31536000"; // 1 year
+        }
+        if (settings.geopattern) {
+            document.cookie =
+                "cookie-consent-geopattern=true; path=/; max-age=31536000"; // 1 year
+        }
+        if (settings.mathjax) {
+            document.cookie =
+                "cookie-consent-mathjax=true; path=/; max-age=31536000"; // 1 year
+        }
+        if (settings.photoswipe) {
+            document.cookie =
+                "cookie-consent-photoswipe=true; path=/; max-age=31536000"; // 1 year
+        }
+        if (settings.trianglify) {
+            document.cookie =
+                "cookie-consent-trianglify=true; path=/; max-age=31536000"; // 1 year
+        }
+        var form = document.getElementById("cookie-settings-form");
+        form.statistics.checked = settings.statistics || false;
+        form["google-analytics"].checked = settings.googleAnalytics || false;
+        form.marketing.checked = settings.marketing || false;
+        form.disqus.checked = settings.disqus || false;
+        form.gitment.checked = settings.gitment || false;
+        form["google-translate"].checked = settings.googleTranslate || false;
+        form["highlight-js"].checked = settings.highlightJs || false;
+        form.geopattern.checked = settings.geopattern || false;
+        form.mathjax.checked = settings.mathjax || false;
+        form.photoswipe.checked = settings.photoswipe || false;
+        form.trianglify.checked = settings.trianglify || false;
+    };
 </script>
