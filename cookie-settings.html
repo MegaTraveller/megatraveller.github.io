@@ -8,27 +8,41 @@ title: Cookie Einstellungen
 <form id="cookie-settings-form">
     <label>
         <input type="checkbox" name="necessary" checked disabled />
-        Notwendig </label
-    ><br />
-    <label> <input type="checkbox" name="statistics" /> Statistik </label><br />
+        Notwendig 
+    </label><br />
+    <label> 
+        <input type="checkbox" name="statistics" /> Statistik 
+    </label><br />
     <label>
-        <input type="checkbox" name="googleAnalytics" /> Google Analytics </label
-    ><br />
-    <label> <input type="checkbox" name="marketing" /> Marketing </label><br />
-    <label> <input type="checkbox" name="disqus" /> Disqus </label><br />
-    <label> <input type="checkbox" name="gitment" /> Gitment </label><br />
+        <input type="checkbox" name="googleAnalytics" /> Google Analytics 
+    </label><br />
+    <label> 
+        <input type="checkbox" name="marketing" /> Marketing 
+    </label><br />
+    <label> 
+        <input type="checkbox" name="disqus" /> Disqus 
+    </label><br />
+    <label> 
+        <input type="checkbox" name="gitment" /> Gitment 
+    </label><br />
     <label>
-        <input type="checkbox" name="googleTranslate" /> Google Translate </label
-    ><br />
-    <label> <input type="checkbox" name="highlightJs" /> Highlight.js </label
-    ><br />
-    <label> <input type="checkbox" name="geopattern" /> GeoPattern </label
-    ><br />
-    <label> <input type="checkbox" name="mathjax" /> MathJax </label><br />
-    <label> <input type="checkbox" name="photoswipe" /> PhotoSwipe </label
-    ><br />
-    <label> <input type="checkbox" name="trianglify" /> Trianglify </label
-    ><br />
+        <input type="checkbox" name="googleTranslate" /> Google Translate 
+    </label><br />
+    <label> 
+        <input type="checkbox" name="highlightJs" /> Highlight.js 
+    </label><br />
+    <label> 
+        <input type="checkbox" name="geopattern" /> GeoPattern 
+    </label><br />
+    <label> 
+        <input type="checkbox" name="mathjax" /> MathJax 
+    </label><br />
+    <label> 
+        <input type="checkbox" name="photoswipe" /> PhotoSwipe 
+    </label><br />
+    <label> 
+        <input type="checkbox" name="trianglify" /> Trianglify 
+    </label><br />
     <button
         type="button"
         onclick="saveCookieSettings();"
@@ -70,7 +84,7 @@ title: Cookie Einstellungen
     function saveCookieSettings() {
         var form = document.getElementById("cookie-settings-form");
         var settings = {
-            necessary: form.necessary.checked,
+            necessary: true,
             statistics: form.statistics.checked,
             googleAnalytics: form.googleAnalytics.checked,
             marketing: form.marketing.checked,
@@ -90,17 +104,19 @@ title: Cookie Einstellungen
 
     window.onload = function () {
         var settings = JSON.parse(getCookie("cookie-settings") || "{}");
-        var form = document.getElementById("cookie-settings-form");
-        form.statistics.checked = settings.statistics || false;
-        form.googleAnalytics.checked = settings.googleAnalytics || false;
-        form.marketing.checked = settings.marketing || false;
-        form.disqus.checked = settings.disqus || false;
-        form.gitment.checked = settings.gitment || false;
-        form.googleTranslate.checked = settings.googleTranslate || false;
-        form.highlightJs.checked = settings.highlightJs || false;
-        form.geopattern.checked = settings.geopattern || false;
-        form.mathjax.checked = settings.mathjax || false;
-        form.photoswipe.checked = settings.photoswipe || false;
-        form.trianglify.checked = settings.trianglify || false;
+        if (settings) {
+            var form = document.getElementById("cookie-settings-form");
+            form.statistics.checked = settings.statistics || false;
+            form.googleAnalytics.checked = settings.googleAnalytics || false;
+            form.marketing.checked = settings.marketing || false;
+            form.disqus.checked = settings.disqus || false;
+            form.gitment.checked = settings.gitment || false;
+            form.googleTranslate.checked = settings.googleTranslate || false;
+            form.highlightJs.checked = settings.highlightJs || false;
+            form.geopattern.checked = settings.geopattern || false;
+            form.mathjax.checked = settings.mathjax || false;
+            form.photoswipe.checked = settings.photoswipe || false;
+            form.trianglify.checked = settings.trianglify || false;
+        }
     };
 </script>
