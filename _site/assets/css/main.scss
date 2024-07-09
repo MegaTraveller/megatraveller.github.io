@@ -1,93 +1,42 @@
-// Default theme colors
-$theme-colors: (
-  "coolblack": #090a0b,
-  "spacegrey": #353535,
-  "snowwhite": #ffffff,
-);
 
-// Default brand colors
-$brand-colors: (
-  "orangered": #ff5100,
-  "greatgold": #f2cb05,
-  "greenblue": #389092,
-);
+// main.scss
 
-$theme-name: "{{ site.theme_color }}";
-$brand-name: "{{ site.brand_color }}";
-$theme-color: map-get($theme-colors, "snowwhite");
-$brand-color: map-get($brand-colors, "orangered");
+// Define the primary and secondary colors based on the logo
+$primary-color: #003366; // Dark blue from the logo
+$secondary-color: #6699cc; // Light blue from the logo
 
-@if map-has-key($theme-colors, $theme-name) {
-  $theme-color: map-get($theme-colors, $theme-name);
-} @else if str-index($theme-name, "#") == 1 {
-  $theme-color: "{{ site.theme_color | default: '#ffffff' }}";
+// Other colors can be defined here if needed
+
+// Body styles
+body {
+  background-color: $primary-color;
+  color: #fff; // white text for better contrast
 }
 
-@if map-has-key($brand-colors, $brand-name) {
-  $brand-color: map-get($brand-colors, $brand-name);
-} @else if str-index($brand-name, "#") == 1 {
-  $brand-color: "{{ site.brand_color | default: '#ff5100' }}";
+// Header styles
+header {
+  background-color: $secondary-color;
+  color: $primary-color;
 }
 
-$content-width: "{{ site.content_width | default: '920px' }}";
+// Link styles
+a {
+  color: $secondary-color;
 
-// Click to top theme
-$click-to-top-light-background-color: "{{ site.click_to_top.light.background_color | default: 'white' }}";
-$click-to-top-light-color: "{{ site.click_to_top.light.color | default: '#454545' }}";
-$click-to-top-dark-background-color: "{{ site.click_to_top.dark.background_color | default: '#34323d' }}";
-$click-to-top-dark-color: "{{ site.click_to_top.dark.color | default: '#bbb' }}";
-
-// Selection styles
-$selection-color: unquote("{{ site.selection.color }}");
-$selection-background-color: unquote("{{ site.selection.background_color }}");
-
-@if $selection-color == "" {
-  $selection-color: inherit;
-}
-@if $selection-background-color == "" {
-  $selection-background-color: rgba(invert($brand-color), 0.3);
+  &:hover {
+    color: lighten($secondary-color, 10%);
+  }
 }
 
-@import "yat";
+// Button styles
+button {
+  background-color: $secondary-color;
+  color: $primary-color;
 
-.box-note, .box-warning, .box-error {
-  position: relative;
-  border-left: 5px solid transparent;
-  padding: 10px;
-  background-color: transparent;
-  margin-bottom: 10px;
+  &:hover {
+    background-color: lighten($secondary-color, 10%);
+  }
 }
 
-.box-note::before, .box-warning::before, .box-error::before {
-  content: attr(data-title);
-  font-weight: bold;
-  display: block;
-  margin-bottom: 5px;
-}
-
-.box-note {
-  border-color: green;
-}
-
-.box-note::before {
-  color: green;
-  content: " Notiz";
-}
-
-.box-warning {
-  border-color: yellow;
-}
-
-.box-warning::before {
-  color: yellow;
-  content: "Warnung";
-}
-
-.box-error {
-  border-color: red;
-}
-
-.box-error::before {
-  color: red;
-  content: "Fehler";
-}
+// Other elements can be styled similarly
+// Add additional styles as needed
