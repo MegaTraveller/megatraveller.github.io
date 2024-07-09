@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Cookie Check</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    pre {
+      background-color: #f4f4f4;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Cookie Check</h1>
+  <p>Der aktuelle Inhalt des "cookie-settings"-Cookies:</p>
+  <pre id="cookie-content"></pre>
+
+  <script>
+    function getCookie(name) {
+      var nameEQ = name + "=";
+      var ca = document.cookie.split(';');
+      for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+      }
+      return null;
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+      var cookieContent = getCookie("cookie-settings");
+      document.getElementById("cookie-content").textContent = cookieContent || "Kein Cookie gefunden.";
+    });
+  </script>
+
+</body>
+</html>
