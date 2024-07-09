@@ -25,180 +25,196 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-noto-sans@0.0.72/index.min.css">
   <link rel="stylesheet" href="/assets/css/main.css">
-  <script src="/assets/js/main.js"></script><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Michael.Krzyzanski" /><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/default.min.css">
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js"></script>
-<!-- and it's easy to individually load additional languages -->
-<script charset="UTF-8"
-        src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/languages/go.min.js"
-        async></script>
+  <script src="/assets/js/main.js"></script><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Michael.Krzyzanski" /><script>
+    if (document.cookie.indexOf("cookie-consent-statistics=true") != -1) {
+        var link = document.createElement("link");
+        link.rel = "stylesheet";
+        link.href =
+            "//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/default.min.css";
+        document.head.appendChild(link);
 
+        var script = document.createElement("script");
+        script.src =
+            "//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js";
+        document.body.appendChild(script);
 
+        // Load additional languages if necessary
+        var goScript = document.createElement("script");
+        goScript.charset = "UTF-8";
+        goScript.src =
+            "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/languages/go.min.js";
+        goScript.async = true;
+        document.body.appendChild(goScript);
 
+        // Init highlight js
+        document.addEventListener("DOMContentLoaded", function (event) {
+            var els = document.querySelectorAll("pre code");
 
+            function addLangData(block) {
+                var outer = block.parentElement.parentElement.parentElement;
+                var lang = block.getAttribute("data-lang");
+                for (var i = 0; i < outer.classList.length; i++) {
+                    var cls = outer.classList[i];
+                    if (cls.startsWith("language-")) {
+                        lang = cls;
+                        break;
+                    }
+                }
+                if (!lang) {
+                    cls = block.getAttribute("class");
+                    lang = cls ? cls.replace("hljs ", "") : "";
+                }
+                if (lang.startsWith("language-")) {
+                    lang = lang.substr(9);
+                }
+                block.setAttribute("class", "hljs " + lang);
+                block.parentNode.setAttribute("data-lang", lang);
+            }
 
+            function addBadge(block) {
+                var enabled = ("" || "true").toLowerCase();
+                if (enabled == "true") {
+                    var pre = block.parentElement;
+                    pre.classList.add("badge");
+                }
+            }
 
+            function handle(block) {
+                addLangData(block);
+                addBadge(block);
+                hljs.highlightBlock(block);
+            }
 
-
-
-
-
-
-
-
-
-
-
-
-
-<script>
-// Init highlight js
-document.addEventListener('DOMContentLoaded', function(event) {
-  var els = document.querySelectorAll('pre code')
-
-  function addLangData(block) {
-    var outer = block.parentElement.parentElement.parentElement;
-    var lang = block.getAttribute('data-lang');
-    for (var i = 0; i < outer.classList.length; i++) {
-      var cls = outer.classList[i];
-      if (cls.startsWith('language-')) {
-        lang = cls;
-        break;
-      }
+            for (var i = 0; i < els.length; i++) {
+                var el = els[i];
+                handle(el);
+            }
+        });
     }
-    if (!lang) {
-      cls = block.getAttribute('class');
-      lang = cls ? cls.replace('hljs ', '') : '';
-    }
-    if (lang.startsWith('language-')) {
-      lang = lang.substr(9);
-    }
-    block.setAttribute('class', 'hljs ' + lang);
-    block.parentNode.setAttribute('data-lang', lang);
-  }
-
-  function addBadge(block) {
-    var enabled = ('true' || 'true').toLowerCase();
-    if (enabled == 'true') {
-      var pre = block.parentElement;
-      pre.classList.add('badge');
-    }
-  }
-
-  function handle(block) {
-    addLangData(block);
-    addBadge(block)
-    hljs.highlightBlock(block);
-  }
-
-  for (var i = 0; i < els.length; i++) {
-    var el = els[i];
-    handle(el);
-  }
-});
 </script>
 
 <style>
-  /* code language badge */
-  pre.badge::before {
-    content: attr(data-lang);
-    color: #fff;
-    background-color: #ff4e00;
-    padding: 0 .5em;
-    border-radius: 0 2px;
-    text-transform: uppercase;
-    text-align: center;
-    min-width: 32px;
-    display: inline-block;
-    position: absolute;
-    right: 0;
-  }
+    /* code language badge */
+    pre.badge::before {
+      content: attr(data-lang);
+      color: ;
+      background-color: ;
+      padding: 0 .5em;
+      border-radius: 0 2px;
+      text-transform: ;
+      text-align: center;
+      min-width: 32px;
+      display: inline-block;
+      position: absolute;
+      right: 0;
+    }
 
-  /* fix wrong badge display for firefox browser */
-  code > table pre::before {
-    display: none;
-  }
+    /* fix wrong badge display for firefox browser */
+    code > table pre::before {
+      display: none;
+    }
 </style>
-<script
-  src="//cdnjs.cloudflare.com/ajax/libs/photoswipe/5.3.7/umd/photoswipe-lightbox.umd.min.js" async></script>
-<script
-  src="//cdnjs.cloudflare.com/ajax/libs/photoswipe/5.3.7/umd/photoswipe.umd.min.js" async></script>
-<link
-  href="//cdnjs.cloudflare.com/ajax/libs/photoswipe/5.3.7/photoswipe.min.css"
-  rel="stylesheet"
-/>
-<style>
-  .pswp .pswp__container .pswp__img {
-    background-color: white;
-  }
-</style>
-
 <script>
-  function initPhotoSwipe() {
-    let customOptions = {};
+    if (document.cookie.indexOf("cookie-consent-statistics=true") != -1) {
+        var pswpLink = document.createElement("link");
+        pswpLink.href =
+            "//cdnjs.cloudflare.com/ajax/libs/photoswipe/5.3.7/photoswipe.min.css";
+        pswpLink.rel = "stylesheet";
+        document.head.appendChild(pswpLink);
 
-    try {
-      const data = ``.replaceAll("=>", ":");
-      customOptions = JSON.parse(data);
-    } catch (e) {
-      console.info("Invalid custom photo previewer options! " + e.message);
+        var pswpLightboxScript = document.createElement("script");
+        pswpLightboxScript.src =
+            "//cdnjs.cloudflare.com/ajax/libs/photoswipe/5.3.7/umd/photoswipe-lightbox.umd.min.js";
+        pswpLightboxScript.async = true;
+        document.body.appendChild(pswpLightboxScript);
+
+        var pswpScript = document.createElement("script");
+        pswpScript.src =
+            "//cdnjs.cloudflare.com/ajax/libs/photoswipe/5.3.7/umd/photoswipe.umd.min.js";
+        pswpScript.async = true;
+        document.body.appendChild(pswpScript);
+
+        pswpScript.onload = function () {
+            function initPhotoSwipe() {
+                let customOptions = {};
+
+                try {
+                    const data = ``.replaceAll(
+                        "=>",
+                        ":",
+                    );
+                    customOptions = JSON.parse(data);
+                } catch (e) {
+                    console.info(
+                        "Invalid custom photo previewer options! " + e.message,
+                    );
+                }
+
+                // Define object and gallery options
+                const options = Object.assign(
+                    {
+                        gallery: "section.main",
+                        children: "a.photo-swipe",
+                        photo_scale: 2,
+                        // dynamic import is not supported in UMD version
+                        pswpModule: PhotoSwipe,
+                    },
+                    customOptions,
+                );
+
+                const galleryEl = document.querySelector(options.gallery);
+                if (!galleryEl) {
+                    return;
+                }
+
+                const imgEls = [];
+                const els = galleryEl.querySelectorAll("img:not(.emoji)");
+                els.forEach((el) => {
+                    if (el.src.trim() == "") {
+                        return;
+                    }
+                    if (!imgEls.includes(el)) {
+                        imgEls.push(el);
+                    }
+                });
+
+                if (imgEls.length === 0) {
+                    return;
+                }
+
+                imgEls.forEach((imgEl) => {
+                    imgEl.outerHTML = `
+          <a class="photo-swipe"
+            href="${imgEl.src}"
+            data-pswp-width="${
+                Math.max(imgEl.naturalWidth, imgEl.width) * options.photo_scale
+            }"
+            data-pswp-height="${
+                Math.max(imgEl.naturalHeight, imgEl.height) *
+                options.photo_scale
+            }"
+            data-pswp-caption="${imgEl.getAttribute("caption") || imgEl.alt}"
+            target="_blank">
+            ${imgEl.outerHTML}
+          </a>`;
+                });
+
+                // Initialize PhotoSwipe 5
+                var lightbox = new PhotoSwipeLightbox(options);
+
+                lightbox.init();
+            }
+
+            window.addEventListener("load", initPhotoSwipe);
+        };
     }
-
-    // Define object and gallery options
-    const options = Object.assign(
-      {
-        gallery: "section.main",
-        children: "a.photo-swipe",
-        photo_scale: 2,
-        // dynamic import is not supported in UMD version
-        pswpModule: PhotoSwipe,
-      },
-      customOptions
-    );
-
-    const galleryEl = document.querySelector(options.gallery);
-    if (!galleryEl) {
-      return;
-    }
-
-    const imgEls = [];
-    const els = galleryEl.querySelectorAll("img:not(.emoji)");
-    els.forEach((el) => {
-      if (el.src.trim() == "") {
-        return;
-      }
-      if (!imgEls.includes(el)) {
-        imgEls.push(el);
-      }
-    });
-
-    if (imgEls.length === 0) {
-      return;
-    }
-
-    imgEls.forEach((imgEl) => {
-      imgEl.outerHTML = `
-      <a class="photo-swipe"
-        href="${imgEl.src}"
-        data-pswp-width="${
-          Math.max(imgEl.naturalWidth, imgEl.width) * options.photo_scale
-        }"
-        data-pswp-height="${
-          Math.max(imgEl.naturalHeight, imgEl.height) * options.photo_scale
-        }"
-        data-pswp-caption="${imgEl.getAttribute("caption") || imgEl.alt}"
-        target="_blank">
-        ${imgEl.outerHTML}
-      </a>`;
-    });
-
-    // Initialize PhotoSwipe 5
-    var lightbox = new PhotoSwipeLightbox(options);
-
-    lightbox.init();
-  }
-
-  window.addEventListener("load", initPhotoSwipe);
 </script>
+
+<style>
+    .pswp .pswp__container .pswp__img {
+        background-color: white;
+    }
+</style>
 </head>
 <body>
 
@@ -341,7 +357,7 @@ document.addEventListener('DOMContentLoaded', function(event) {
             </span>
           </label>
 
-          <div class="trigger"><a class="page-link" href="/about.html">ABOUT</a><a class="page-link" href="/archives.html">ARCHIVES</a><a class="page-link" href="/categories.html">CATEGORIES</a><a class="page-link" href="/impressum.html">IMPRESSUM</a><a class="page-link" href="/">HOME</a><a class="page-link" href="/tags.html">TAGS</a>
+          <div class="trigger"><a class="page-link" href="/about.html">ABOUT</a><a class="page-link" href="/archives.html">ARCHIVES</a><a class="page-link" href="/categories.html">CATEGORIES</a><a class="page-link" href="/cookie-policy.html">COOKIE-RICHTLINIE</a><a class="page-link" href="/impressum.html">IMPRESSUM</a><a class="page-link" href="/">HOME</a><a class="page-link" href="/tags.html">TAGS</a>
 
 
 
@@ -351,156 +367,172 @@ document.addEventListener('DOMContentLoaded', function(event) {
 
 
 
-<span class="page-link">
+<span class="page-link"> 
 
-
-
-<div id="google_translate_element" style="display: none;">
-</div>
+<div id="google_translate_element" style="display: none"></div>
 
 <span class="ct-language">
-  <ul class="list-unstyled ct-language-dropdown">
-    
-      <li>
-        <a href="#" class="lang-select" data-lang="de">
-          
-          <img src="https://cdn.countryflags.com/thumbs/germany/flag-400.png" title="German">
-          
-        </a>
-      </li>
-    
-      <li>
-        <a href="#" class="lang-select" data-lang="en">
-          
-          <img src="https://cdn.countryflags.com/thumbs/united-states-of-america/flag-400.png" title="English">
-          
-        </a>
-      </li>
-    
-      <li>
-        <a href="#" class="lang-select" data-lang="fr">
-          
-          <img src="https://cdn.countryflags.com/thumbs/france/flag-400.png" title="French">
-          
-        </a>
-      </li>
-    
-      <li>
-        <a href="#" class="lang-select" data-lang="zh-CN">
-          
-          <img src="https://cdn.countryflags.com/thumbs/china/flag-400.png" title="Chinese(Simple)">
-          
-        </a>
-      </li>
-    
-      <li>
-        <a href="#" class="lang-select" data-lang="ja">
-          
-          <img src="https://cdn.countryflags.com/thumbs/japan/flag-400.png" title="Japanese">
-          
-        </a>
-      </li>
-    
-      <li>
-        <a href="#" class="lang-select" data-lang="ko">
-          
-          <img src="https://cdn.countryflags.com/thumbs/south-korea/flag-400.png" title="Korean">
-          
-        </a>
-      </li>
-    
-      <li>
-        <a href="#" class="lang-select" data-lang="ru">
-          
-          <img src="https://cdn.countryflags.com/thumbs/russia/flag-400.png" title="Russian">
-          
-        </a>
-      </li>
-    
-  </ul>
+    <ul class="list-unstyled ct-language-dropdown">
+        
+        <li>
+            <a href="#" class="lang-select" data-lang="de">
+                
+                <img src="https://cdn.countryflags.com/thumbs/germany/flag-400.png" title="German" />
+                
+            </a>
+        </li>
+        
+        <li>
+            <a href="#" class="lang-select" data-lang="en">
+                
+                <img src="https://cdn.countryflags.com/thumbs/united-states-of-america/flag-400.png" title="English" />
+                
+            </a>
+        </li>
+        
+        <li>
+            <a href="#" class="lang-select" data-lang="fr">
+                
+                <img src="https://cdn.countryflags.com/thumbs/france/flag-400.png" title="French" />
+                
+            </a>
+        </li>
+        
+        <li>
+            <a href="#" class="lang-select" data-lang="zh-CN">
+                
+                <img src="https://cdn.countryflags.com/thumbs/china/flag-400.png" title="Chinese(Simple)" />
+                
+            </a>
+        </li>
+        
+        <li>
+            <a href="#" class="lang-select" data-lang="ja">
+                
+                <img src="https://cdn.countryflags.com/thumbs/japan/flag-400.png" title="Japanese" />
+                
+            </a>
+        </li>
+        
+        <li>
+            <a href="#" class="lang-select" data-lang="ko">
+                
+                <img src="https://cdn.countryflags.com/thumbs/south-korea/flag-400.png" title="Korean" />
+                
+            </a>
+        </li>
+        
+        <li>
+            <a href="#" class="lang-select" data-lang="ru">
+                
+                <img src="https://cdn.countryflags.com/thumbs/russia/flag-400.png" title="Russian" />
+                
+            </a>
+        </li>
+        
+    </ul>
 </span>
 
 <script type="text/javascript">
-function googleTranslateElementInit() {
-  new google.translate.TranslateElement({
-    pageLanguage: 'en',
-    autoDisplay: false,
-    layout: google.translate.TranslateElement.InlineLayout.VERTICAL
-  }, 'google_translate_element');
+    if (document.cookie.indexOf("cookie-consent-statistics=true") != -1) {
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement(
+                {
+                    pageLanguage: "en",
+                    autoDisplay: false,
+                    layout: google.translate.TranslateElement.InlineLayout
+                        .VERTICAL,
+                },
+                "google_translate_element",
+            );
 
-  // Links to cross-origin destinations are unsafe
-  var gll = document.getElementsByClassName('goog-logo-link')[0];
-  if (gll) {
-    gll.setAttribute('rel', 'noopener');
-  }
+            // Links to cross-origin destinations are unsafe
+            var gll = document.getElementsByClassName("goog-logo-link")[0];
+            if (gll) {
+                gll.setAttribute("rel", "noopener");
+            }
 
-  function restoreLang() {
-    var iframe = document.getElementsByClassName('goog-te-banner-frame')[0];
-    if (!iframe) return;
+            function restoreLang() {
+                var iframe = document.getElementsByClassName(
+                    "goog-te-banner-frame",
+                )[0];
+                if (!iframe) return;
 
-    var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
-    var restore_el = innerDoc.getElementsByTagName("button");
+                var innerDoc =
+                    iframe.contentDocument || iframe.contentWindow.document;
+                var restore_el = innerDoc.getElementsByTagName("button");
 
-    for (var i = 0; i < restore_el.length; i++) {
-      if (restore_el[i].id.indexOf("restore") >= 0) {
-        restore_el[i].click();
-        var close_el = innerDoc.getElementsByClassName("goog-close-link");
-        close_el[0].click();
-        return;
-      }
+                for (var i = 0; i < restore_el.length; i++) {
+                    if (restore_el[i].id.indexOf("restore") >= 0) {
+                        restore_el[i].click();
+                        var close_el =
+                            innerDoc.getElementsByClassName("goog-close-link");
+                        close_el[0].click();
+                        return;
+                    }
+                }
+            }
+
+            function triggerHtmlEvent(element, eventName) {
+                var event;
+                if (document.createEvent) {
+                    event = document.createEvent("HTMLEvents");
+                    event.initEvent(eventName, true, true);
+                    element.dispatchEvent(event);
+                } else {
+                    event = document.createEventObject();
+                    event.eventType = eventName;
+                    element.fireEvent("on" + event.eventType, event);
+                }
+            }
+
+            var googleCombo = document.querySelector("select.goog-te-combo");
+            var langSelect = document.querySelector(".ct-language");
+            langSelect.addEventListener("click", function (event) {
+                if (!event.target) {
+                    return;
+                }
+
+                var selected = document.querySelector(
+                    ".ct-language .ct-language-selected",
+                );
+                if (selected) {
+                    selected.classList.remove("ct-language-selected");
+                }
+
+                var target = event.target;
+                while (target && target !== langSelect) {
+                    if (target.matches(".lang-select")) {
+                        break;
+                    }
+                    target = target.parentElement;
+                }
+
+                if (target && target.matches(".lang-select")) {
+                    var lang = target.getAttribute("data-lang");
+                    if (googleCombo.value == lang) {
+                        restoreLang();
+                    } else {
+                        target.parentElement.classList.add(
+                            "ct-language-selected",
+                        );
+                        googleCombo.value = lang;
+                        triggerHtmlEvent(googleCombo, "change");
+                    }
+                }
+
+                event.preventDefault();
+            });
+        }
+
+        var script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src =
+            "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+        script.async = true;
+        document.body.appendChild(script);
     }
-  }
-
-  function triggerHtmlEvent(element, eventName) {
-    var event;
-    if (document.createEvent) {
-      event = document.createEvent('HTMLEvents');
-      event.initEvent(eventName, true, true);
-      element.dispatchEvent(event);
-    } else {
-      event = document.createEventObject();
-      event.eventType = eventName;
-      element.fireEvent('on' + event.eventType, event);
-    }
-  }
-
-  var googleCombo = document.querySelector("select.goog-te-combo");
-  var langSelect = document.querySelector('.ct-language');
-  langSelect.addEventListener('click', function(event) {
-    if (!event.target) {
-      return;
-    }
-
-    var selected = document.querySelector('.ct-language .ct-language-selected');
-    if (selected) {
-      selected.classList.remove('ct-language-selected');
-    }
-
-    var target = event.target;
-    while (target && target !== langSelect ) {
-      if (target.matches('.lang-select')) {
-        break;
-      }
-      target = target.parentElement;
-    }
-
-    if (target && target.matches('.lang-select')) {
-      var lang = target.getAttribute('data-lang');
-      if (googleCombo.value == lang) {
-        restoreLang();
-      } else {
-        target.parentElement.classList.add('ct-language-selected');
-        googleCombo.value = lang;
-        triggerHtmlEvent(googleCombo, 'change');
-      }
-    }
-
-    event.preventDefault();
-  });
-}
 </script>
-
-<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" async></script>
 </span></div>
         </nav></div>
   </div>
@@ -680,173 +712,172 @@ function googleTranslateElementInit() {
 
 
 <script>
-  function hashLocate(hashValue) {
-    hashValue = hashValue.replace(/^.*#h-/, '');
-    hashValue = decodeURIComponent(hashValue);
-    var element = document.getElementById(hashValue);
+    function hashLocate(hashValue) {
+        hashValue = hashValue.replace(/^.*#h-/, "");
+        hashValue = decodeURIComponent(hashValue);
+        var element = document.getElementById(hashValue);
 
-    if (!element) {
-      return;
+        if (!element) {
+            return;
+        }
+
+        var header = document.querySelector("header.site-header");
+        var headerRect = header.getBoundingClientRect();
+        var headerTop = Math.floor(headerRect.top);
+        var headerHeight = Math.floor(headerRect.height);
+        var scrollPos = getScrollPos();
+        var offsetY = element.offsetTop - (headerTop + headerHeight + 20);
+
+        if (offsetY == scrollPos.y) {
+            return;
+        }
+
+        if (headerTop == 0 && offsetY > scrollPos.y) {
+            offsetY += headerHeight + 2;
+        } else if (headerTop < 0 && offsetY < scrollPos.y) {
+            offsetY -= headerHeight - 2;
+        }
+
+        smoothScrollTo(offsetY);
     }
 
-    var header = document.querySelector('header.site-header');
-    var headerRect = header.getBoundingClientRect();
-    var headerTop = Math.floor(headerRect.top);
-    var headerHeight = Math.floor(headerRect.height);
-    var scrollPos = getScrollPos();
-    var offsetY = element.offsetTop - (headerTop + headerHeight + 20);
+    // The first event occurred
+    window.addEventListener("load", function (event) {
+        if (window.location.hash) {
+            hashLocate(window.location.hash);
+        }
+    });
 
-    if (offsetY == scrollPos.y) {
-      return;
-    }
-
-    if (headerTop == 0  && offsetY > scrollPos.y) {
-      offsetY += headerHeight + 2;
-    } else if (headerTop < 0  && offsetY < scrollPos.y) {
-      offsetY -= headerHeight - 2;
-    }
-
-    smoothScrollTo(offsetY);
-  }
-
-  // The first event occurred
-  window.addEventListener('load', function(event) {
-    if (window.location.hash) {
-      hashLocate(window.location.hash);
-    }
-  });
-
-  // The first event occurred
-  window.addEventListener('click', function(event) {
-    if (event.target.tagName.toLowerCase() == 'a') {
-      hashLocate(event.target.getAttribute('href'));
-    }
-  });
+    // The first event occurred
+    window.addEventListener("click", function (event) {
+        if (event.target.tagName.toLowerCase() == "a") {
+            hashLocate(event.target.getAttribute("href"));
+        }
+    });
 </script>
 <div class="theme-toggle">
-  <input type="checkbox" id="theme-switch">
-  <label for="theme-switch">
-    <div class="toggle"></div>
-    <div class="names">
-      <p class="light">Light</p>
-      <p class="dark">Dark</p>
-    </div>
-  </label>
+    <input type="checkbox" id="theme-switch" />
+    <label for="theme-switch">
+        <div class="toggle"></div>
+        <div class="names">
+            <p class="light">Light</p>
+            <p class="dark">Dark</p>
+        </div>
+    </label>
 </div>
 
 
 
 
 <script>
-  (function() {
-    var sw = document.getElementById('theme-switch');
-    var html = document.getElementsByTagName('html')[0];
-    var nightModeOption = ('auto' || 'auto').toLowerCase();
-    var storage = nightModeOption === 'manual'
-        ? localStorage
-        : sessionStorage;
-    var themeData = loadThemeData();
+    (function () {
+        var sw = document.getElementById("theme-switch");
+        var html = document.getElementsByTagName("html")[0];
+        var nightModeOption = ("auto" || "auto").toLowerCase();
+        var storage =
+            nightModeOption === "manual" ? localStorage : sessionStorage;
+        var themeData = loadThemeData();
 
-    function saveThemeData(data) {
-      storage.setItem('theme', JSON.stringify(data));
-    }
-
-    function loadThemeData() {
-      var data = storage.getItem('theme');
-      try {
-        data = JSON.parse(data ? data : '');
-      } catch(e) {
-        data = { nightShift: undefined, autoToggleAt: 0 };
-        saveThemeData(data);
-      }
-      return data;
-    }
-
-    function handleThemeToggle(nightShift) {
-      themeData.nightShift = nightShift;
-      saveThemeData(themeData);
-      html.dataset.theme = nightShift ? 'dark' : 'light';
-      setTimeout(function() {
-        sw.checked = nightShift ? true : false;
-      }, 50);
-    }
-
-    function autoThemeToggle() {
-      // Next time point of theme toggle
-      var now = new Date();
-      var toggleAt = new Date();
-      var hours = now.getHours();
-      var nightShift = hours >= 19 || hours <=7;
-
-      if (nightShift) {
-        if (hours > 7) {
-          toggleAt.setDate(toggleAt.getDate() + 1);
+        function saveThemeData(data) {
+            storage.setItem("theme", JSON.stringify(data));
         }
-        toggleAt.setHours(7);
-      } else {
-        toggleAt.setHours(19);
-      }
 
-      toggleAt.setMinutes(0);
-      toggleAt.setSeconds(0);
-      toggleAt.setMilliseconds(0)
+        function loadThemeData() {
+            var data = storage.getItem("theme");
+            try {
+                data = JSON.parse(data ? data : "");
+            } catch (e) {
+                data = { nightShift: undefined, autoToggleAt: 0 };
+                saveThemeData(data);
+            }
+            return data;
+        }
 
-      var delay = toggleAt.getTime() - now.getTime();
+        function handleThemeToggle(nightShift) {
+            themeData.nightShift = nightShift;
+            saveThemeData(themeData);
+            html.dataset.theme = nightShift ? "dark" : "light";
+            setTimeout(function () {
+                sw.checked = nightShift ? true : false;
+            }, 50);
+        }
 
-      // auto toggle theme mode
-      setTimeout(function() {
-        handleThemeToggle(!nightShift);
-      }, delay);
+        function autoThemeToggle() {
+            // Next time point of theme toggle
+            var now = new Date();
+            var toggleAt = new Date();
+            var hours = now.getHours();
+            var nightShift = hours >= 19 || hours <= 7;
 
-      return {
-        nightShift: nightShift,
-        toggleAt: toggleAt.getTime()
-      };
-    }
+            if (nightShift) {
+                if (hours > 7) {
+                    toggleAt.setDate(toggleAt.getDate() + 1);
+                }
+                toggleAt.setHours(7);
+            } else {
+                toggleAt.setHours(19);
+            }
 
-    // Listen the theme toggle event
-    sw.addEventListener('change', function(event) {
-      handleThemeToggle(event.target.checked);
-    });
+            toggleAt.setMinutes(0);
+            toggleAt.setSeconds(0);
+            toggleAt.setMilliseconds(0);
 
-    if (nightModeOption == 'auto') {
-      var data = autoThemeToggle();
+            var delay = toggleAt.getTime() - now.getTime();
 
-      // Toggle theme by local setting
-      if (data.toggleAt > themeData.autoToggleAt) {
-        themeData.autoToggleAt = data.toggleAt;
-        handleThemeToggle(data.nightShift);
-      } else {
-        handleThemeToggle(themeData.nightShift);
-      }
-    } else if (nightModeOption == 'manual') {
-      handleThemeToggle(themeData.nightShift);
-    } else {
-      var nightShift = themeData.nightShift;
-      if (nightShift === undefined) {
-        nightShift = nightModeOption === 'on';
-      }
-      handleThemeToggle(nightShift);
-    }
-  })();
+            // auto toggle theme mode
+            setTimeout(function () {
+                handleThemeToggle(!nightShift);
+            }, delay);
+
+            return {
+                nightShift: nightShift,
+                toggleAt: toggleAt.getTime(),
+            };
+        }
+
+        // Listen the theme toggle event
+        sw.addEventListener("change", function (event) {
+            handleThemeToggle(event.target.checked);
+        });
+
+        if (nightModeOption == "auto") {
+            var data = autoThemeToggle();
+
+            // Toggle theme by local setting
+            if (data.toggleAt > themeData.autoToggleAt) {
+                themeData.autoToggleAt = data.toggleAt;
+                handleThemeToggle(data.nightShift);
+            } else {
+                handleThemeToggle(themeData.nightShift);
+            }
+        } else if (nightModeOption == "manual") {
+            handleThemeToggle(themeData.nightShift);
+        } else {
+            var nightShift = themeData.nightShift;
+            if (nightShift === undefined) {
+                nightShift = nightModeOption === "on";
+            }
+            handleThemeToggle(nightShift);
+        }
+    })();
 </script>
 <div id="click-to-top" class="click-to-top">
-  <i class="fa fa-arrow-up"></i>
+    <i class="fa fa-arrow-up"></i>
 </div>
 <script>
-  (function () {
-    const clickToTop = document.getElementById('click-to-top');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 100) {
-        clickToTop.classList.add('show')
-      }else {
-        clickToTop.classList.remove('show')
-      }
-    });
-    clickToTop.addEventListener('click', () => {
-      window.smoothScrollTo(0);
-    });
-  })();
+    (function () {
+        const clickToTop = document.getElementById("click-to-top");
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 100) {
+                clickToTop.classList.add("show");
+            } else {
+                clickToTop.classList.remove("show");
+            }
+        });
+        clickToTop.addEventListener("click", () => {
+            window.smoothScrollTo(0);
+        });
+    })();
 </script>
 <main class="page-content" aria-label="Content">
       <div class="wrapper">
@@ -1030,50 +1061,85 @@ and posts.
     </div>
   </div>
 </footer>
-<style>
-    #cookie-notice {padding: 0.5rem 1rem; display: none; text-align: center; position: fixed; bottom: 0; width: calc(100% - 2rem); background: #222; color: rgba(255,255,255,0.8);}
-    #cookie-notice a {display: inline-block; cursor: pointer; margin-left: 0.5rem;}
-    @media (max-width: 767px) {
-        #cookie-notice span {display: block; padding-top: 3px; margin-bottom: 1rem;}
-        #cookie-notice a {position: relative; bottom: 4px;}
-    }
-</style>
-<div id="cookie-notice"><span>We would like to use third party cookies and scripts to improve the functionality of this website.<br>Wir möchten Cookies und Skripte von Dritten verwenden, um die Funktionalität dieser Website zu verbessern.</span><a id="cookie-notice-accept" class="btn btn-primary btn-sm">Approve</a><a href="/impressum.html" class="btn btn-primary btn-sm">More info</a></div>
+<!-- _includes/cookie-consent.html -->
+<div
+    id="cookie-consent-banner"
+    style="
+        display: none;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        background: #003366;
+        color: white;
+        padding: 10px;
+        text-align: center;
+        z-index: 1000;
+    "
+>
+    <p>
+        We use cookies to improve your experience. By using our site, you agree
+        to our
+        <a href="/cookie-policy.html" style="color: #6699cc">Cookie Policy</a>.
+    </p>
+    <button
+        onclick="acceptCookies();"
+        style="
+            background: #6699cc;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        "
+    >
+        Accept
+    </button>
+    <button
+        onclick="declineCookies();"
+        style="
+            background: #cccccc;
+            color: #003366;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        "
+    >
+        Decline
+    </button>
+    <button
+        onclick="openCookieSettings();"
+        style="
+            background: #666666;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        "
+    >
+        Settings
+    </button>
+</div>
+
 <script>
-    function createCookie(name,value,days) {
-        var expires = "";
-        if (days) {
-            var date = new Date();
-            date.setTime(date.getTime() + (days*24*60*60*1000));
-            expires = "; expires=" + date.toUTCString();
+    function acceptCookies() {
+        document.cookie = "cookie-consent=true; path=/; max-age=31536000"; // 1 year
+        document.getElementById("cookie-consent-banner").style.display = "none";
+    }
+
+    function declineCookies() {
+        document.cookie = "cookie-consent=false; path=/; max-age=31536000"; // 1 year
+        document.getElementById("cookie-consent-banner").style.display = "none";
+    }
+
+    function openCookieSettings() {
+        window.location.href = "/cookie-settings.html";
+    }
+
+    window.onload = function () {
+        if (document.cookie.indexOf("cookie-consent") == -1) {
+            document.getElementById("cookie-consent-banner").style.display =
+                "block";
         }
-        document.cookie = name + "=" + value + expires + "; path=/";
-    }
-    function readCookie(name) {
-        var nameEQ = name + "=";
-        var ca = document.cookie.split(';');
-        for(var i=0;i < ca.length;i++) {
-            var c = ca[i];
-            while (c.charAt(0)==' ') c = c.substring(1,c.length);
-            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
-        }
-        return null;
-    }
-    function eraseCookie(name) {
-        createCookie(name,"",-1);
-    }
-
-    if(readCookie('cookie-notice-dismissed')=='true') {
-
-    } else {
-        document.getElementById('cookie-notice').style.display = 'block';
-    }
-    document.getElementById('cookie-notice-accept').addEventListener("click",function() {
-        createCookie('cookie-notice-dismissed','true',31);
-        document.getElementById('cookie-notice').style.display = 'none';
-        location.reload();
-    });
-
+    };
 </script>
 </body>
 </html>

@@ -1,0 +1,53 @@
+<!-- cookie-settings.html -->
+---
+layout: default
+title: Cookie Settings
+---
+
+<h1>Cookie Settings</h1>
+<p>Select which cookies you want to allow:</p>
+<form id="cookie-settings-form">
+  <label>
+    <input type="checkbox" name="necessary" checked disabled> Necessary
+  </label><br>
+  <label>
+    <input type="checkbox" name="statistics"> Statistics
+  </label><br>
+  <label>
+    <input type="checkbox" name="marketing"> Marketing
+  </label><br>
+  <button type="button" onclick="saveCookieSettings();" style="background: #003366; color: white; border: none; padding: 10px; cursor: pointer;">Save</button>
+</form>
+
+<script>
+function saveCookieSettings() {
+  var form = document.getElementById('cookie-settings-form');
+  var settings = {
+    necessary: form.necessary.checked,
+    statistics: form.statistics.checked,
+    marketing: form.marketing.checked
+  };
+  document.cookie = "cookie-settings=" + JSON.stringify(settings) + "; path=/; max-age=31536000"; // 1 year
+  alert("Your settings have been saved.");
+}
+
+window.onload = function() {
+  var cookies = document.cookie.split(';');
+  var settings = {};
+  for (var i = 0; i < cookies.length; i++) {
+    var cookie = cookies[i].trim();
+    if (cookie.indexOf("cookie-settings=") == 0) {
+      settings = JSON.parse(cookie.substring("cookie-settings=".length));
+    }
+  }
+  if (settings.statistics) {
+    document.cookie = "cookie-consent-statistics=true; path=/; max-age=31536000"; // 1 year
+  }
+  if (settings.marketing) {
+    document.cookie = "cookie-consent-marketing=true; path=/; max-age=31536000"; // 1 year
+  }
+  var form = document.getElementById('cookie-settings-form');
+  form.statistics.checked = settings.statistics || false;
+  form.marketing.checked = settings.marketing || false;
+}
+</script>
