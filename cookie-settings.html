@@ -108,8 +108,8 @@ title: Cookie Einstellungen
         location.reload(); // Reload the page to apply the settings
     }
 
-    window.onload = function () {
-        console.log("Window loaded");
+    document.addEventListener("DOMContentLoaded", function () {
+        console.log("DOM fully loaded and parsed");
         var settings = JSON.parse(getCookie("cookie-settings") || "{}");
         console.log("Loaded settings:", settings);
         if (settings) {
@@ -128,5 +128,5 @@ title: Cookie Einstellungen
             form.trianglify.checked = settings.trianglify || false;
             console.log("Form values set based on loaded settings");
         }
-    };
+    });
 </script>
