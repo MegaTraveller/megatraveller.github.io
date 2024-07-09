@@ -1,5 +1,7 @@
-<!-- cookie-settings.html -->
---- layout: default title: Cookie Einstellungen ---
+---
+layout: default
+title: Cookie Einstellungen
+---
 
 <h1>Cookie Einstellungen</h1>
 <p>Wählen Sie aus, welche Cookies Sie erlauben möchten:</p>
@@ -8,23 +10,17 @@
         <input type="checkbox" name="necessary" checked disabled />
         Notwendig </label
     ><br />
+    <label> <input type="checkbox" name="statistics" /> Statistik </label><br />
     <label>
-        <input type="checkbox" name="statistics" id="statistics-checkbox" />
-        Statistik </label
+        <input type="checkbox" name="googleAnalytics" /> Google Analytics </label
     ><br />
-    <label>
-        <input type="checkbox" name="google-analytics" /> Google Analytics </label
-    ><br />
-    <label>
-        <input type="checkbox" name="marketing" id="marketing-checkbox" />
-        Marketing </label
-    ><br />
+    <label> <input type="checkbox" name="marketing" /> Marketing </label><br />
     <label> <input type="checkbox" name="disqus" /> Disqus </label><br />
     <label> <input type="checkbox" name="gitment" /> Gitment </label><br />
     <label>
-        <input type="checkbox" name="google-translate" /> Google Translate </label
+        <input type="checkbox" name="googleTranslate" /> Google Translate </label
     ><br />
-    <label> <input type="checkbox" name="highlight-js" /> Highlight.js </label
+    <label> <input type="checkbox" name="highlightJs" /> Highlight.js </label
     ><br />
     <label> <input type="checkbox" name="geopattern" /> GeoPattern </label
     ><br />
@@ -49,92 +45,59 @@
 </form>
 
 <script>
+    function setCookie(name, value, days) {
+        var expires = "";
+        if (days) {
+            var date = new Date();
+            date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    }
+
+    function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(";");
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == " ") c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) == 0)
+                return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    }
+
     function saveCookieSettings() {
         var form = document.getElementById("cookie-settings-form");
         var settings = {
             necessary: form.necessary.checked,
             statistics: form.statistics.checked,
-            googleAnalytics: form["google-analytics"].checked,
+            googleAnalytics: form.googleAnalytics.checked,
             marketing: form.marketing.checked,
             disqus: form.disqus.checked,
             gitment: form.gitment.checked,
-            googleTranslate: form["google-translate"].checked,
-            highlightJs: form["highlight-js"].checked,
+            googleTranslate: form.googleTranslate.checked,
+            highlightJs: form.highlightJs.checked,
             geopattern: form.geopattern.checked,
             mathjax: form.mathjax.checked,
             photoswipe: form.photoswipe.checked,
             trianglify: form.trianglify.checked,
         };
-        document.cookie =
-            "cookie-settings=" +
-            JSON.stringify(settings) +
-            "; path=/; max-age=31536000"; // 1 year
+        setCookie("cookie-settings", JSON.stringify(settings), 365);
         alert("Ihre Einstellungen wurden gespeichert.");
+        location.reload(); // Reload the page to apply the settings
     }
 
     window.onload = function () {
-        var cookies = document.cookie.split(";");
-        var settings = {};
-        for (var i = 0; i < cookies.length; i++) {
-            var cookie = cookies[i].trim();
-            if (cookie.indexOf("cookie-settings=") == 0) {
-                settings = JSON.parse(
-                    cookie.substring("cookie-settings=".length),
-                );
-            }
-        }
-        if (settings.statistics) {
-            document.cookie =
-                "cookie-consent-statistics=true; path=/; max-age=31536000"; // 1 year
-        }
-        if (settings.googleAnalytics) {
-            document.cookie =
-                "cookie-consent-google-analytics=true; path=/; max-age=31536000"; // 1 year
-        }
-        if (settings.marketing) {
-            document.cookie =
-                "cookie-consent-marketing=true; path=/; max-age=31536000"; // 1 year
-        }
-        if (settings.disqus) {
-            document.cookie =
-                "cookie-consent-disqus=true; path=/; max-age=31536000"; // 1 year
-        }
-        if (settings.gitment) {
-            document.cookie =
-                "cookie-consent-gitment=true; path=/; max-age=31536000"; // 1 year
-        }
-        if (settings.googleTranslate) {
-            document.cookie =
-                "cookie-consent-google-translate=true; path=/; max-age=31536000"; // 1 year
-        }
-        if (settings.highlightJs) {
-            document.cookie =
-                "cookie-consent-highlight-js=true; path=/; max-age=31536000"; // 1 year
-        }
-        if (settings.geopattern) {
-            document.cookie =
-                "cookie-consent-geopattern=true; path=/; max-age=31536000"; // 1 year
-        }
-        if (settings.mathjax) {
-            document.cookie =
-                "cookie-consent-mathjax=true; path=/; max-age=31536000"; // 1 year
-        }
-        if (settings.photoswipe) {
-            document.cookie =
-                "cookie-consent-photoswipe=true; path=/; max-age=31536000"; // 1 year
-        }
-        if (settings.trianglify) {
-            document.cookie =
-                "cookie-consent-trianglify=true; path=/; max-age=31536000"; // 1 year
-        }
+        var settings = JSON.parse(getCookie("cookie-settings") || "{}");
         var form = document.getElementById("cookie-settings-form");
         form.statistics.checked = settings.statistics || false;
-        form["google-analytics"].checked = settings.googleAnalytics || false;
+        form.googleAnalytics.checked = settings.googleAnalytics || false;
         form.marketing.checked = settings.marketing || false;
         form.disqus.checked = settings.disqus || false;
         form.gitment.checked = settings.gitment || false;
-        form["google-translate"].checked = settings.googleTranslate || false;
-        form["highlight-js"].checked = settings.highlightJs || false;
+        form.googleTranslate.checked = settings.googleTranslate || false;
+        form.highlightJs.checked = settings.highlightJs || false;
         form.geopattern.checked = settings.geopattern || false;
         form.mathjax.checked = settings.mathjax || false;
         form.photoswipe.checked = settings.photoswipe || false;

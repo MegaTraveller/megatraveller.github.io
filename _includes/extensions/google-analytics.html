@@ -1,5 +1,27 @@
 <!-- Google tag (gtag.js) -->
 <script>
+    function setCookie(name, value, days) {
+        var expires = "";
+        if (days) {
+            var date = new Date();
+            date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    }
+
+    function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(";");
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == " ") c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) == 0)
+                return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    }
+
     function initGoogleAnalytics() {
         var doNotTrack =
             window.doNotTrack === "1" ||
@@ -9,9 +31,8 @@
         var enableDNT = "{{ site.enableDNT | default: true }}" == "true";
 
         if (!enableDNT || !doNotTrack) {
-            if (
-                document.cookie.indexOf("cookie-consent-statistics=true") != -1
-            ) {
+            var settings = JSON.parse(getCookie("cookie-settings") || "{}");
+            if (settings.googleAnalytics) {
                 var measurementId = "{{ site.google_analytics }}";
 
                 (function (src) {

@@ -357,7 +357,7 @@
             </span>
           </label>
 
-          <div class="trigger"><a class="page-link" href="/about.html">ABOUT</a><a class="page-link" href="/archives.html">ARCHIVES</a><a class="page-link" href="/categories.html">CATEGORIES</a><a class="page-link" href="/cookie-policy.html">COOKIE-RICHTLINIE</a><a class="page-link" href="/impressum.html">IMPRESSUM</a><a class="page-link" href="/">HOME</a><a class="page-link" href="/tags.html">TAGS</a>
+          <div class="trigger"><a class="page-link" href="/about.html">ABOUT</a><a class="page-link" href="/archives.html">ARCHIVES</a><a class="page-link" href="/categories.html">CATEGORIES</a><a class="page-link" href="/cookie-policy.html">COOKIE-RICHTLINIE</a><a class="page-link" href="/cookie-settings.html">COOKIE EINSTELLUNGEN</a><a class="page-link" href="/impressum.html">IMPRESSUM</a><a class="page-link" href="/">HOME</a><a class="page-link" href="/tags.html">TAGS</a>
 
 
 
@@ -1062,97 +1062,84 @@ and posts.
   </div>
 </footer>
 <!-- _includes/cookie-consent.html -->
-<div
-    id="cookie-consent-banner"
-    style="
-        display: none;
-        position: fixed;
-        bottom: 0;
-        width: 100%;
-        background: #003366;
-        color: white;
-        padding: 10px;
-        text-align: center;
-        z-index: 1000;
-    "
->
-    <p>
-        We use cookies to improve your experience. By using our site, you agree
-        to our
-        <a href="/cookie-policy.html" style="color: #6699cc">Cookie Policy</a>.
-    </p>
-    <p>
-        Wir verwenden Cookies, um Ihr Erlebnis zu verbessern. Durch die Nutzung
-        unserer Website erklären Sie sich einverstanden mit unserer
-        <a href="/cookie-policy.html" style="color: #6699cc">Cookie Policy</a>.
-    </p>
-    <p>
-        Weite Informationen zur
-        <a href="/impressum.html#datenschutz" style="color: #6699cc"
-            >Datenschutzerklärung</a
-        >
-        und <a href="/impressum.html#lizenz" style="color: #6699cc">Lizenz</a>.
-    </p>
-
-    <button
-        onclick="acceptCookies();"
-        style="
-            background: #6699cc;
-            color: white;
-            border: none;
-            padding: 10px;
-            cursor: pointer;
-        "
-    >
-        Accept
-    </button>
-    <button
-        onclick="declineCookies();"
-        style="
-            background: #cccccc;
-            color: #003366;
-            border: none;
-            padding: 10px;
-            cursor: pointer;
-        "
-    >
-        Decline
-    </button>
-    <button
-        onclick="openCookieSettings();"
-        style="
-            background: #666666;
-            color: white;
-            border: none;
-            padding: 10px;
-            cursor: pointer;
-        "
-    >
-        Settings
-    </button>
+<div id="cookie-consent-banner" style="display: none; position: fixed; bottom: 0; width: 100%; background: #003366; color: white; padding: 10px; text-align: center; z-index: 1000;">
+  <p>Wir verwenden Cookies, um Ihr Erlebnis auf unserer Website zu verbessern. Indem Sie unsere Website nutzen, stimmen Sie unserer <a href="/impressum#datenschutz" style="color: #6699cc;">Datenschutzerklärung</a> und <a href="/impressum#lizenz" style="color: #6699cc;">Lizenzvereinbarung</a> zu.</p>
+  <button onclick="acceptCookies();" style="background: #6699cc; color: white; border: none; padding: 10px; cursor: pointer;">Akzeptieren</button>
+  <button onclick="declineCookies();" style="background: #cccccc; color: #003366; border: none; padding: 10px; cursor: pointer;">Ablehnen</button>
+  <button onclick="openCookieSettings();" style="background: #666666; color: white; border: none; padding: 10px; cursor: pointer;">Einstellungen</button>
 </div>
 
 <script>
-    function acceptCookies() {
-        document.cookie = "cookie-consent=true; path=/; max-age=31536000"; // 1 year
-        document.getElementById("cookie-consent-banner").style.display = "none";
-    }
+function setCookie(name, value, days) {
+  var expires = "";
+  if (days) {
+    var date = new Date();
+    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+    expires = "; expires=" + date.toUTCString();
+  }
+  document.cookie = name + "=" + (value || "") + expires + "; path=/";
+}
 
-    function declineCookies() {
-        document.cookie = "cookie-consent=false; path=/; max-age=31536000"; // 1 year
-        document.getElementById("cookie-consent-banner").style.display = "none";
-    }
+function getCookie(name) {
+  var nameEQ = name + "=";
+  var ca = document.cookie.split(';');
+  for (var i = 0; i < ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+    if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+  }
+  return null;
+}
 
-    function openCookieSettings() {
-        window.location.href = "/cookie-settings.html";
-    }
+function acceptCookies() {
+  var settings = {
+    necessary: true,
+    statistics: true,
+    googleAnalytics: true,
+    marketing: true,
+    disqus: true,
+    gitment: true,
+    googleTranslate: true,
+    highlightJs: true,
+    geopattern: true,
+    mathjax: true,
+    photoswipe: true,
+    trianglify: true
+  };
+  setCookie("cookie-settings", JSON.stringify(settings), 365);
+  document.getElementById('cookie-consent-banner').style.display = 'none';
+  location.reload(); // Reload the page to apply the settings
+}
 
-    window.onload = function () {
-        if (document.cookie.indexOf("cookie-consent") == -1) {
-            document.getElementById("cookie-consent-banner").style.display =
-                "block";
-        }
-    };
+function declineCookies() {
+  var settings = {
+    necessary: true,
+    statistics: false,
+    googleAnalytics: false,
+    marketing: false,
+    disqus: false,
+    gitment: false,
+    googleTranslate: false,
+    highlightJs: false,
+    geopattern: false,
+    mathjax: false,
+    photoswipe: false,
+    trianglify: false
+  };
+  setCookie("cookie-settings", JSON.stringify(settings), 365);
+  document.getElementById('cookie-consent-banner').style.display = 'none';
+  location.reload(); // Reload the page to apply the settings
+}
+
+function openCookieSettings() {
+  window.location.href = "/cookie-settings.html";
+}
+
+window.onload = function() {
+  if (!getCookie("cookie-settings")) {
+    document.getElementById('cookie-consent-banner').style.display = 'block';
+  }
+}
 </script>
 </body>
 </html>
