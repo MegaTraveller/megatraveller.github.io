@@ -67,6 +67,7 @@ title: Cookie Einstellungen
             expires = "; expires=" + date.toUTCString();
         }
         document.cookie = name + "=" + (value || "") + expires + "; path=/";
+        console.log(`Cookie set: ${name} = ${value}`);
     }
 
     function getCookie(name) {
@@ -75,9 +76,12 @@ title: Cookie Einstellungen
         for (var i = 0; i < ca.length; i++) {
             var c = ca[i];
             while (c.charAt(0) == " ") c = c.substring(1, c.length);
-            if (c.indexOf(nameEQ) == 0)
+            if (c.indexOf(nameEQ) == 0) {
+                console.log(`Cookie found: ${name} = ${c.substring(nameEQ.length, c.length)}`);
                 return c.substring(nameEQ.length, c.length);
+            }
         }
+        console.log(`Cookie not found: ${name}`);
         return null;
     }
 
@@ -99,11 +103,13 @@ title: Cookie Einstellungen
         };
         setCookie("cookie-settings", JSON.stringify(settings), 365);
         alert("Ihre Einstellungen wurden gespeichert.");
+        console.log("Settings saved:", settings);
         location.reload(); // Reload the page to apply the settings
     }
 
     window.onload = function () {
         var settings = JSON.parse(getCookie("cookie-settings") || "{}");
+        console.log("Loaded settings:", settings);
         if (settings) {
             var form = document.getElementById("cookie-settings-form");
             form.statistics.checked = settings.statistics || false;
@@ -117,6 +123,7 @@ title: Cookie Einstellungen
             form.mathjax.checked = settings.mathjax || false;
             form.photoswipe.checked = settings.photoswipe || false;
             form.trianglify.checked = settings.trianglify || false;
+            console.log("Form values set based on loaded settings");
         }
     };
 </script>
