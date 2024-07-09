@@ -24,5 +24,35 @@
     {%- include views/footer.html -%}
     {%- include cookie-consent.html -%}
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var settings = JSON.parse(getCookie("cookie-settings") || "{}");
+            if (settings.googleAnalytics) {
+                var script = document.createElement('script');
+                script.src = 'https://www.googletagmanager.com/gtag/js?id=UA-XXXXXX-X';
+                document.head.appendChild(script);
+                
+                script.onload = function() {
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){dataLayer.push(arguments);}
+                    gtag('js', new Date());
+                    gtag('config', 'UA-XXXXXX-X');
+                }
+            }
+            // Fügen Sie hier weitere Bedingungen für andere Skripte hinzu, z. B. für Disqus, Google Translate usw.
+        });
+
+        function getCookie(name) {
+            var nameEQ = name + "=";
+            var ca = document.cookie.split(";");
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == " ") c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+            }
+            return null;
+        }
+    </script>
+
   </body>
 </html>
