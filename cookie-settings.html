@@ -86,6 +86,7 @@ title: Cookie Einstellungen
     }
 
     function saveCookieSettings() {
+        console.log("Saving cookie settings...");
         var form = document.getElementById("cookie-settings-form");
         var settings = {
             necessary: true,
@@ -108,10 +109,12 @@ title: Cookie Einstellungen
     }
 
     window.onload = function () {
+        console.log("Window loaded");
         var settings = JSON.parse(getCookie("cookie-settings") || "{}");
         console.log("Loaded settings:", settings);
         if (settings) {
             var form = document.getElementById("cookie-settings-form");
+            console.log("Setting form values...");
             form.statistics.checked = settings.statistics || false;
             form.googleAnalytics.checked = settings.googleAnalytics || false;
             form.marketing.checked = settings.marketing || false;
