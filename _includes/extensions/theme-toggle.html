@@ -46,7 +46,6 @@ default='auto' -%} {%- assign night_mode = return -%}
         }
 
         function autoThemeToggle() {
-            // Next time point of theme toggle
             var now = new Date();
             var toggleAt = new Date();
             var hours = now.getHours();
@@ -67,7 +66,6 @@ default='auto' -%} {%- assign night_mode = return -%}
 
             var delay = toggleAt.getTime() - now.getTime();
 
-            // auto toggle theme mode
             setTimeout(function () {
                 handleThemeToggle(!nightShift);
             }, delay);
@@ -78,7 +76,6 @@ default='auto' -%} {%- assign night_mode = return -%}
             };
         }
 
-        // Listen the theme toggle event
         sw.addEventListener("change", function (event) {
             handleThemeToggle(event.target.checked);
         });
@@ -86,7 +83,6 @@ default='auto' -%} {%- assign night_mode = return -%}
         if (nightModeOption == "auto") {
             var data = autoThemeToggle();
 
-            // Toggle theme by local setting
             if (data.toggleAt > themeData.autoToggleAt) {
                 themeData.autoToggleAt = data.toggleAt;
                 handleThemeToggle(data.nightShift);
