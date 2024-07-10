@@ -13,7 +13,7 @@
 default='auto' -%} {%- assign night_mode = return -%}
 
 <script>
-    function initThemeToggle() {
+    (function () {
         var sw = document.getElementById("theme-switch");
         var html = document.getElementsByTagName("html")[0];
         var nightModeOption = ("{{ night_mode }}" || "auto").toLowerCase();
@@ -46,6 +46,7 @@ default='auto' -%} {%- assign night_mode = return -%}
         }
 
         function autoThemeToggle() {
+            // Next time point of theme toggle
             var now = new Date();
             var toggleAt = new Date();
             var hours = now.getHours();
@@ -66,6 +67,7 @@ default='auto' -%} {%- assign night_mode = return -%}
 
             var delay = toggleAt.getTime() - now.getTime();
 
+            // auto toggle theme mode
             setTimeout(function () {
                 handleThemeToggle(!nightShift);
             }, delay);
@@ -76,6 +78,7 @@ default='auto' -%} {%- assign night_mode = return -%}
             };
         }
 
+        // Listen the theme toggle event
         sw.addEventListener("change", function (event) {
             handleThemeToggle(event.target.checked);
         });
@@ -83,6 +86,7 @@ default='auto' -%} {%- assign night_mode = return -%}
         if (nightModeOption == "auto") {
             var data = autoThemeToggle();
 
+            // Toggle theme by local setting
             if (data.toggleAt > themeData.autoToggleAt) {
                 themeData.autoToggleAt = data.toggleAt;
                 handleThemeToggle(data.nightShift);
@@ -98,22 +102,5 @@ default='auto' -%} {%- assign night_mode = return -%}
             }
             handleThemeToggle(nightShift);
         }
-    }
-
-    function getCookie(name) {
-        var nameEQ = name + "=";
-        var ca = document.cookie.split(";");
-        for (var i = 0; i < ca.length; i++) {
-            var c = ca[i];
-            while (c.charAt(0) == " ") c = c.substring(1, c.length);
-            if (c.indexOf(nameEQ) == 0)
-                return c.substring(nameEQ.length, c.length);
-        }
-        return null;
-    }
-
-    var settings = JSON.parse(getCookie("cookie-settings") || "{}");
-    if (settings.themeToggle) {
-        window.addEventListener("load", initThemeToggle);
-    }
+    })();
 </script>
