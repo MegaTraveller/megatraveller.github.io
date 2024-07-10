@@ -1,22 +1,10 @@
-<script type="text/javascript">
-    if (document.cookie.indexOf("cookie-consent-statistics=true") != -1) {
-        var mathjaxConfig = document.createElement("script");
-        mathjaxConfig.type = "text/x-mathjax-config";
-        mathjaxConfig.text = `
-      MathJax.Hub.Config({
-        tex2jax: {
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-          inlineMath: [['$','$']]
-        }
-      });
-    `;
-        document.head.appendChild(mathjaxConfig);
-
-        var mathjaxScript = document.createElement("script");
-        mathjaxScript.src =
-            "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML";
-        mathjaxScript.type = "text/javascript";
-        mathjaxScript.async = true;
-        document.head.appendChild(mathjaxScript);
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      inlineMath: [['$','$']]
     }
+  });
 </script>
+<script
+src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML" type="text/javascript" async></script>

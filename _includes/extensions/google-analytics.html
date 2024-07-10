@@ -1,60 +1,27 @@
 <!-- Google tag (gtag.js) -->
 <script>
-    function setCookie(name, value, days) {
-        var expires = "";
-        if (days) {
-            var date = new Date();
-            date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-            expires = "; expires=" + date.toUTCString();
-        }
-        document.cookie = name + "=" + (value || "") + expires + "; path=/";
+  function initGoogleAnalytics() {
+    var doNotTrack = (window.doNotTrack === "1" || navigator.doNotTrack === "1" ||
+      navigator.doNotTrack === "yes" || navigator.msDoNotTrack === "1");
+    var enableDNT = "{{ site.enableDNT | default: true }}" == "true";
+
+    if (!enableDNT || !doNotTrack) {
+      var measurementId = '{{ site.google_analytics }}';
+
+      (function(src) {
+        var tag = document.createElement('script');
+        tag.src = src;
+        tag.async = true;
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+      })('https://www.googletagmanager.com/gtag/js?id=' + measurementId);
+
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', measurementId);
     }
-
-    function getCookie(name) {
-        var nameEQ = name + "=";
-        var ca = document.cookie.split(";");
-        for (var i = 0; i < ca.length; i++) {
-            var c = ca[i];
-            while (c.charAt(0) == " ") c = c.substring(1, c.length);
-            if (c.indexOf(nameEQ) == 0)
-                return c.substring(nameEQ.length, c.length);
-        }
-        return null;
-    }
-
-    function initGoogleAnalytics() {
-        var doNotTrack =
-            window.doNotTrack === "1" ||
-            navigator.doNotTrack === "1" ||
-            navigator.doNotTrack === "yes" ||
-            navigator.msDoNotTrack === "1";
-        var enableDNT = "{{ site.enableDNT | default: true }}" == "true";
-
-        if (!enableDNT || !doNotTrack) {
-            var settings = JSON.parse(getCookie("cookie-settings") || "{}");
-            if (settings.googleAnalytics) {
-                var measurementId = "{{ site.google_analytics }}";
-
-                (function (src) {
-                    var tag = document.createElement("script");
-                    tag.src = src;
-                    tag.async = true;
-                    var firstScriptTag =
-                        document.getElementsByTagName("script")[0];
-                    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-                })(
-                    "https://www.googletagmanager.com/gtag/js?id=" +
-                        measurementId,
-                );
-
-                window.dataLayer = window.dataLayer || [];
-                function gtag() {
-                    dataLayer.push(arguments);
-                }
-                gtag("js", new Date());
-                gtag("config", measurementId);
-            }
-        }
-    }
-    window.addEventListener("load", initGoogleAnalytics);
+  }
+  window.addEventListener("load", initGoogleAnalytics);
 </script>
+
