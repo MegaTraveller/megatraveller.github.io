@@ -1,4 +1,3 @@
-
 {%- include functions.html func='get_banner' -%}
 
 {%- include functions.html func='log' level='debug' msg='Get header_transparent value' -%}
@@ -16,6 +15,8 @@
     <div class="site-header-inner">
       {%- assign default_paths = site.pages | where: "dir", "/" | map: "path" -%}
       {%- assign page_paths = site.header_pages | default: default_paths -%}
+      {%- assign exclude_pages = "/cookie-check.html|/cookie-policy.html|/cookie-settings.html" -%}
+      {%- assign page_paths = page_paths | reject: "match", exclude_pages -%}
 
       <span class="site-brand">
         {%- include views/site-brand.html -%}
