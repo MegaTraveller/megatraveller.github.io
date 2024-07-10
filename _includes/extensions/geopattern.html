@@ -1,21 +1,32 @@
-{% if include.selector %}
-  {% assign selector = include.selector %}
-{% endif %}
-
-{% if include.seed %}
-  {% assign seed = include.seed %}
-{% endif %}
+{% if include.selector %} {% assign selector = include.selector %} {% endif %}
+{% if include.seed %} {% assign seed = include.seed %} {% endif %}
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/geopattern/1.2.3/js/geopattern.min.js"></script>
 <script>
-  function setRandomBgImage(selector, seed) {
-    var pattern = GeoPattern.generate(seed);
-    var element = document.querySelector(selector)
-    if (element) {
-      element.style.backgroundImage = pattern.toDataUrl();
+    function setRandomBgImage(selector, seed) {
+        var pattern = GeoPattern.generate(seed);
+        var element = document.querySelector(selector);
+        if (element) {
+            element.style.backgroundImage = pattern.toDataUrl();
+        }
     }
-  }
 
-  setRandomBgImage('{{ selector }}', '{{ seed }}');
+    function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(";");
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == " ") c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) == 0)
+                return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    }
+
+    var settings = JSON.parse(getCookie("cookie-settings") || "{}");
+    if (settings.geopattern) {
+        document.addEventListener("DOMContentLoaded", function (event) {
+            setRandomBgImage("{{ selector }}", "{{ seed }}");
+        });
+    }
 </script>
-

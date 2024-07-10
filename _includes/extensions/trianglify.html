@@ -1,26 +1,45 @@
-{% if include.selector %}
-  {% assign selector = include.selector %}
-{% endif %}
+{% if include.selector %} {% assign selector = include.selector %} {% endif %}
+{% if include.seed %} {% assign seed = include.seed %} {% endif %}
 
-{% if include.seed %}
-  {% assign seed = include.seed %}
-{% endif %}
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/trianglify/2.0.0/trianglify.min.js" async></script>
 <script>
-  function setRandomBgImage(selector, seed, zoom) {
-    var element = document.querySelector(selector);
-    if (!element) return;
-    var pattern = Trianglify({
-      width: screen.width * zoom,
-      height: element.offsetHeight * zoom,
-      seed: seed
-    });
+    function setRandomBgImage(selector, seed, zoom) {
+      var element = document.querySelector(selector);
+      if (!element) return;
+      var pattern = Trianglify({
+        width: screen.width * zoom,
+        height: element.offsetHeight * zoom,
+        seed: seed
+      });
 
-    var image = document.createElement("div");
-    image.style.backgroundImage = "url(" + pattern.png() + ")";
-    element.appendChild(image);
-  }
+      var image = document.createElement("div");
+      image.style.backgroundImage = "url(" + pattern.png() + ")";
+      element.appendChild(image);
+    }
 
-  setRandomBgImage('{{ selector }}', '{{ seed }}', {{ zoom | default: 1}});
+    function loadTrianglify() {
+      var script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/trianglify/2.0.0/trianglify.min.js';
+      script.async = true;
+      script.onload = function() {
+        setRandomBgImage('{{ selector }}', '{{ seed }}', {{ zoom | default: 1}});
+      };
+      document.body.appendChild(script);
+    }
+
+    function getCookie(name) {
+      var nameEQ = name + "=";
+      var ca = document.cookie.split(';');
+      for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+      }
+      return null;
+    }
+
+    var settings = JSON.parse(getCookie('cookie-settings') || '{}');
+    if (settings.trianglify) {
+      loadTrianglify();
+    }
 </script>

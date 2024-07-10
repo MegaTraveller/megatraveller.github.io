@@ -1,10 +1,36 @@
 <script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    tex2jax: {
-      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-      inlineMath: [['$','$']]
-    }
-  });
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        inlineMath: [['$', '$']]
+      }
+    });
 </script>
-<script
-src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML" type="text/javascript" async></script>
+
+<script>
+    function loadMathJax() {
+        var script = document.createElement("script");
+        script.src =
+            "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+        script.type = "text/javascript";
+        script.async = true;
+        document.head.appendChild(script);
+    }
+
+    function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(";");
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == " ") c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) == 0)
+                return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    }
+
+    var settings = JSON.parse(getCookie("cookie-settings") || "{}");
+    if (settings.mathjax) {
+        window.addEventListener("load", loadMathJax);
+    }
+</script>
