@@ -1,17 +1,42 @@
-  <div id="disqus_thread"></div>
-  <script>
-    var disqus_config = function () {
-      this.page.url = '{{ page.url | absolute_url }}';
-      this.page.identifier = '{{ page.url | absolute_url }}';
-    };
+<div id="disqus_thread"></div>
+<script>
+    function loadDisqus() {
+        var disqus_config = function () {
+            this.page.url = "{{ page.url | absolute_url }}";
+            this.page.identifier = "{{ page.url | absolute_url }}";
+        };
 
-    (function() {
-      var d = document, s = d.createElement('script');
+        (function () {
+            var d = document,
+                s = d.createElement("script");
 
-      s.src = 'https://{{ site.disqus.shortname }}.disqus.com/embed.js';
+            s.src = "https://{{ site.disqus.shortname }}.disqus.com/embed.js";
 
-      s.setAttribute('data-timestamp', +new Date());
-      (d.head || d.body).appendChild(s);
-    })();
-  </script>
-  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+            s.setAttribute("data-timestamp", +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    }
+
+    function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(";");
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == " ") c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) == 0)
+                return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    }
+
+    var settings = JSON.parse(getCookie("cookie-settings") || "{}");
+    if (settings.disqus) {
+        window.addEventListener("load", loadDisqus);
+    }
+</script>
+<noscript
+    >Please enable JavaScript to view the
+    <a href="https://disqus.com/?ref_noscript" rel="nofollow"
+        >comments powered by Disqus.</a
+    ></noscript
+>

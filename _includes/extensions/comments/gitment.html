@@ -1,15 +1,40 @@
-  <div id="gitment_thread"></div>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/default.css"/>
-  <script src="https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/gitment.browser.js" async></script>
-  <script>
-    var gitment = new Gitment({
-      id: '{{ page.id }}',
-      owner: '{{ site.gitment.username }}',
-      repo: '{{ site.gitment.repo }}',
-      oauth: {
-        client_id: '{{ site.gitment.client_id }}',
-        client_secret: '{{ site.gitment.client_secret }}',
-      },
-    });
-    gitment.render('gitment_thread')
-  </script>
+<div id="gitment_thread"></div>
+<link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/default.css"
+/>
+<script
+    src="https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/gitment.browser.js"
+    async
+></script>
+<script>
+    function loadGitment() {
+        var gitment = new Gitment({
+            id: "{{ page.id }}",
+            owner: "{{ site.gitment.username }}",
+            repo: "{{ site.gitment.repo }}",
+            oauth: {
+                client_id: "{{ site.gitment.client_id }}",
+                client_secret: "{{ site.gitment.client_secret }}",
+            },
+        });
+        gitment.render("gitment_thread");
+    }
+
+    function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(";");
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == " ") c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) == 0)
+                return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    }
+
+    var settings = JSON.parse(getCookie("cookie-settings") || "{}");
+    if (settings.gitment) {
+        window.addEventListener("load", loadGitment);
+    }
+</script>
