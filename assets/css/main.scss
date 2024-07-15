@@ -40,20 +40,7 @@ button {
 // Other elements can be styled similarly
 // Add additional styles as needed
 
-.about-image-container {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.about-image {
-    width: 150px; /* Adjust the size as needed */
-    height: 150px; /* Adjust the size as needed */
-    border-radius: 50%;
-    background-color: transparent;
-    object-fit: cover;
-}
-
-.rounded-image {
+rounded-image {
     width: 200px; /* Größe des Kreises */
     height: 200px; /* Größe des Kreises */
     border-radius: 50%; /* Macht das Bild rund */
