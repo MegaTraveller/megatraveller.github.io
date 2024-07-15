@@ -52,3 +52,12 @@ button {
     background-color: transparent;
     object-fit: cover;
 }
+
+.rounded-image {
+    width: 200px; /* Größe des Kreises */
+    height: 200px; /* Größe des Kreises */
+    border-radius: 50%; /* Macht das Bild rund */
+    overflow: hidden; /* Verhindert, dass der Bildinhalt überläuft */
+    display: block; /* Zentrales Bild */
+    margin: 0 auto; /* Zentriert das Bild horizontal */
+}
