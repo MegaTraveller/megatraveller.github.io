@@ -5,6 +5,40 @@ title: About
 
 <h2>Über uns</h2>
 
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-translate-customization" content="108d9124921d80c3-80e20d618ff053c8-g4f02ec6f3dba68b7-c">
+  {%- seo -%}
+  <link rel="icon" href="{{ site.favicon }}">
+  <link rel="canonical" href="{{ site.url }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-noto-sans@0.0.72/index.min.css">
+  <link rel="stylesheet" href="{{ "/assets/css/main.css" | relative_url }}">
+  <link rel="stylesheet" href="{{ "/assets/css/my.css" | relative_url }}">
+  <style>
+    .rounded-image {
+      width: 200px; /* Größe des Kreises */
+      height: 200px; /* Größe des Kreises */
+      border-radius: 50%; /* Macht das Bild rund */
+      overflow: hidden; /* Verhindert, dass der Bildinhalt überläuft */
+      display: block; /* Zentrales Bild */
+      margin: 0 auto; /* Zentriert das Bild horizontal */
+    }
+  </style>
+  <script src="{{ "/assets/js/main.js" | relative_url }}"></script>
+  {%- feed_meta -%}
+  {%- if jekyll.environment == 'production' and site.google_analytics -%}
+  {%- include extensions/google-analytics.html -%}
+  {%- endif -%}
+  {%- include extensions/code-highlight.html -%}
+  {%- include extensions/photo-swipe.html -%}
+  {%- include custom-head.html -%}
+</head>
+
+
 <img
     src="/assets/images/michael.png"
     alt="Michael Krzyzanski"
@@ -63,5 +97,3 @@ title: About
     kontaktieren. Ich freue mich darauf, mit Ihnen zusammenzuarbeiten und
     gemeinsam Ihre Projekte zum Erfolg zu führen.
 </p>
-
-<p>interested@krzyzanski.de</p>
