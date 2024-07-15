@@ -1,6 +1,6 @@
 # _config.yml
 title: Michael.Krzyzanski
-description: Informationssicherheits- und Qualitätsmanagementberatung
+description: Beratung- und Auditorentätigkeiten rund um die Informationssicherheit
 url: "https://megatraveller.github.io" # die URL deiner Website
 baseurl: "" # der Basispfad deiner Website, normalerweise ""
 
@@ -22,3 +22,12 @@ exclude:
 # Weitere Konfigurationen können hier hinzugefügt werden, je nach den spezifischen Anforderungen deiner Website.
 plugins:
   - jekyll-feed
+
+# If you want to link only specific pages in your header, uncomment
+# this and add the path to the pages in order as they should show up
+header_pages:
+  - index.html
+  - archives.html
+  - categories.html
+  - tags.html
+  - about.md
