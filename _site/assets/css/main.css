@@ -1523,12 +1523,3 @@ html[data-theme="dark"] .click-to-top {
     background-color: #34323d;
     color: #bbb;
 }
-
-.rounded-image {
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 5px solid #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-}
