@@ -35,3 +35,18 @@ header_pages:
   - categories.html
   - tags.html
   - about.html
+
+# Photo previewer settings (PhotoSwipe 5)
+# the options please refer to: https://photoswipe.com/options/
+photo_previewer:
+  gallery: "section.main"
+  children: "a.photo-swipe"
+  bgOpacity: 0.8
+  padding:
+    top: 20
+    bottom: 40
+    left: 100
+    right: 100
+
+# Pagination setting
+paginate: 5
