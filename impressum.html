@@ -11,8 +11,28 @@ title: Impressum
     Michael Krzyzanski<br />
     Postfach 4409<br />
     48025 Münster<br />
-    E-Mail: nospamreg_AT_krzyzanski.de<br />
 </p>
+
+<form id="contact-form" method="POST" action="https://formspree.io/f/xjkblvyl">
+    <label for="reason">Grund der Kontaktaufnahme</label>
+    <select id="reason" name="reason" required>
+        <option value="" disabled selected>Bitte wählen...</option>
+        <option value="contact">Kontakt herstellen</option>
+        <option value="support">Support-Ticket</option>
+        <option value="complain">Beschwerde</option>
+    </select>
+
+    <label for="name">Name</label>
+    <input type="text" id="name" name="name" required />
+
+    <label for="email">E-Mail</label>
+    <input type="email" id="email" name="email" required />
+
+    <label for="message">Nachricht</label>
+    <textarea id="message" name="message" required></textarea>
+
+    <button type="submit">Senden</button>
+</form>
 
 <h3>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:</h3>
 
