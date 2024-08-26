@@ -14,23 +14,24 @@ title: Impressum
 </p>
 
 <form id="contact-form" method="POST" action="https://formspree.io/f/xjkblvyl">
-    <label for="reason">Grund der Kontaktaufnahme</label>
-    <select id="reason" name="reason" required>
+    <label for="Grund">Grund der Kontaktaufnahme</label>
+    <select id="Grund" name="Grund" required>
         <option value="" disabled selected>Bitte wählen...</option>
-        <option value="contact">Kontakt herstellen</option>
-        <option value="support">Support-Ticket</option>
-        <option value="complain">Beschwerde</option>
+        <option value="Kontaktaufbau">Kontakt herstellen</option>
+        <option value="Support">Support-Ticket</option>
+        <option value="Beschwerde">Beschwerde</option>
     </select>
-
-    <label for="name">Name</label>
-    <input type="text" id="name" name="name" required />
-
-    <label for="email">E-Mail</label>
-    <input type="email" id="email" name="email" required />
-
-    <label for="message">Nachricht</label>
-    <textarea id="message" name="message" required></textarea>
-
+    <br />
+    <label for="Name">Name</label>
+    <input type="text" id="Name" name="Name" required />
+    <br />
+    <label for="E-Mail">E-Mail</label>
+    <input type="E-Mail" id="E-Mail" name="E-Mail" required />
+    <br />
+    <label for="Nachricht">Nachricht</label>
+    <textarea id="Nachricht" name="Nachricht" required></textarea>
+    <br />
+    <input type="hidden" name="_next" value="/danke.html" />
     <button type="submit">Senden</button>
 </form>
 
