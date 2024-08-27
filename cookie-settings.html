@@ -30,6 +30,7 @@ exclude_from_nav: true
     ><br />
     <label> <input type="checkbox" name="trianglify" /> Trianglify </label
     ><br />
+    <label> <input type="checkbox" name="freeform" /> Freeform.io </label><br />
     <button
         type="button"
         onclick="saveCookieSettings();"
@@ -90,6 +91,7 @@ exclude_from_nav: true
             mathjax: form.mathjax.checked,
             photoswipe: form.photoswipe.checked,
             trianglify: form.trianglify.checked,
+            freeform: form.freeform.checked,
         };
         setCookie("cookie-settings", JSON.stringify(settings), 365);
         alert("Ihre Einstellungen wurden gespeichert.");
@@ -115,6 +117,7 @@ exclude_from_nav: true
             form.mathjax.checked = settings.mathjax || false;
             form.photoswipe.checked = settings.photoswipe || false;
             form.trianglify.checked = settings.trianglify || false;
+            form.freeform.checked = settings.freeform || false;
             console.log("Form values set based on loaded settings");
         }
     });

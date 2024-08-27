@@ -1,80 +1,141 @@
 <!-- _includes/cookie-consent.html -->
-<div id="cookie-consent-banner" style="display: none; position: fixed; bottom: 0; width: 100%; background: #003366; color: white; padding: 10px; text-align: center; z-index: 1000;">
-  <p>Wir verwenden Cookies, um Ihr Erlebnis auf unserer Website zu verbessern. Indem Sie unsere Website nutzen, stimmen Sie unserer <a href="/impressum#datenschutz" style="color: #6699cc;">Datenschutzerklärung</a> und <a href="/impressum#lizenz" style="color: #6699cc;">Lizenzvereinbarung</a> zu.</p>
-  <button onclick="acceptCookies();" style="background: #6699cc; color: white; border: none; padding: 10px; cursor: pointer;">Akzeptieren</button>
-  <button onclick="declineCookies();" style="background: #cccccc; color: #003366; border: none; padding: 10px; cursor: pointer;">Ablehnen</button>
-  <button onclick="openCookieSettings();" style="background: #666666; color: white; border: none; padding: 10px; cursor: pointer;">Einstellungen</button>
+<div
+    id="cookie-consent-banner"
+    style="
+        display: none;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        background: #003366;
+        color: white;
+        padding: 10px;
+        text-align: center;
+        z-index: 1000;
+    "
+>
+    <p>
+        Wir verwenden Cookies, um Ihr Erlebnis auf unserer Website zu
+        verbessern. Indem Sie unsere Website nutzen, stimmen Sie unserer
+        <a href="/impressum#datenschutz" style="color: #6699cc"
+            >Datenschutzerklärung</a
+        >
+        und
+        <a href="/impressum#lizenz" style="color: #6699cc"
+            >Lizenzvereinbarung</a
+        >
+        zu.
+    </p>
+    <button
+        onclick="acceptCookies();"
+        style="
+            background: #6699cc;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        "
+    >
+        Akzeptieren
+    </button>
+    <button
+        onclick="declineCookies();"
+        style="
+            background: #cccccc;
+            color: #003366;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        "
+    >
+        Ablehnen
+    </button>
+    <button
+        onclick="openCookieSettings();"
+        style="
+            background: #666666;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        "
+    >
+        Einstellungen
+    </button>
 </div>
 
 <script>
-function setCookie(name, value, days) {
-  var expires = "";
-  if (days) {
-    var date = new Date();
-    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-    expires = "; expires=" + date.toUTCString();
-  }
-  document.cookie = name + "=" + (value || "") + expires + "; path=/";
-}
+    function setCookie(name, value, days) {
+        var expires = "";
+        if (days) {
+            var date = new Date();
+            date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    }
 
-function getCookie(name) {
-  var nameEQ = name + "=";
-  var ca = document.cookie.split(';');
-  for (var i = 0; i < ca.length; i++) {
-    var c = ca[i];
-    while (c.charAt(0) == ' ') c = c.substring(1, c.length);
-    if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
-  }
-  return null;
-}
+    function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(";");
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == " ") c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) == 0)
+                return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    }
 
-function acceptCookies() {
-  var settings = {
-    necessary: true,
-    statistics: true,
-    googleAnalytics: true,
-    marketing: true,
-    disqus: true,
-    gitment: true,
-    googleTranslate: true,
-    highlightJs: true,
-    geopattern: true,
-    mathjax: true,
-    photoswipe: true,
-    trianglify: true
-  };
-  setCookie("cookie-settings", JSON.stringify(settings), 365);
-  document.getElementById('cookie-consent-banner').style.display = 'none';
-  location.reload(); // Reload the page to apply the settings
-}
+    function acceptCookies() {
+        var settings = {
+            necessary: true,
+            statistics: true,
+            googleAnalytics: true,
+            marketing: true,
+            disqus: true,
+            gitment: true,
+            googleTranslate: true,
+            highlightJs: true,
+            geopattern: true,
+            mathjax: true,
+            photoswipe: true,
+            trianglify: true,
+            freeform: true,
+        };
+        setCookie("cookie-settings", JSON.stringify(settings), 365);
+        document.getElementById("cookie-consent-banner").style.display = "none";
+        location.reload(); // Reload the page to apply the settings
+    }
 
-function declineCookies() {
-  var settings = {
-    necessary: true,
-    statistics: false,
-    googleAnalytics: false,
-    marketing: false,
-    disqus: false,
-    gitment: false,
-    googleTranslate: false,
-    highlightJs: false,
-    geopattern: false,
-    mathjax: false,
-    photoswipe: false,
-    trianglify: false
-  };
-  setCookie("cookie-settings", JSON.stringify(settings), 365);
-  document.getElementById('cookie-consent-banner').style.display = 'none';
-  location.reload(); // Reload the page to apply the settings
-}
+    function declineCookies() {
+        var settings = {
+            necessary: true,
+            statistics: false,
+            googleAnalytics: false,
+            marketing: false,
+            disqus: false,
+            gitment: false,
+            googleTranslate: false,
+            highlightJs: false,
+            geopattern: false,
+            mathjax: false,
+            photoswipe: false,
+            trianglify: false,
+            freeform: false,
+        };
+        setCookie("cookie-settings", JSON.stringify(settings), 365);
+        document.getElementById("cookie-consent-banner").style.display = "none";
+        location.reload(); // Reload the page to apply the settings
+    }
 
-function openCookieSettings() {
-  window.location.href = "/cookie-settings.html";
-}
+    function openCookieSettings() {
+        window.location.href = "/cookie-settings.html";
+    }
 
-window.onload = function() {
-  if (!getCookie("cookie-settings")) {
-    document.getElementById('cookie-consent-banner').style.display = 'block';
-  }
-}
+    window.onload = function () {
+        if (!getCookie("cookie-settings")) {
+            document.getElementById("cookie-consent-banner").style.display =
+                "block";
+        }
+    };
 </script>
