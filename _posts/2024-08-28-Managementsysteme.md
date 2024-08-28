@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Managementsysteme Implementieren
-subtitle: Each post also has a subtitle
+subtitle: Warum man Managementsysteme implementiert
 categories: markdown
 tags: [test]
 published: false
