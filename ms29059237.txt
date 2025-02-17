@@ -1,5 +1,0 @@
-﻿{
-  "Description": "Überprüfungsdatei für Domänen-Eigentümerschaft für Microsoft 365-Position im Website-Root",
-  "Domain": "krzyzanski.de",
-  "Id": "61b9cea6-fe19-457e-b6bf-36595e8e3726"
-}
