@@ -18,6 +18,8 @@ remote_theme: "jeffreytse/jekyll-theme-yat"
 exclude:
   - Gemfile
   - Gemfile.lock
+  - HANDBUCH.md
+  - CLAUDE.md
 
 # Weitere Konfigurationen können hier hinzugefügt werden, je nach den spezifischen Anforderungen deiner Website.
 plugins:

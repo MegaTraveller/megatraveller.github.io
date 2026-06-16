@@ -3,6 +3,25 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="google-translate-customization" content="108d9124921d80c3-80e20d618ff053c8-g4f02ec6f3dba68b7-c">
+
+  <!-- AENDERUNG (Redesign 2026): Browser-Farbe (Adressleiste auf Mobilgeraeten). -->
+  <meta name="theme-color" content="#6366f1">
+
+  <!-- AENDERUNG (Redesign 2026): Schaltet die Scroll-Einblende-Animationen frei.
+       Steht bewusst frueh im <head> und setzt die Klasse, BEVOR der Inhalt
+       gezeichnet wird -> kein Aufblitzen. Bei "reduzierte Bewegung" wird NICHTS
+       gesetzt, dann ist sofort alles sichtbar. -->
+  <script>
+    (function () {
+      try {
+        if (window.matchMedia &&
+            window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+          document.documentElement.classList.add('reveal-enabled');
+        }
+      } catch (e) {}
+    })();
+  </script>
+
   {%- seo -%}
   <link rel="icon" href="{{ site.favicon }}">
   <link rel="canonical" href="{{ site.url }}">
@@ -10,7 +29,13 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-noto-sans@0.0.72/index.min.css">
   <link rel="stylesheet" href="{{ "/assets/css/main.css" | relative_url }}">
   <link rel="stylesheet" href="{{ "/assets/css/my.css" | relative_url }}">
+  <!-- AENDERUNG (Redesign 2026): zentrale Design-Schicht. Laedt ZULETZT und
+       gewinnt daher gegen Theme-CSS, ohne dessen Struktur zu veraendern. -->
+  <link rel="stylesheet" href="{{ "/assets/css/custom.css" | relative_url }}">
   <script src="{{ "/assets/js/main.js" | relative_url }}"></script>
+  <!-- AENDERUNG (Redesign 2026): Animationen, Mobile-Nav, Mastodon-Feed,
+       PeerTube. "defer" = laedt nicht-blockierend und laeuft nach dem Parsen. -->
+  <script defer src="{{ "/assets/js/custom.js" | relative_url }}"></script>
   {%- feed_meta -%}
   {%- if jekyll.environment == 'production' and site.google_analytics -%}
   {%- include extensions/google-analytics.html -%}

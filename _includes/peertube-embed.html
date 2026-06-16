@@ -1,0 +1,43 @@
+{%- comment -%}
+  ============================================================================
+   _includes/peertube-embed.html  —  PeerTube-Video (datenschutzfreundlich)
+  ----------------------------------------------------------------------------
+   NEU im Redesign 2026 (Vorbereitung für später).
+
+   Bindet ein PeerTube-Video als "click-to-load" ein: Zuerst sieht man nur ein
+   Vorschaltbild mit Play-Button. Erst beim Klick wird das echte iframe vom
+   Video-Server geladen -> ohne Klick KEINE Verbindung dorthin (DSGVO-konform).
+   Die Logik dazu steht in assets/js/custom.js (Modul 4).
+
+   VERWENDUNG (z. B. in einer Seite oder einem Blogpost):
+     {% include peertube-embed.html
+          instance="tube.example.org"
+          id="aBcD1234-uuid-oder-kurz-id"
+          title="Titel des Videos"
+          thumbnail="https://tube.example.org/.../preview.jpg" %}
+
+   PARAMETER:
+     instance  (Pflicht) Domain der PeerTube-Instanz, ohne https://
+     id        (Pflicht) Video-ID bzw. UUID (steht in der Video-URL)
+     title     (optional) Titel für Barrierefreiheit / Tooltip
+     thumbnail (optional) Vorschaubild-URL; fehlt es, wird ein Verlauf gezeigt
+
+   Mehrere Videos nebeneinander? Einfach mehrere Includes in einen
+   <div class="video-grid"> … </div> setzen.
+  ============================================================================
+{%- endcomment -%}
+
+{%- assign pt_title = include.title | default: "PeerTube-Video" -%}
+<div class="pt-embed">
+  <button
+    type="button"
+    class="pt-facade"
+    data-embed="https://{{ include.instance }}/videos/embed/{{ include.id }}"
+    data-title="{{ pt_title | escape }}"
+    aria-label="Video abspielen: {{ pt_title | escape }}"
+    {% if include.thumbnail %}style="background-image:url('{{ include.thumbnail }}')"{% endif %}
+  >
+    <span class="pt-play" aria-hidden="true"><i class="fa fa-play"></i></span>
+    <span class="pt-hint">Video von {{ include.instance }} laden (Klick) – erst dann wird eine Verbindung aufgebaut.</span>
+  </button>
+</div>

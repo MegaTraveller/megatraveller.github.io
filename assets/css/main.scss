@@ -1,50 +1,90 @@
-// main.scss
+---
+# main.scss  —  Basis-Stylesheet (kompiliert das Yat-Theme)
+# -----------------------------------------------------------------------------
+# WICHTIG / AENDERUNG (Redesign 2026):
+# Diese Datei hatte zuvor KEINEN Front-Matter und kein "import yat". Dadurch
+# wurde sie von Jekyll gar nicht zu CSS kompiliert -> das Basis-Theme-CSS
+# fehlte bzw. war unzuverlaessig.
+# Jetzt: Der Front-Matter-Block oben sorgt dafuer, dass Jekyll die Datei durch
+# Sass + Liquid schickt und daraus /assets/css/main.css erzeugt. Der import
+# zieht das komplette Theme aus _sass/ ein. Die Markenfarbe wird auf einen
+# modernen Indigo-Ton gesetzt. Der Apple-Style-Feinschliff liegt in custom.css.
+---
 
-// Define the primary and secondary colors based on the logo
-$primary-color: #003366; // Dark blue from the logo
-$secondary-color: #6699cc; // Light blue from the logo
+// Default theme colors (Hintergrund-Grundtoene des Themes - unveraendert)
+$theme-colors: (
+  "coolblack": #090a0b,
+  "spacegrey": #353535,
+  "snowwhite": #ffffff,
+);
 
-// Other colors can be defined here if needed
+// Default brand colors (Akzentfarben). NEU: moderner Indigo-Akzent ergaenzt.
+$brand-colors: (
+  "orangered": #ff5100,
+  "greatgold": #f2cb05,
+  "greenblue": #389092,
+  "modernindigo": #6366f1,
+);
 
-// Body styles
-body {
-    background-color: $primary-color;
-    color: #fff; // white text for better contrast
+$theme-name: "{{ site.theme_color }}";
+$brand-name: "{{ site.brand_color }}";
+$theme-color: map-get($theme-colors, "snowwhite");
+$brand-color: map-get($brand-colors, "orangered");
+
+@if map-has-key($theme-colors, $theme-name) {
+  $theme-color: map-get($theme-colors, $theme-name);
+} @else if str-index($theme-name, "#") == 1 {
+  $theme-color: "{{ site.theme_color | default: '#ffffff' }}";
 }
 
-// Header styles
-header {
-    background-color: $secondary-color;
-    color: $primary-color;
+@if map-has-key($brand-colors, $brand-name) {
+  $brand-color: map-get($brand-colors, $brand-name);
+} @else if str-index($brand-name, "#") == 1 {
+  $brand-color: "{{ site.brand_color | default: '#ff5100' }}";
 }
 
-// Link styles
-a {
-    color: $secondary-color;
+// AENDERUNG (Redesign 2026): Markenfarbe fest auf modernes Indigo setzen.
+$brand-color: map-get($brand-colors, "modernindigo");
 
-    &:hover {
-        color: lighten($secondary-color, 10%);
-    }
+$content-width: "{{ site.content_width | default: '920px' }}";
+
+// Click to top theme (unveraendert)
+$click-to-top-light-background-color: "{{ site.click_to_top.light.background_color | default: 'white' }}";
+$click-to-top-light-color: "{{ site.click_to_top.light.color | default: '#454545' }}";
+$click-to-top-dark-background-color: "{{ site.click_to_top.dark.background_color | default: '#34323d' }}";
+$click-to-top-dark-color: "{{ site.click_to_top.dark.color | default: '#bbb' }}";
+
+// Selection styles
+$selection-color: unquote("{{ site.selection.color }}");
+$selection-background-color: unquote("{{ site.selection.background_color }}");
+
+@if $selection-color == "" {
+  $selection-color: inherit;
+}
+@if $selection-background-color == "" {
+  $selection-background-color: rgba(invert($brand-color), 0.3);
 }
 
-// Button styles
-button {
-    background-color: $secondary-color;
-    color: $primary-color;
+// Komplettes Yat-Theme einbinden (aus _sass/).
+@import "yat";
 
-    &:hover {
-        background-color: lighten($secondary-color, 10%);
-    }
+// Eigene Info-Boxen (waren bereits vorhanden - unveraendert uebernommen)
+.box-note, .box-warning, .box-error {
+  position: relative;
+  border-left: 5px solid transparent;
+  padding: 10px;
+  background-color: transparent;
+  margin-bottom: 10px;
 }
-
-// Other elements can be styled similarly
-// Add additional styles as needed
-
-.rounded-image {
-    width: 200px; /* Größe des Kreises */
-    height: 200px; /* Größe des Kreises */
-    border-radius: 50%; /* Macht das Bild rund */
-    overflow: hidden; /* Verhindert, dass der Bildinhalt überläuft */
-    display: block; /* Zentrales Bild */
-    margin: 0 auto; /* Zentriert das Bild horizontal */
+.box-note::before, .box-warning::before, .box-error::before {
+  content: attr(data-title);
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
 }
+.box-note { border-color: green; }
+.box-note::before { color: green; content: " Notiz"; }
+.box-warning { border-color: yellow; }
+.box-warning::before { color: yellow; content: "Warnung"; }
+.box-error { border-color: red; }
+.box-error::before { color: red; content: "Fehler"; }

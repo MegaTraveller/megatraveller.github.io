@@ -5,7 +5,7 @@ exclude_from_nav: true
 ---
 
 <h1>Cookie Einstellungen</h1>
-<p>Wählen Sie aus, welche Cookies Sie erlauben möchten:</p>
+<p>Waehlen Sie aus, welche Cookies Sie erlauben moechten:</p>
 <form id="cookie-settings-form">
     <label>
         <input type="checkbox" name="necessary" checked disabled />
@@ -31,19 +31,13 @@ exclude_from_nav: true
     <label> <input type="checkbox" name="trianglify" /> Trianglify </label
     ><br />
     <label> <input type="checkbox" name="freeform" /> Freeform.io </label><br />
-    <button
-        type="button"
-        onclick="saveCookieSettings();"
-        style="
-            background: #003366;
-            color: white;
-            border: none;
-            padding: 10px;
-            cursor: pointer;
-        "
-    >
-        Speichern
-    </button>
+    <!-- NEU (Redesign 2026): steuert externe Social-Media-Inhalte
+         (Mastodon-Feed im Footer, PeerTube-Videos). -->
+    <label>
+        <input type="checkbox" name="socialMedia" /> Social Media (Mastodon-Feed,
+        PeerTube) </label
+    ><br />
+    <button type="button" onclick="saveCookieSettings();">Speichern</button>
 </form>
 
 <script>
@@ -55,7 +49,7 @@ exclude_from_nav: true
             expires = "; expires=" + date.toUTCString();
         }
         document.cookie = name + "=" + (value || "") + expires + "; path=/";
-        console.log(`Cookie set: ${name} = ${value}`);
+        console.log("Cookie set: " + name + " = " + value);
     }
 
     function getCookie(name) {
@@ -65,18 +59,13 @@ exclude_from_nav: true
             var c = ca[i];
             while (c.charAt(0) == " ") c = c.substring(1, c.length);
             if (c.indexOf(nameEQ) == 0) {
-                console.log(
-                    `Cookie found: ${name} = ${c.substring(nameEQ.length, c.length)}`,
-                );
                 return c.substring(nameEQ.length, c.length);
             }
         }
-        console.log(`Cookie not found: ${name}`);
         return null;
     }
 
     function saveCookieSettings() {
-        console.log("Saving cookie settings...");
         var form = document.getElementById("cookie-settings-form");
         var settings = {
             necessary: true,
@@ -92,20 +81,17 @@ exclude_from_nav: true
             photoswipe: form.photoswipe.checked,
             trianglify: form.trianglify.checked,
             freeform: form.freeform.checked,
+            socialMedia: form.socialMedia.checked, // NEU (Redesign 2026)
         };
         setCookie("cookie-settings", JSON.stringify(settings), 365);
         alert("Ihre Einstellungen wurden gespeichert.");
-        console.log("Settings saved:", settings);
         location.reload(); // Reload the page to apply the settings
     }
 
     document.addEventListener("DOMContentLoaded", function () {
-        console.log("DOM fully loaded and parsed");
         var settings = JSON.parse(getCookie("cookie-settings") || "{}");
-        console.log("Loaded settings:", settings);
         if (settings) {
             var form = document.getElementById("cookie-settings-form");
-            console.log("Setting form values...");
             form.statistics.checked = settings.statistics || false;
             form.googleAnalytics.checked = settings.googleAnalytics || false;
             form.marketing.checked = settings.marketing || false;
@@ -118,7 +104,7 @@ exclude_from_nav: true
             form.photoswipe.checked = settings.photoswipe || false;
             form.trianglify.checked = settings.trianglify || false;
             form.freeform.checked = settings.freeform || false;
-            console.log("Form values set based on loaded settings");
+            form.socialMedia.checked = settings.socialMedia || false; // NEU (Redesign 2026)
         }
     });
 </script>

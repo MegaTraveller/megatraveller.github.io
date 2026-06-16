@@ -1,10 +1,80 @@
 ---
-# Feel free to add content and custom Front Matter to this file.
-# To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
-
+# Front Matter (NICHT entfernen) - steuert Layout, Titel und Hero-Bild.
 layout: home
 title: Home
 banner: "/assets/images/banners/home.jpeg"
 ---
-<a rel="me" href="https://chaos.social/@MegaTraveller">Mastodon</a>
-<a rel="me" href="https://mastodon.social/@MKrzyzanski">Mastodon</a>
+
+{%- comment -%}
+  index.html  —  Startseite (Redesign 2026)
+  Reihenfolge auf der Seite:
+   1. Hero/Banner (automatisch aus Layout + _data/defaults.yml)
+   2. DIESER Inhalt: Intro, Service-Karten, Blog-Ueberleitung
+   3. Blog-Liste (vom "articles"-Layout automatisch darunter)
+   4. Mastodon-Feed + Footer (aus _includes/views/footer.html)
+  Texte/Karten anpassen? Einfach hier editieren. Aussehen/Animation: custom.css / custom.js.
+{%- endcomment -%}
+
+<!-- ===== Intro / Willkommen ===== -->
+<section class="section" style="margin-top:8px">
+  <div class="section-head reveal">
+    <span class="eyebrow">Informationssicherheit &amp; Qualitaet</span>
+    <h2>Sicherheit, die zu Ihrem Unternehmen passt</h2>
+    <p>
+      Als freiberuflicher Berater und zertifizierter Auditor begleite ich Sie
+      praxisnah bei ISO&nbsp;27001 und ISO&nbsp;9001 - von der ersten Analyse
+      bis zur erfolgreichen Zertifizierung. Klar, verstaendlich und auf den Punkt.
+    </p>
+    <div class="reveal" style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:8px">
+      <a class="btn btn-primary" href="/services.html"><i class="fa fa-compass" aria-hidden="true"></i>&nbsp;Leistungen entdecken</a>
+      <a class="btn btn-ghost" href="/about.html">Ueber mich</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Service-Karten (fuehren zur Leistungen-Seite) ===== -->
+<section class="section">
+  <div class="feature-grid reveal-stagger reveal">
+
+    <a class="feature-card" href="/services.html">
+      <span class="icon"><i class="fa fa-search" aria-hidden="true"></i></span>
+      <h3>Interne Audits</h3>
+      <p>Gruendliche Ueberpruefung Ihrer Managementsysteme nach ISO&nbsp;27001 und ISO&nbsp;9001 - mit konkreten Handlungsempfehlungen.</p>
+    </a>
+
+    <a class="feature-card" href="/services.html">
+      <span class="icon"><i class="fa fa-certificate" aria-hidden="true"></i></span>
+      <h3>ISO-Zertifizierung</h3>
+      <p>Strukturierte Vorbereitung auf die Zertifizierung - von der Dokumentation bis zur Mitarbeiterschulung.</p>
+    </a>
+
+    <a class="feature-card" href="/services.html">
+      <span class="icon"><i class="fa fa-sitemap" aria-hidden="true"></i></span>
+      <h3>IMS &amp; ISMS</h3>
+      <p>Aufbau integrierter Managementsysteme, die nahtlos in Ihre bestehenden Prozesse passen.</p>
+    </a>
+
+    <a class="feature-card" href="/services.html">
+      <span class="icon"><i class="fa fa-shield" aria-hidden="true"></i></span>
+      <h3>Risikomanagement</h3>
+      <p>Bedrohungen frueh erkennen und gezielt minimieren - mit einem robusten, normkonformen Risikomanagement.</p>
+    </a>
+
+  </div>
+</section>
+
+<!-- ===== Ueberleitung zum Blog (Beitragsliste folgt direkt darunter) ===== -->
+<section class="section-head reveal" style="margin-bottom:24px">
+  <span class="eyebrow">Blog</span>
+  <h2>Aktuelles &amp; Fachbeitraege</h2>
+  <p>Gedanken, Praxiswissen und Neuigkeiten rund um Informationssicherheit und Managementsysteme.</p>
+</section>
+
+{%- comment -%}
+  Mastodon-Verifikation (rel="me"): bleibt erhalten, ist aber visuell versteckt,
+  da die sichtbaren Profil-Links jetzt im Footer stehen.
+{%- endcomment -%}
+<div class="rel-me-verify" hidden>
+  <a rel="me" href="https://chaos.social/@MegaTraveller">Mastodon</a>
+  <a rel="me" href="https://mastodon.social/@MKrzyzanski">Mastodon</a>
+</div>

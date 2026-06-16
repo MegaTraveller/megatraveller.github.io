@@ -1,0 +1,948 @@
+/* ============================================================================
+   custom.css  —  Modernes Redesign ("Apple-Style") für Michael.Krzyzanski
+   ----------------------------------------------------------------------------
+   ZWECK
+   Diese Datei ist die zentrale Design-Schicht. Sie wird in _includes/head.html
+   ZULETZT geladen (nach main.css und my.css) und gewinnt deshalb gegen das
+   Basis-Theme, ohne dass dessen Struktur/Funktion verändert wird.
+
+   AUFBAU (zum schnellen Springen einfach nach "SECTION" suchen):
+     SECTION 1  — Design-Tokens (Farben, Schatten, Radien) für Hell & Dunkel
+     SECTION 2  — Grundlagen (Reset-Feinschliff, Typografie, Links)
+     SECTION 3  — Layout-Container (wrapper, framework, main, sidebar)
+     SECTION 4  — Header & Navigation (Glas-Effekt, sticky, Mobile-Menü)
+     SECTION 5  — Hero / Banner
+     SECTION 6  — Buttons & Call-to-Action
+     SECTION 7  — Karten: Blog-Posts, Service-Cards, Feature-Grid
+     SECTION 8  — Sidebar-Listen & Pagination
+     SECTION 9  — Formulare (Kontakt, Cookie-Einstellungen)
+     SECTION 10 — Footer + Social-Leiste
+     SECTION 11 — Mastodon-Feed
+     SECTION 12 — PeerTube-Embed (click-to-load)
+     SECTION 13 — Theme-Toggle, "nach oben"-Button, Cookie-Banner
+     SECTION 14 — Animationen (Keyframes + Scroll-Reveal)
+     SECTION 15 — Responsiveness (Mobil/Tablet) & Barrierefreiheit
+
+   FARBEN ÄNDERN? -> Nur SECTION 1 anpassen, alles andere zieht über Variablen
+   nach. Details stehen im Handbuch (HANDBUCH.md).
+   ============================================================================ */
+
+
+/* ============================================================================
+   SECTION 1 — DESIGN-TOKENS
+   Alle Farben/Schatten/Maße als CSS-Variablen. ":root" = heller Modus.
+   "html[data-theme='dark']" = dunkler Modus (wird vom vorhandenen Theme-Toggle
+   gesetzt). Wer das Aussehen anpassen will, ändert idealerweise NUR hier.
+   ============================================================================ */
+:root {
+  /* Schriftarten: System-Fonts (wie bei Apple) – schnell, datenschutzfreundlich,
+     kein externer Font-Download nötig. */
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+
+  /* Flächen / Hintergründe */
+  --bg: #ffffff;
+  --bg-tint: #f4f6fb;          /* Seitenhintergrund (leicht getönt) */
+  --surface: #ffffff;          /* Karten */
+  --surface-2: #f1f4f9;        /* sekundäre Fläche */
+  --surface-3: #e7ecf4;        /* Hover/Trennlinien-Fläche */
+
+  /* Text */
+  --text: #0b1020;             /* Haupttext (fast schwarz, edel) */
+  --text-soft: #39414f;        /* etwas weicher */
+  --text-muted: #6b7480;       /* Meta/Beschriftungen */
+
+  /* Linien */
+  --border: rgba(11, 16, 32, 0.10);
+  --border-strong: rgba(11, 16, 32, 0.18);
+
+  /* Akzente (frische, moderne Palette: Indigo -> Violett -> Cyan) */
+  --accent: #6366f1;           /* Indigo  – Primärakzent */
+  --accent-strong: #4f46e5;    /* dunkler für Hover */
+  --accent-2: #06b6d4;         /* Cyan    – Sekundärakzent */
+  --accent-3: #8b5cf6;         /* Violett – Verlaufs-Zwischenton */
+  --accent-contrast: #ffffff;  /* Textfarbe auf Akzentflächen */
+
+  /* Verläufe */
+  --gradient: linear-gradient(120deg, #6366f1 0%, #8b5cf6 45%, #06b6d4 100%);
+  --gradient-soft: linear-gradient(120deg,
+      rgba(99, 102, 241, 0.12), rgba(6, 182, 212, 0.12));
+
+  /* Schatten (weich, gestaffelt – "Tiefe" wie bei modernen UIs) */
+  --shadow-sm: 0 1px 2px rgba(11, 16, 32, 0.06), 0 1px 3px rgba(11, 16, 32, 0.07);
+  --shadow-md: 0 8px 20px rgba(11, 16, 32, 0.08), 0 2px 6px rgba(11, 16, 32, 0.06);
+  --shadow-lg: 0 22px 48px rgba(11, 16, 32, 0.14), 0 8px 16px rgba(11, 16, 32, 0.08);
+
+  /* Glas-Effekt (für Header & Overlays) */
+  --glass-bg: rgba(255, 255, 255, 0.72);
+  --header-bg: rgba(255, 255, 255, 0.72);
+  --glass-border: rgba(255, 255, 255, 0.55);
+
+  /* Radien (abgerundete Ecken) */
+  --radius-sm: 10px;
+  --radius: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+
+  /* Sonstiges */
+  --maxw: 1120px;                                  /* maximale Inhaltsbreite */
+  --ring: 0 0 0 4px rgba(99, 102, 241, 0.35);      /* Fokus-Ring */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);          /* sanfte "ease-out"-Kurve */
+  --dur: 0.5s;                                     /* Standard-Animationsdauer */
+}
+
+/* Dunkler Modus – nur die Werte werden getauscht, alle Regeln unten bleiben gleich. */
+html[data-theme="dark"] {
+  --bg: #0a0e1a;
+  --bg-tint: #080b15;
+  --surface: #121829;
+  --surface-2: #161d31;
+  --surface-3: #1d2540;
+
+  --text: #e9eef7;
+  --text-soft: #c4ccda;
+  --text-muted: #93a0b8;
+
+  --border: rgba(255, 255, 255, 0.10);
+  --border-strong: rgba(255, 255, 255, 0.18);
+
+  --accent: #818cf8;
+  --accent-strong: #a5b4fc;
+  --accent-2: #22d3ee;
+  --accent-3: #c4b5fd;
+  --accent-contrast: #0a0e1a;
+
+  --gradient: linear-gradient(120deg, #818cf8 0%, #c4b5fd 45%, #22d3ee 100%);
+  --gradient-soft: linear-gradient(120deg,
+      rgba(129, 140, 248, 0.16), rgba(34, 211, 238, 0.16));
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 10px 24px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 24px 54px rgba(0, 0, 0, 0.6);
+
+  --glass-bg: rgba(18, 24, 41, 0.62);
+  --header-bg: rgba(10, 14, 26, 0.66);
+  --glass-border: rgba(255, 255, 255, 0.08);
+}
+
+
+/* ============================================================================
+   SECTION 2 — GRUNDLAGEN: Reset-Feinschliff, Typografie, Links
+   ============================================================================ */
+
+/* Sanftes Scrollen für Anker-Links (z. B. Sprungmarken). */
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* box-sizing global – verhindert Layout-Überraschungen. */
+*, *::before, *::after { box-sizing: border-box; }
+
+/* Body neu einkleiden (überschreibt die Theme-Vorgabe). */
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-tint);
+  color: var(--text);
+  font-size: 16px;
+  line-height: 1.65;
+  letter-spacing: 0.01em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* sanfter Wechsel beim Umschalten Hell/Dunkel */
+  transition: background-color 0.4s var(--ease), color 0.4s var(--ease);
+}
+
+/* Überschriften: klar, kräftig, mit feiner Laufweite. */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  color: var(--text);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.6em;
+}
+h1 { font-size: clamp(2rem, 4.5vw, 3.1rem); }
+h2 { font-size: clamp(1.6rem, 3.2vw, 2.25rem); }
+h3 { font-size: clamp(1.25rem, 2.2vw, 1.55rem); }
+h4 { font-size: 1.15rem; }
+
+p { color: var(--text-soft); margin: 0 0 1.1em; }
+
+/* Links: Akzentfarbe + animierter Unterstrich. */
+a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: color 0.2s var(--ease), opacity 0.2s var(--ease);
+}
+a:hover { color: var(--accent-strong); }
+
+/* Inhalts-Links im Fließtext bekommen einen dezenten, animierten Unterstrich. */
+.page-content a:not(.btn):not(.page-link):not(.post-link):not(.post-tag):not(.social-link):not(.site-brand-inner):not(.feature-card) {
+  background-image: linear-gradient(var(--accent), var(--accent));
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0% 2px;
+  transition: background-size 0.3s var(--ease), color 0.2s var(--ease);
+}
+.page-content a:not(.btn):not(.page-link):not(.post-link):not(.post-tag):not(.social-link):not(.site-brand-inner):not(.feature-card):hover {
+  background-size: 100% 2px;
+}
+
+/* Bilder standardmäßig responsiv. */
+img { max-width: 100%; height: auto; }
+
+/* Markierter Text. */
+::selection { background: rgba(99, 102, 241, 0.28); }
+
+/* Hübschere Trennlinien. */
+hr { border: 0; height: 1px; background: var(--border); margin: 2.5rem 0; }
+
+/* Code-Blöcke etwas moderner einrahmen (Highlight.js bleibt zuständig fürs Färben). */
+pre, code { font-variant-ligatures: none; }
+.page-content pre {
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+}
+
+
+/* ============================================================================
+   SECTION 3 — LAYOUT-CONTAINER
+   ============================================================================ */
+
+/* Inhalts-Wrapper breiter & luftiger. */
+.wrapper {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding-left: 22px;
+  padding-right: 22px;
+}
+
+/* Hauptinhalt: angenehmer Abstand nach oben/unten. */
+main.page-content { padding: 56px 0 72px; }
+
+/* framework = zweispaltiges Layout (Inhalt + Sidebar). Als Flexbox modern. */
+.framework {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+}
+.framework > section.main { flex: 1 1 auto; min-width: 0; }
+.framework > section.sidebar {
+  flex: 0 0 240px;
+  margin-left: 0 !important;            /* überschreibt Inline-Style im Layout */
+  position: sticky;
+  top: 96px;                            /* bleibt beim Scrollen sichtbar */
+}
+
+
+/* ============================================================================
+   SECTION 4 — HEADER & NAVIGATION
+   Glas-Optik, sticky, mit Mobile-Menü. Verhalten "transparent über Hero,
+   fest beim Scrollen" stammt vom Theme und bleibt erhalten.
+   ============================================================================ */
+.site-header {
+  background: var(--header-bg);
+  -webkit-backdrop-filter: saturate(180%) blur(18px);
+  backdrop-filter: saturate(180%) blur(18px);
+  border-bottom: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  transition: background 0.35s var(--ease), border-color 0.35s var(--ease),
+    box-shadow 0.35s var(--ease);
+}
+.site-header .wrapper { max-width: var(--maxw); }
+.site-header-inner { min-height: 64px; align-items: center; }
+
+/* Marke / Logo-Text. */
+.site-brand-inner {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.18rem;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.site-brand-inner:hover { color: var(--accent); }
+
+/* Navigationslinks als dezente Pills mit Hover-Hintergrund. */
+.site-nav .page-link {
+  color: var(--text-soft);
+  font-weight: 600;
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+  padding: 8px 12px;
+  margin: 0 1px;
+  border-radius: 999px;
+  position: relative;
+  transition: color 0.2s var(--ease), background 0.2s var(--ease);
+}
+.site-nav .page-link:hover {
+  color: var(--accent);
+  background: var(--gradient-soft);
+}
+
+/* Transparenter Header oben über dem Hero: helle Schrift, kein Hintergrund. */
+html[data-scroll-status="top"] .site-header.site-header-transparent {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+html[data-scroll-status="top"] .site-header.site-header-transparent .site-brand-inner,
+html[data-scroll-status="top"] .site-header.site-header-transparent .page-link {
+  color: #ffffff;
+}
+html[data-scroll-status="top"] .site-header.site-header-transparent .page-link:hover {
+  background: rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+}
+
+/* Hamburger-Icon (Mobil) einfärben. */
+.site-nav .menu-icon svg path { fill: var(--text); }
+html[data-scroll-status="top"] .site-header-transparent .menu-icon svg path { fill: #fff; }
+
+
+/* ============================================================================
+   SECTION 5 — HERO / BANNER
+   ============================================================================ */
+.page-banner { position: relative; overflow: hidden; }
+
+/* Lesbarkeits-Overlay + Markenfarbschimmer über dem Hero-Bild. */
+.page-banner .page-banner-img::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(8, 11, 21, 0.30) 0%, rgba(8, 11, 21, 0.55) 100%),
+    linear-gradient(120deg, rgba(99, 102, 241, 0.35), rgba(6, 182, 212, 0.20));
+  pointer-events: none;
+}
+
+/* Dezenter, langsamer "Ken-Burns"-Zoom des Hintergrundbildes. */
+.page-banner .page-banner-img > div {
+  transform: scale(1.06);
+  transition: transform 12s var(--ease);
+  background-position: center;
+  background-size: cover;
+}
+html[data-scroll-status="top"] .page-banner .page-banner-img > div { transform: scale(1); }
+
+/* Hero-Texte: groß, weiß, mit weichem Schatten + Einblend-Animation. */
+.page-banner-inner { position: relative; z-index: 2; }
+.page-banner-heading {
+  color: #fff;
+  font-size: clamp(2.1rem, 5.2vw, 3.6rem);
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.35);
+  animation: heroIn 0.9s var(--ease) both;
+}
+.page-banner-subheading {
+  color: rgba(255, 255, 255, 0.92);
+  font-weight: 500;
+  font-size: clamp(1rem, 2.2vw, 1.35rem);
+  text-shadow: 0 1px 16px rgba(0, 0, 0, 0.35);
+  animation: heroIn 0.9s var(--ease) 0.15s both;
+}
+
+
+/* ============================================================================
+   SECTION 6 — BUTTONS & CALL-TO-ACTION
+   ".btn" ist die neue, wiederverwendbare Button-Klasse (siehe index.html).
+   ============================================================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 24px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.98rem;
+  line-height: 1;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease),
+    background 0.25s var(--ease), color 0.25s var(--ease);
+  will-change: transform;
+}
+/* Primärer Button: Farbverlauf, hebt sich beim Hover leicht an. */
+.btn-primary {
+  background-image: var(--gradient);
+  color: #fff;
+  box-shadow: var(--shadow-md);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); color: #fff; }
+.btn-primary:active { transform: translateY(0); }
+
+/* Sekundärer Button: dezent, mit Rahmen. */
+.btn-ghost {
+  background: var(--surface);
+  color: var(--text);
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-sm);
+}
+.btn-ghost:hover { transform: translateY(-2px); border-color: var(--accent); color: var(--accent); }
+
+/* Buttons des Themes (z. B. Formular "Senden") ebenfalls modernisieren. */
+.page-content button,
+button[type="submit"] {
+  font-family: var(--font-sans);
+  background-image: var(--gradient);
+  color: #fff;
+  border: none;
+  padding: 12px 22px;
+  border-radius: 999px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: var(--shadow-md);
+  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
+}
+.page-content button:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+
+
+/* ============================================================================
+   SECTION 7 — KARTEN: Blog-Posts, Service-Cards, Feature-Grid
+   ============================================================================ */
+
+/* Blog-Liste: aus den <li> werden weiche Karten. */
+.post-list { list-style: none; margin: 0; padding: 0; }
+.post-list .post-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 26px 28px;
+  margin-bottom: 22px;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease),
+    border-color 0.3s var(--ease);
+}
+.post-list .post-item:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--border-strong);
+}
+.post-title { margin-bottom: 8px; }
+.post-title .post-link { color: var(--text); font-weight: 700; }
+.post-title .post-link:hover { color: var(--accent); }
+
+.post-meta { color: var(--text-muted); font-size: 0.85rem; }
+.post-meta i { color: var(--accent); }
+
+/* Vorschaubild in der Karte abrunden. */
+.post-excerpt .post-image div { border-radius: var(--radius); overflow: hidden; }
+.post-excerpt .post-text p { color: var(--text-soft); }
+.read_more { color: var(--accent); font-weight: 600; }
+
+/* Tags als Pills. */
+.post-tags { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+.post-tag {
+  background: var(--surface-2);
+  color: var(--text-muted);
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition: background 0.2s var(--ease), color 0.2s var(--ease);
+}
+.post-tag:hover { background: var(--gradient-soft); color: var(--accent); }
+
+/* Badges (TOP/NEW) im Markenverlauf. */
+.post-badge {
+  border-radius: 999px;
+  padding: 2px 9px;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.badge-top { background: var(--gradient); color: #fff; }
+.badge-new { background: var(--accent-2); color: #04222a; }
+
+/* ---- Feature-/Service-Grid (auf der Startseite, siehe index.html) ---- */
+.section { margin: 64px 0; }
+.section-head { text-align: center; max-width: 720px; margin: 0 auto 40px; }
+.section-head .eyebrow {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--gradient-soft);
+  padding: 6px 14px;
+  border-radius: 999px;
+  margin-bottom: 16px;
+}
+.section-head p { color: var(--text-muted); font-size: 1.05rem; }
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 22px;
+}
+.feature-card {
+  display: block;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  box-shadow: var(--shadow-sm);
+  color: var(--text);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease),
+    border-color 0.3s var(--ease);
+}
+/* feiner Lichtschein oben, der beim Hover aufleuchtet */
+.feature-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: var(--gradient);
+  opacity: 0;
+  transition: opacity 0.3s var(--ease);
+}
+.feature-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--border-strong);
+  color: var(--text);
+}
+.feature-card:hover::before { opacity: 1; }
+.feature-card .icon {
+  width: 52px;
+  height: 52px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  background: var(--gradient-soft);
+  color: var(--accent);
+  font-size: 1.4rem;
+  margin-bottom: 16px;
+}
+.feature-card h3 { margin-bottom: 8px; font-size: 1.2rem; }
+.feature-card p { color: var(--text-muted); margin: 0; font-size: 0.96rem; }
+
+/* Runde Profilbilder (war früher in my.css/inline) – hier zentral & moderner. */
+.rounded-image {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  overflow: hidden;
+  object-fit: cover;
+  display: block;
+  margin: 18px auto;
+  box-shadow: var(--shadow-md);
+  border: 4px solid var(--surface);
+  transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
+}
+.rounded-image:hover { transform: scale(1.04); box-shadow: var(--shadow-lg); }
+
+
+/* ============================================================================
+   SECTION 8 — SIDEBAR-LISTEN & PAGINATION
+   ============================================================================ */
+.common-list {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  box-shadow: var(--shadow-sm);
+}
+.common-list ul { list-style: none; margin: 0; padding: 0; }
+.common-list li a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 10px;
+  border-radius: 10px;
+  color: var(--text-soft);
+  font-weight: 600;
+  transition: background 0.2s var(--ease), color 0.2s var(--ease);
+}
+.common-list li a:hover { background: var(--gradient-soft); color: var(--accent); }
+.common-list li a span {
+  background: var(--surface-2);
+  color: var(--text-muted);
+  border-radius: 999px;
+  padding: 1px 9px;
+  font-size: 0.78rem;
+}
+
+/* Pagination-Buttons. */
+.pagination .paginator a,
+.pagination .paginator .page-number {
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  color: var(--text-soft);
+  transition: all 0.2s var(--ease);
+}
+.pagination .paginator a:hover { background: var(--gradient-soft); color: var(--accent); border-color: var(--accent); }
+
+
+/* ============================================================================
+   SECTION 9 — FORMULARE (Kontakt, Cookie-Einstellungen)
+   ============================================================================ */
+#form-container form,
+#cookie-settings-form {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  box-shadow: var(--shadow-sm);
+  margin-top: 22px;
+  max-width: 560px;
+}
+#form-container label,
+#cookie-settings-form label {
+  display: block;
+  font-weight: 600;
+  color: var(--text);
+  margin: 14px 0 6px;
+}
+#form-container input,
+#form-container select,
+#form-container textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--border-strong);
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+}
+#form-container input:focus,
+#form-container select:focus,
+#form-container textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: var(--ring);
+}
+#form-container textarea { min-height: 130px; resize: vertical; }
+/* Cookie-Einstellungen: Checkboxen mit etwas Luft. */
+#cookie-settings-form label { font-weight: 500; display: inline-flex; align-items: center; gap: 8px; }
+#cookie-settings-form input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--accent); }
+
+
+/* ============================================================================
+   SECTION 10 — FOOTER + SOCIAL-LEISTE
+   ============================================================================ */
+.site-footer {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  margin-top: 64px;
+  padding: 40px 0 28px;
+  color: var(--text-muted);
+}
+.site-footer a { color: var(--text-soft); }
+.site-footer a:hover { color: var(--accent); }
+.site-footer-inner { display: grid; gap: 14px; }
+.site-footer .footer-links { display: flex; flex-wrap: wrap; gap: 8px 18px; list-style: none; padding: 0; margin: 0; }
+.site-footer .footer-links li { display: inline; }
+
+/* Social-Buttons (rund, Hover hebt an). */
+.social-bar { display: flex; flex-wrap: wrap; gap: 12px; margin: 4px 0 10px; }
+.social-link {
+  width: 42px;
+  height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: var(--surface-2);
+  color: var(--text-soft);
+  font-size: 1.1rem;
+  border: 1px solid var(--border);
+  transition: transform 0.25s var(--ease), background 0.25s var(--ease), color 0.25s var(--ease);
+}
+.social-link:hover { transform: translateY(-3px); background: var(--gradient); color: #fff; border-color: transparent; }
+
+
+/* ============================================================================
+   SECTION 11 — MASTODON-FEED
+   Wird von custom.js befüllt. Hier nur das Aussehen.
+   ============================================================================ */
+.masto-section { margin: 56px 0 8px; }
+.masto-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+.masto-column {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+}
+.masto-column-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+.masto-column-head .fa { color: #6364ff; font-size: 1.2rem; }
+.masto-column-head a { color: var(--text); font-weight: 700; }
+.masto-column-head small { color: var(--text-muted); font-weight: 500; display: block; }
+
+/* Liste der Beiträge: dezent scrollbar, falls viele. */
+.masto-list { display: flex; flex-direction: column; gap: 14px; max-height: 560px; overflow-y: auto; padding-right: 4px; }
+
+/* Einzelner Beitrag (Toot). */
+.masto-toot {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  background: var(--bg);
+  transition: border-color 0.2s var(--ease), transform 0.2s var(--ease);
+}
+.masto-toot:hover { border-color: var(--border-strong); transform: translateY(-2px); }
+.masto-toot-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.masto-toot-head img { width: 38px; height: 38px; border-radius: 50%; }
+.masto-toot-head .name { font-weight: 700; color: var(--text); font-size: 0.92rem; line-height: 1.2; }
+.masto-toot-head .acct { color: var(--text-muted); font-size: 0.8rem; }
+.masto-boost-label { font-size: 0.78rem; color: var(--text-muted); margin-bottom: 6px; }
+.masto-boost-label .fa { color: var(--accent-2); }
+.masto-toot-content { color: var(--text-soft); font-size: 0.95rem; word-wrap: break-word; }
+.masto-toot-content p { margin: 0 0 0.6em; color: var(--text-soft); }
+.masto-toot-content a { color: var(--accent); }
+.masto-toot-content .invisible { display: none; }     /* Mastodon-Konvention für gekürzte URLs */
+.masto-toot-content .ellipsis::after { content: "…"; }
+.masto-media { margin-top: 10px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+.masto-media img { border-radius: 10px; width: 100%; height: 120px; object-fit: cover; }
+.masto-toot-foot { margin-top: 10px; font-size: 0.78rem; color: var(--text-muted); display: flex; justify-content: space-between; }
+.masto-toot-foot a { color: var(--text-muted); }
+.masto-toot-foot a:hover { color: var(--accent); }
+
+/* Lade-/Fehler-/Consent-Hinweise. */
+.masto-note {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  padding: 22px 12px;
+}
+.masto-consent {
+  text-align: center;
+  background: var(--gradient-soft);
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius);
+  padding: 24px;
+}
+.masto-consent p { color: var(--text-soft); }
+
+/* Einfache Lade-Animation (Spinner). */
+.masto-spinner {
+  width: 26px; height: 26px;
+  border: 3px solid var(--border-strong);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  margin: 0 auto 10px;
+  animation: spin 0.8s linear infinite;
+}
+
+
+/* ============================================================================
+   SECTION 12 — PEERTUBE-EMBED (click-to-load / Datenschutz-Vorschaltbild)
+   Das Video wird erst nach Klick geladen -> keine Drittanbieter-Verbindung
+   ohne Zustimmung. Markup kommt aus _includes/peertube-embed.html.
+   ============================================================================ */
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+.pt-embed {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  background: #000;
+  aspect-ratio: 16 / 9;
+}
+.pt-embed iframe,
+.pt-embed .pt-facade { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+/* Vorschaltbild (Facade): Thumbnail + Play-Button. */
+.pt-facade {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background-size: cover;
+  background-position: center;
+  border: 0;
+  padding: 0;
+}
+.pt-facade::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0.15), rgba(0,0,0,0.55));
+}
+.pt-facade .pt-play {
+  position: relative;
+  z-index: 2;
+  width: 74px; height: 74px;
+  border-radius: 50%;
+  background: var(--gradient);
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.7rem;
+  box-shadow: var(--shadow-lg);
+  transition: transform 0.25s var(--ease);
+}
+.pt-facade:hover .pt-play { transform: scale(1.1); }
+.pt-facade .pt-hint {
+  position: absolute; z-index: 2; bottom: 12px; left: 0; right: 0;
+  text-align: center; color: #fff; font-size: 0.82rem; opacity: 0.9;
+}
+
+
+/* ============================================================================
+   SECTION 13 — THEME-TOGGLE, "NACH OBEN"-BUTTON, COOKIE-BANNER
+   ============================================================================ */
+
+/* "Nach oben"-Button: rund, Glas, schwebt rechts unten. */
+#click-to-top.click-to-top {
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  color: var(--accent);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  width: 46px; height: 46px;
+  box-shadow: var(--shadow-md);
+  transition: transform 0.25s var(--ease), opacity 0.25s var(--ease);
+}
+#click-to-top.click-to-top:hover { transform: translateY(-3px); }
+
+/* Cookie-Banner: vom Theme per Inline-Style gesetzt – wir überschreiben gezielt. */
+#cookie-consent-banner {
+  background: var(--glass-bg) !important;
+  -webkit-backdrop-filter: saturate(180%) blur(18px);
+  backdrop-filter: saturate(180%) blur(18px);
+  color: var(--text) !important;
+  border-top: 1px solid var(--border);
+  box-shadow: 0 -8px 30px rgba(0,0,0,0.12);
+  padding: 16px !important;
+  display: flex !important;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+#cookie-consent-banner[style*="display: none"] { display: none !important; }
+#cookie-consent-banner p { margin: 0; flex: 1 1 320px; color: var(--text); }
+#cookie-consent-banner a { color: var(--accent) !important; }
+#cookie-consent-banner button {
+  border-radius: 999px !important;
+  border: 1px solid var(--border-strong) !important;
+  padding: 10px 18px !important;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s var(--ease);
+}
+#cookie-consent-banner button:hover { transform: translateY(-2px); }
+/* erster Button = "Akzeptieren" hervorheben */
+#cookie-consent-banner button:first-of-type {
+  background-image: var(--gradient) !important;
+  color: #fff !important;
+  border-color: transparent !important;
+}
+
+
+/* ============================================================================
+   SECTION 14 — ANIMATIONEN
+   Keyframes + Scroll-Reveal. Wichtig: Die "versteckten" Startzustände gelten
+   NUR, wenn custom.js die Klasse .reveal-enabled an <html> gesetzt hat.
+   Ohne JavaScript bleibt also alles sichtbar (Progressive Enhancement).
+   ============================================================================ */
+@keyframes heroIn {
+  from { opacity: 0; transform: translateY(22px); filter: blur(6px); }
+  to   { opacity: 1; transform: none;             filter: blur(0); }
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes floaty {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+
+/* Scroll-Reveal: Elemente mit class="reveal" blenden beim Hereinscrollen ein.
+   Optionale Richtungen: reveal-left / reveal-right / reveal-scale. */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal-enabled .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+    will-change: opacity, transform;
+  }
+  .reveal-enabled .reveal-left  { transform: translateX(-32px); }
+  .reveal-enabled .reveal-right { transform: translateX(32px); }
+  .reveal-enabled .reveal-scale { transform: scale(0.94); }
+
+  /* Sichtbarer Endzustand (von custom.js per IntersectionObserver gesetzt). */
+  .reveal-enabled .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Gestaffeltes Erscheinen von Kindern (z. B. Cards im Grid). */
+  .reveal-enabled .reveal-stagger > * {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+  }
+  .reveal-enabled .reveal-stagger.is-visible > * { opacity: 1; transform: none; }
+  .reveal-enabled .reveal-stagger.is-visible > *:nth-child(2) { transition-delay: 0.08s; }
+  .reveal-enabled .reveal-stagger.is-visible > *:nth-child(3) { transition-delay: 0.16s; }
+  .reveal-enabled .reveal-stagger.is-visible > *:nth-child(4) { transition-delay: 0.24s; }
+  .reveal-enabled .reveal-stagger.is-visible > *:nth-child(5) { transition-delay: 0.32s; }
+  .reveal-enabled .reveal-stagger.is-visible > *:nth-child(6) { transition-delay: 0.40s; }
+}
+
+
+/* ============================================================================
+   SECTION 15 — RESPONSIVENESS & BARRIEREFREIHEIT
+   ============================================================================ */
+
+/* Sichtbarer, einheitlicher Fokus-Rahmen (Tastatur-Navigation). */
+a:focus-visible, button:focus-visible, input:focus-visible,
+select:focus-visible, textarea:focus-visible, .feature-card:focus-visible {
+  outline: none;
+  box-shadow: var(--ring);
+  border-radius: 8px;
+}
+
+/* Tablet/Mobil: Sidebar unter den Inhalt, Layout einspaltig. */
+@media (max-width: 900px) {
+  .framework { flex-direction: column; gap: 28px; }
+  .framework > section.sidebar { position: static; flex-basis: auto; width: 100%; }
+  main.page-content { padding: 40px 0 56px; }
+  .section { margin: 48px 0; }
+}
+
+@media (max-width: 600px) {
+  body { font-size: 15px; }
+  .post-list .post-item { padding: 20px; border-radius: var(--radius); }
+  .masto-list { max-height: none; }       /* mobil voll ausklappen */
+  .masto-media img { height: 150px; }
+  #cookie-consent-banner { text-align: center; }
+}
+
+/* Wer "weniger Bewegung" eingestellt hat, bekommt KEINE Animationen
+   (System-Einstellung -> respektiert, wichtig für Barrierefreiheit). */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
