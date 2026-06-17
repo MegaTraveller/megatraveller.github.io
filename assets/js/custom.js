@@ -190,10 +190,22 @@
         renderToots(listEl, statuses, instance, acct);
       })
       .catch(function (err) {
-        listEl.innerHTML =
-          '<div class="masto-note">Beiträge konnten nicht geladen werden.<br>' +
-          '<a href="https://' + instance + "/@" + acct + '" target="_blank" rel="noopener">' +
-          "Profil direkt auf Mastodon öffnen</a></div>";
+        // AENDERUNG 2026 (Security/CodeQL #24): instance/acct stammen aus
+        // data-Attributen (DOM). Daher NICHT per innerHTML zusammensetzen,
+        // sondern die Elemente sicher per DOM-API mit textContent aufbauen
+        // ("DOM text reinterpreted as HTML" vermeiden).
+        var note = document.createElement("div");
+        note.className = "masto-note";
+        note.appendChild(document.createTextNode("Beiträge konnten nicht geladen werden."));
+        note.appendChild(document.createElement("br"));
+        var profileLink = document.createElement("a");
+        profileLink.href = "https://" + encodeURIComponent(instance) + "/@" + encodeURIComponent(acct);
+        profileLink.target = "_blank";
+        profileLink.rel = "noopener";
+        profileLink.textContent = "Profil direkt auf Mastodon öffnen";
+        note.appendChild(profileLink);
+        listEl.innerHTML = "";
+        listEl.appendChild(note);
         if (window.console) console.warn("Mastodon-Feed:", err);
       });
   }
@@ -314,7 +326,10 @@
       facade.addEventListener("click", function () {
         var src = facade.getAttribute("data-embed");
         var title = facade.getAttribute("data-title") || "PeerTube-Video";
-        if (!src) return;
+        // AENDERUNG 2026 (Security/CodeQL #25): src kommt aus einem
+        // data-Attribut (DOM). Nur echte https-URLs zulassen, damit keine
+        // gefaehrliche URL (z. B. "javascript:") in das iframe-src gelangt.
+        if (!src || !/^https:\/\//i.test(src)) return;
 
         var iframe = document.createElement("iframe");
         iframe.setAttribute("src", src);

@@ -326,3 +326,22 @@ aktuelle Seite ist das nicht noetig.
 ### 8.7 Arbeitsordner des Agenten
 Ein Hilfs-/Arbeitsordner `_agent-work/` ist via `.gitignore` ausgeschlossen und
 landet nicht im Repository.
+
+### 8.8 Zwei CodeQL-Sicherheitswarnungen behoben (`assets/js/custom.js`)
+GitHub meldete zwei „DOM text reinterpreted as HTML"-Warnungen (CodeQL). Beide
+entstanden, weil Werte aus `data-`-Attributen (also aus dem DOM) direkt in einen
+HTML- bzw. URL-Kontext geschrieben wurden. Risiko hier gering (die Werte stammen
+aus eigenen Vorlagen), aber sauber behoben:
+
+- **Mastodon-Fehlermeldung (Alert #24):** Die Fehlerbox wird nicht mehr per
+  `innerHTML` aus Text zusammengesetzt, sondern sicher per DOM-Befehlen
+  (`createElement`/`textContent`) aufgebaut. `instance`/`acct` werden zusaetzlich
+  per `encodeURIComponent` abgesichert.
+- **PeerTube-Einbettung (Alert #25):** Bevor die `data-embed`-URL ins `<iframe>`
+  gesetzt wird, wird geprueft, dass sie mit `https://` beginnt. So kann keine
+  gefaehrliche URL (z. B. `javascript:`) verwendet werden.
+
+> Nach dem Push erkennt CodeQL die Korrekturen beim naechsten Scan automatisch
+> und schliesst die beiden Alerts. Faustregel fuer die Zukunft: Werte aus dem DOM
+> oder aus dem Netz NIE direkt in `innerHTML` schreiben – entweder `textContent`
+> verwenden oder vorher escapen (wie `sanitizeTootHtml`/`escapeText` in `custom.js`).
