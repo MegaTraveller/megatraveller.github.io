@@ -162,10 +162,18 @@ fremdes Widget/Skript.
 <div class="masto-column"
      data-instance="mastodon.social"  <!-- Server ohne https:// -->
      data-acct="MKrzyzanski"          <!-- Benutzername ohne @ und Server -->
+     data-id="307238"                 <!-- numerische Konto-ID (empfohlen) -->
      data-limit="10">                 <!-- Anzahl Beitraege -->
   …
 </div>
 ```
+
+> **`data-id` (empfohlen):** Die feste, numerische Konto-ID ist zuverlaessiger
+> als der Umweg ueber den Benutzernamen. So findest du sie: im Browser die
+> Adresse `https://<instanz>/api/v1/accounts/lookup?acct=<benutzername>`
+> oeffnen (z. B. `https://mastodon.social/api/v1/accounts/lookup?acct=MKrzyzanski`)
+> und den Wert hinter `"id"` uebernehmen. Laesst du `data-id` weg, wird die ID
+> automatisch ermittelt (kann aber im Browser haeufiger scheitern).
 
 Aktuell eingebunden:
 `@MKrzyzanski@mastodon.social` und `@MegaTraveller@chaos.social`.
@@ -345,3 +353,28 @@ aus eigenen Vorlagen), aber sauber behoben:
 > und schliesst die beiden Alerts. Faustregel fuer die Zukunft: Werte aus dem DOM
 > oder aus dem Netz NIE direkt in `innerHTML` schreiben – entweder `textContent`
 > verwenden oder vorher escapen (wie `sanitizeTootHtml`/`escapeText` in `custom.js`).
+
+### 8.9 Mastodon-Feed lädt jetzt über feste Konto-IDs
+Die Feeds luden im Browser nicht. Der Code holte zuerst per
+`/api/v1/accounts/lookup` die Konto-ID und dann die Beitraege – dieser
+`lookup`-Schritt ist client-seitig eine haeufige Fehlerquelle.
+
+- **Geaendert:** In `_includes/mastodon-feed.html` ist jetzt pro Konto die feste
+  `data-id` hinterlegt (`307238` fuer mastodon.social, `48364` fuer chaos.social).
+  `assets/js/custom.js` laedt die Beitraege damit **direkt**, ohne `lookup`.
+  Ist keine `data-id` gesetzt, wird der alte Lookup-Weg als Rueckfallebene genutzt.
+- Wie man eine Konto-ID findet, steht in Abschnitt 4.5.
+
+> Falls ein Feed trotzdem leer bleibt: Das liegt dann meist am Browser (z. B.
+> „Schutz vor Aktivitaetenverfolgung"/Tracking-Schutz in Firefox/Zen oder ein
+> Werbeblocker), der die Anfrage an den Mastodon-Server blockiert. Test: Seite im
+> privaten Fenster ohne Add-ons oeffnen. Die genaue Ursache steht in der
+> **Web-Konsole** des Browsers (F12 → Konsole) als Zeile mit „Mastodon-Feed:".
+
+### 8.10 Wichtige Lehre: Liquid-Tags nicht in HTML-Kommentare
+Ein von mir zunaechst gesetzter Erklaer-Kommentar in `_includes/head.html`
+enthielt den Liquid-Tag `{% raw %}{%- seo -%}{% endraw %}`. Jekyll fuehrt
+Liquid **auch innerhalb von HTML-Kommentaren** aus; die Ausgabe des seo-Tags
+enthaelt ein `--` bzw. `>` und beendete den Kommentar vorzeitig, wodurch
+Kommentartext sichtbar auf allen Seiten erschien. **Merke:** In Layouts/Includes
+keine Liquid-Tags in `<!-- … -->` schreiben.

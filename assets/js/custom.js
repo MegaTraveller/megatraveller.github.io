@@ -164,6 +164,7 @@
   function loadMastodonColumn(col, listEl) {
     var instance = col.getAttribute("data-instance");
     var acct = col.getAttribute("data-acct");
+    var accountId = col.getAttribute("data-id"); // AENDERUNG 2026: feste Konto-ID (optional)
     var limit = parseInt(col.getAttribute("data-limit"), 10) || 10;
     var base = "https://" + instance + "/api/v1";
 
@@ -171,21 +172,29 @@
     listEl.innerHTML =
       '<div class="masto-note"><div class="masto-spinner"></div>Beiträge werden geladen …</div>';
 
-    // 1) Konto-ID per Lookup ermitteln, 2) dann die Statuses abrufen.
-    fetch(base + "/accounts/lookup?acct=" + encodeURIComponent(acct))
-      .then(function (r) {
-        if (!r.ok) throw new Error("Konto nicht gefunden (HTTP " + r.status + ")");
+    // Holt die Beitraege zu einer bekannten Konto-ID.
+    function fetchStatuses(id) {
+      var url = base + "/accounts/" + encodeURIComponent(id) +
+        "/statuses?limit=" + limit + "&exclude_replies=true";
+      return fetch(url).then(function (r) {
+        if (!r.ok) throw new Error("Beiträge nicht abrufbar (HTTP " + r.status + ")");
         return r.json();
-      })
-      .then(function (account) {
-        var url =
-          base + "/accounts/" + account.id + "/statuses" +
-          "?limit=" + limit + "&exclude_replies=true";
-        return fetch(url).then(function (r) {
-          if (!r.ok) throw new Error("Beiträge nicht abrufbar (HTTP " + r.status + ")");
-          return r.json();
-        });
-      })
+      });
+    }
+
+    // AENDERUNG 2026: Ist die Konto-ID im HTML hinterlegt (data-id), wird direkt
+    // geladen -> zuverlaessiger und ohne den /accounts/lookup-Aufruf, der
+    // client-seitig oft die Fehlerquelle war. Sonst ID per Lookup ermitteln.
+    var chain = accountId
+      ? fetchStatuses(accountId)
+      : fetch(base + "/accounts/lookup?acct=" + encodeURIComponent(acct))
+          .then(function (r) {
+            if (!r.ok) throw new Error("Konto nicht gefunden (HTTP " + r.status + ")");
+            return r.json();
+          })
+          .then(function (account) { return fetchStatuses(account.id); });
+
+    chain
       .then(function (statuses) {
         renderToots(listEl, statuses, instance, acct);
       })
@@ -324,12 +333,21 @@
 
     facades.forEach(function (facade) {
       facade.addEventListener("click", function () {
-        var src = facade.getAttribute("data-embed");
+        var rawSrc = facade.getAttribute("data-embed");
         var title = facade.getAttribute("data-title") || "PeerTube-Video";
-        // AENDERUNG 2026 (Security/CodeQL #25): src kommt aus einem
-        // data-Attribut (DOM). Nur echte https-URLs zulassen, damit keine
-        // gefaehrliche URL (z. B. "javascript:") in das iframe-src gelangt.
-        if (!src || !/^https:\/\//i.test(src)) return;
+        // AENDERUNG 2026 (Security/CodeQL #25): rawSrc kommt aus einem
+        // data-Attribut (DOM). Die URL wird mit der URL-API geparst und nur
+        // akzeptiert, wenn das Protokoll https ist. Damit kann keine
+        // gefaehrliche URL (z. B. "javascript:") in das iframe-src gelangen.
+        if (!rawSrc) return;
+        var src;
+        try {
+          var parsed = new URL(rawSrc, window.location.href);
+          if (parsed.protocol !== "https:") return;   // nur https zulassen
+          src = parsed.href;
+        } catch (e) {
+          return; // ungueltige URL -> nichts laden
+        }
 
         var iframe = document.createElement("iframe");
         iframe.setAttribute("src", src);
