@@ -1,4 +1,6 @@
-// my.css
+/* my.css — AENDERUNG 2026: Doppelslash-Kommentare gibt es in CSS NICHT.
+   Das fruehere "//" wurde als Selektor gelesen und verschluckte die Regel.
+   In CSS immer Slash-Stern-Kommentare verwenden (so wie diesen hier). */
 
 .rounded-image {
     width: 200px; /* Größe des Kreises */

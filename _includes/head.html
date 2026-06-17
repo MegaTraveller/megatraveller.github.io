@@ -24,7 +24,10 @@
 
   {%- seo -%}
   <link rel="icon" href="{{ site.favicon }}">
-  <link rel="canonical" href="{{ site.url }}">
+  <!-- AENDERUNG 2026: Der manuelle Canonical-Link wurde entfernt. Er zeigte auf
+       JEDER Seite fest auf die Startseite (site.url) und war doppelt, weil
+       {%- seo -%} oben bereits einen korrekten Canonical PRO SEITE erzeugt
+       (https://michael.krzyzanski.de/<aktuelle-seite>). -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-noto-sans@0.0.72/index.min.css">
   <link rel="stylesheet" href="{{ "/assets/css/main.css" | relative_url }}">

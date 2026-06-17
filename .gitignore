@@ -1,0 +1,8 @@
+.DS_Store
+
+# Jekyll-Build-Artefakt (wird von GitHub Pages automatisch neu erzeugt)
+_site/
+.jekyll-cache/
+
+# Arbeitsordner des Claude-Agenten (nicht einchecken)
+_agent-work/

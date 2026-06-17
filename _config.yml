@@ -1,7 +1,7 @@
 # _config.yml
 title: Michael.Krzyzanski
 description: Beratung- und Auditorentätigkeiten rund um die Informationssicherheit
-url: "https://megatraveller.github.io" # die URL deiner Website
+url: "https://michael.krzyzanski.de" # die URL deiner Website (eigene Domain; AENDERUNG 2026: war megatraveller.github.io -> falsche Canonical-/Feed-/Sitemap-URLs)
 baseurl: "" # der Basispfad deiner Website, normalerweise ""
 
 # E-Mail und Autor Informationen (optional)

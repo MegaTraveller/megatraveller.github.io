@@ -263,3 +263,66 @@ bundle exec jekyll serve
   (`data-acct`) und Server (`data-instance`) korrekt? Bei Fehlern zeigt der
   Block einen Link direkt zum Mastodon-Profil.
 - **Neue Texte erscheinen nicht:** Browser-Cache leeren / hart neu laden.
+
+---
+
+## 8. Korrekturen Juni 2026 (Wartung)
+
+Nach dem Redesign wurden folgende Punkte nachgebessert. Alle Aenderungen sind im
+Code mit „AENDERUNG 2026" kommentiert.
+
+### 8.1 Richtige Domain in `_config.yml`
+`url:` stand auf `https://megatraveller.github.io`, die Seite laeuft aber unter
+der eigenen Domain **`michael.krzyzanski.de`** (Datei `CNAME`). Dadurch zeigten
+die automatisch erzeugten **Canonical-Links, der RSS-Feed (`feed.xml`) und die
+`sitemap.xml`** auf die falsche Adresse (schlecht fuer Google & Co.).
+
+- **Geaendert:** `url: "https://michael.krzyzanski.de"` in `_config.yml`.
+- Merke: Diese `url` muss immer zur Domain in der Datei `CNAME` passen.
+
+### 8.2 Canonical-Link pro Seite
+In `_includes/head.html` stand ein fester Canonical-Link, der auf **jeder**
+Unterseite auf die Startseite zeigte. Suchmaschinen koennen dann Unterseiten
+faelschlich als Dubletten werten.
+
+- **Geaendert:** Der manuelle Link wurde entfernt. Das Plugin `jekyll-seo-tag`
+  (ueber `{% raw %}{%- seo -%}{% endraw %}`) erzeugt bereits automatisch den
+  korrekten Canonical **pro Seite**.
+
+### 8.3 Navigation auf Deutsch
+Die Menuepunkte „Archives/Categories/About" waren englisch. Der angezeigte Text
+kommt aus dem `title:` im Kopf (Front-Matter) der jeweiligen Datei.
+
+| Datei | vorher | jetzt |
+|---|---|---|
+| `archives.html` | Archives | **Archiv** |
+| `categories.html` | Categories | **Kategorien** |
+| `about.html` | About | **Über mich** |
+
+> So aendert man einen Menuepunkt-Namen: in der jeweiligen Datei die Zeile
+> `title: …` anpassen. Die Reihenfolge im Menue steht in `_config.yml` unter
+> `header_pages`.
+
+### 8.4 Ungueltiger Kommentar in `assets/css/my.css`
+Die Datei begann mit `// my.css`. In CSS gibt es **keine** `//`-Kommentare –
+dadurch wurde die nachfolgende Regel verschluckt. Jetzt korrekt als
+`/* … */`-Kommentar. (Merke: in `.css`-Dateien immer `/* … */` verwenden,
+niemals `//`.)
+
+### 8.5 `_site/` nicht mehr im Repository
+Der Ordner `_site/` ist nur das **Build-Ergebnis** und wird von GitHub Pages bei
+jedem Push automatisch neu erzeugt. Er wurde aus der Versionsverwaltung genommen
+(`git rm --cached`) und steht jetzt in `.gitignore`. Die Dateien auf der Platte
+bleiben erhalten; sie werden nur nicht mehr mitversioniert.
+
+### 8.6 Hinweis: `jekyll-spaceship` laeuft auf GitHub Pages nicht
+Das in `_config.yml` gelistete Plugin `jekyll-spaceship` gehoert **nicht** zur
+erlaubten Plugin-Liste von GitHub Pages und wird beim Build dort schlicht
+ignoriert (es verursacht aber auch keinen Fehler). Wer dessen Funktionen
+(z. B. erweiterte Tabellen, Video-/Mermaid-Einbettungen direkt in Markdown)
+wirklich braucht, muesste den Build auf **GitHub Actions** umstellen. Fuer die
+aktuelle Seite ist das nicht noetig.
+
+### 8.7 Arbeitsordner des Agenten
+Ein Hilfs-/Arbeitsordner `_agent-work/` ist via `.gitignore` ausgeschlossen und
+landet nicht im Repository.
