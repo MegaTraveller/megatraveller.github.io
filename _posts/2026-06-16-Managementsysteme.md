@@ -5,7 +5,7 @@ subtitle: "Warum die meisten Managementsysteme aus dem falschen Grund eingeführ
 author: Michael Krzyzanski
 categories: Managementsysteme
 tags: [ISO 27001, ISO 9001, Künstliche Intelligenz, Datenqualität, Prozesse]
-banner: "/assets/images/banners/IMS-Landscape.jfif"
+# banner: "/assets/images/banners/IMS-Landscape.jfif"
 published: true
 ---
 
