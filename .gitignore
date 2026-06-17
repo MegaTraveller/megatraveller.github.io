@@ -6,3 +6,7 @@ _site/
 
 # Arbeitsordner des Claude-Agenten (nicht einchecken)
 _agent-work/
+
+# Interne Doku/Uebergabe – nicht im oeffentlichen Repo
+CLAUDE.md
+HANDBUCH.md
