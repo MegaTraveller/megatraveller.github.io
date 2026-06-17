@@ -946,3 +946,28 @@ select:focus-visible, textarea:focus-visible, .feature-card:focus-visible {
     scroll-behavior: auto !important;
   }
 }
+
+
+/* ============================================================================
+   SECTION 16 — SPRACHAUSWAHL / GOOGLE-TRANSLATE-MENÜ (AENDERUNG 2026)
+   Rundet den Sprachumschalter (Globus-Icon) und das aufklappende Flaggen-Menü
+   passend zum uebrigen Design ab. Die Farben (hell/dunkel) kommen weiterhin
+   vom Theme; hier werden nur Ecken, Rahmen und Schatten ergaenzt.
+   ============================================================================ */
+
+/* Ausloeser (Globus-Icon) als runde Pille – wie die Navigationslinks. */
+.site-header .ct-language {
+  border-radius: 999px;
+}
+
+/* Das aufklappende Sprach-Menue: weiche Ecken + Karten-Optik. */
+.site-header .ct-language-dropdown {
+  border-radius: var(--radius);
+  overflow: hidden;                 /* schneidet die Eintraege an den Ecken sauber ab */
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Etwas Innenabstand, damit die runden Ecken nicht an den Flaggen kleben. */
+.site-header .ct-language-dropdown li:first-child { padding-top: 8px; }
+.site-header .ct-language-dropdown li:last-child  { padding-bottom: 8px; }

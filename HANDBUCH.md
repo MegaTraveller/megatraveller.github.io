@@ -378,3 +378,11 @@ Liquid **auch innerhalb von HTML-Kommentaren** aus; die Ausgabe des seo-Tags
 enthaelt ein `--` bzw. `>` und beendete den Kommentar vorzeitig, wodurch
 Kommentartext sichtbar auf allen Seiten erschien. **Merke:** In Layouts/Includes
 keine Liquid-Tags in `<!-- … -->` schreiben.
+
+### 8.11 Sprachauswahl-Menü abgerundet
+Das Google-Translate-Sprachmenü (`.ct-language-dropdown`) hatte eckige Ecken.
+In `assets/css/custom.css` (neuer **Abschnitt 16**) sind der Auslöser (Globus-
+Icon) und das Flaggen-Menü jetzt abgerundet und bekommen Rahmen + Schatten wie
+die übrigen Karten. Den Rundungsgrad steuert dort die Zeile
+`border-radius: var(--radius);` – fuer staerker/schwaecher z. B. `var(--radius-lg)`
+bzw. `var(--radius-sm)` einsetzen.
