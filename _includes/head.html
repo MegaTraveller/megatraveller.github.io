@@ -36,7 +36,11 @@
        seo-Tag in einen HTML-Kommentar schreiben, sie werden sonst ausgefuehrt. -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <!-- AENDERUNG 2026: Noto-Sans-CDN entfernt. Schriften (Inter, Source Serif 4)
-       werden jetzt selbst gehostet – siehe @font-face in custom.css. -->
+       werden jetzt selbst gehostet – siehe @font-face in custom.css.
+       Preload der zwei wichtigsten Schnitte (Inter 400/600) = weniger
+       Text-Flackern (FOUT). crossorigin ist bei Fonts Pflicht (CORS-Modus). -->
+  <link rel="preload" as="font" type="font/woff" href="{{ "/assets/fonts/inter-400.woff" | relative_url }}" crossorigin>
+  <link rel="preload" as="font" type="font/woff" href="{{ "/assets/fonts/inter-600.woff" | relative_url }}" crossorigin>
   {%- comment -%} AENDERUNG 2026: "?v=<Build-Zeit>" an eigene CSS/JS haengen.
     Bei jedem GitHub-Pages-Build aendert sich die URL -> Browser laden garantiert
     die frische Datei (verhindert "neue HTML + alte, gecachte CSS"). {%- endcomment -%}

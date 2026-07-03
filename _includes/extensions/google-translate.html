@@ -10,7 +10,7 @@ include.lang %} {% endif %}
         <li>
             <a href="#" class="lang-select" data-lang="{{ item.lang }}">
                 {% if item.img %}
-                <img src="{{ item.img }}" title="{{ item.text }}" />
+                <img src="{{ item.img }}" title="{{ item.text }}" alt="{{ item.text }}" loading="lazy" width="24" height="24" />
                 {% else %} {{ item.text }} {% endif %}
             </a>
         </li>

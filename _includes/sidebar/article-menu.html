@@ -26,6 +26,15 @@
     var menuHTML = '';
     for (var i = 0; i < headings.length; i++) {
       var h = headings[i];
+      // AENDERUNG 2026: Überschriften ohne id (z. B. auf .html-Seiten wie
+      // about/services erzeugt Kramdown keine IDs) bekommen hier eine aus dem
+      // Text abgeleitete id, damit die TOC-Sprungmarken funktionieren.
+      if (!h.id) {
+        var slug = h.textContent.trim().toLowerCase()
+          .replace(/[^\p{L}\p{N}\s-]/gu, '')
+          .replace(/\s+/g, '-');
+        h.id = slug || ('abschnitt-' + i);
+      }
       menuHTML += (
         '<li class="h-' + h.tagName.toLowerCase() + '">'
         + '<a href="#h-' + h.getAttribute('id') + '">' + h.textContent + '</a></li>');

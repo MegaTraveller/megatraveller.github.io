@@ -40,18 +40,20 @@
         return null;
     }
 
-    var settings = JSON.parse(getCookie("cookie-settings") || "{}");
-    if (settings.hashlocate) {
-        window.addEventListener("load", function (event) {
-            if (window.location.hash) {
-                hashLocate(window.location.hash);
-            }
-        });
+    // AENDERUNG 2026: Sanftes Scrollen zu Anker-/TOC-Sprungmarken ist reine
+    // Navigation (kein Tracking, keine externen Aufrufe) und läuft daher
+    // unabhängig von der Cookie-Zustimmung. Vorher war es an die (nirgends
+    // gesetzte) Kategorie "hashlocate" gekoppelt, wodurch das TOC-Springen auf
+    // allen Seiten wirkungslos blieb.
+    window.addEventListener("load", function (event) {
+        if (window.location.hash) {
+            hashLocate(window.location.hash);
+        }
+    });
 
-        window.addEventListener("click", function (event) {
-            if (event.target.tagName.toLowerCase() == "a") {
-                hashLocate(event.target.getAttribute("href"));
-            }
-        });
-    }
+    window.addEventListener("click", function (event) {
+        if (event.target.tagName.toLowerCase() == "a") {
+            hashLocate(event.target.getAttribute("href"));
+        }
+    });
 </script>

@@ -97,21 +97,54 @@ default='auto' -%} {%- assign night_mode = return -%}
             };
         }
 
+        // AENDERUNG 2026: Betriebssystem-Farbpräferenz erkennen (HIG: System-
+        // Dunkelmodus respektieren).
+        function osHasPreference() {
+            try {
+                return !!window.matchMedia && (
+                    window.matchMedia("(prefers-color-scheme: dark)").matches ||
+                    window.matchMedia("(prefers-color-scheme: light)").matches);
+            } catch (e) { return false; }
+        }
+        function osPrefersDark() {
+            try {
+                return !!window.matchMedia &&
+                    window.matchMedia("(prefers-color-scheme: dark)").matches;
+            } catch (e) { return false; }
+        }
+
+        // Merkt sich, ob der Nutzer in DIESER Sitzung selbst umgeschaltet hat.
+        var manualOverride = false;
+
         // Listen the theme toggle event
         sw.addEventListener("change", function (event) {
+            manualOverride = true;               // Nutzerwahl hat ab jetzt Vorrang
             handleThemeToggle(event.target.checked);
         });
 
         if (nightModeOption == "auto") {
-            var data = autoThemeToggle();
-
-            // Toggle theme by local setting
-            if (data.toggleAt > themeData.autoToggleAt) {
-                themeData.autoToggleAt = data.toggleAt;
-                handleThemeToggle(data.nightShift);
-            } else {
+            // AENDERUNG 2026: Priorität 1) eigene Wahl dieser Sitzung,
+            // 2) OS-Dunkelmodus, 3) bisherige Uhrzeit-Automatik.
+            if (themeData.nightShift !== undefined) {
                 handleThemeToggle(themeData.nightShift);
+            } else if (osHasPreference()) {
+                handleThemeToggle(osPrefersDark());
+            } else {
+                var data = autoThemeToggle();
+                if (data.toggleAt > themeData.autoToggleAt) {
+                    themeData.autoToggleAt = data.toggleAt;
+                    handleThemeToggle(data.nightShift);
+                } else {
+                    handleThemeToggle(themeData.nightShift);
+                }
             }
+            // Live auf OS-Wechsel reagieren, solange nicht manuell übersteuert.
+            try {
+                window.matchMedia("(prefers-color-scheme: dark)")
+                    .addEventListener("change", function (e) {
+                        if (!manualOverride) handleThemeToggle(e.matches);
+                    });
+            } catch (e) {}
         } else if (nightModeOption == "manual") {
             handleThemeToggle(themeData.nightShift);
         } else {

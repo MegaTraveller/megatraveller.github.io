@@ -235,8 +235,17 @@ img { max-width: 100%; height: auto; }
 .post .post-content h1, .post .post-content h2,
 .post .post-content h3, .post .post-content h4 { font-family: var(--font-display); }
 
-/* Markierter Text. */
-::selection { background: rgba(99, 102, 241, 0.28); }
+/* AENDERUNG 2026: Serifen-Lesetypo auch auf Inhaltsseiten (Über mich, Dienste)
+   über die Klasse .prose. Nur Fließtext-Absätze werden Serife; Überschriften,
+   Formulare und Buttons bleiben in Inter. */
+.page-content .prose p {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  line-height: 1.72;
+}
+
+/* Markierter Text (Marken-Signalblau). */
+::selection { background: rgba(59, 91, 219, 0.25); }
 
 /* Hübschere Trennlinien. */
 hr { border: 0; height: 1px; background: var(--border); margin: 2.5rem 0; }
@@ -359,7 +368,7 @@ html[data-scroll-status="top"] .site-header-transparent .menu-icon svg path { fi
   inset: 0;
   background:
     linear-gradient(180deg, rgba(8, 11, 21, 0.30) 0%, rgba(8, 11, 21, 0.55) 100%),
-    linear-gradient(120deg, rgba(99, 102, 241, 0.35), rgba(6, 182, 212, 0.20));
+    linear-gradient(120deg, rgba(36, 59, 107, 0.35), rgba(59, 91, 219, 0.20));
   pointer-events: none;
 }
 
@@ -523,7 +532,7 @@ button[type="submit"] {
   letter-spacing: 0.04em;
 }
 .badge-top { background: var(--gradient); color: #fff; }
-.badge-new { background: var(--accent-2); color: #04222a; }
+.badge-new { background: var(--accent-2); color: #ffffff; }
 
 /* ---- Feature-/Service-Grid (auf der Startseite, siehe index.html) ---- */
 .section { margin: 64px 0; }
@@ -977,6 +986,24 @@ button[type="submit"] {
 /* ============================================================================
    SECTION 15 — RESPONSIVENESS & BARRIEREFREIHEIT
    ============================================================================ */
+
+/* AENDERUNG 2026 (Barrierefreiheit): "Zum Inhalt springen" – unsichtbar, bis
+   es per Tastatur (Tab) fokussiert wird; dann schiebt es sich sichtbar herein. */
+.skip-link {
+  position: absolute;
+  left: 12px;
+  top: -60px;
+  z-index: 2000;
+  background: var(--accent);
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  box-shadow: var(--shadow-md);
+  transition: top 0.2s var(--ease);
+}
+.skip-link:focus { top: 12px; outline: none; color: #fff; }
+#main-content:focus { outline: none; }
 
 /* Sichtbarer, einheitlicher Fokus-Rahmen (Tastatur-Navigation). */
 a:focus-visible, button:focus-visible, input:focus-visible,

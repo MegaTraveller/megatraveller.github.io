@@ -5,6 +5,10 @@
 
   <body>
 
+    <!-- AENDERUNG 2026 (Barrierefreiheit): Sprunglink zum Inhalt für
+         Tastatur-/Screenreader-Nutzer. Sichtbar nur bei Tastatur-Fokus. -->
+    <a class="skip-link" href="#main-content">Zum Inhalt springen</a>
+
     {%- include views/header.html -%}
 
     {%- include views/banner.html -%}
@@ -15,7 +19,7 @@
 
     {%- include extensions/click-to-top.html -%}
 
-    <main class="page-content" aria-label="Content">
+    <main id="main-content" class="page-content" aria-label="Inhalt" tabindex="-1">
       <div class="wrapper">
         {{ content }}
       </div>
