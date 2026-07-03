@@ -450,6 +450,27 @@ button[type="submit"] {
 }
 .post-tag:hover { background: var(--gradient-soft); color: var(--accent); }
 
+/* Post-Tags ÜBER DEM BANNER (Beitrags-Kopf): brauchen starken Kontrast auf dem
+   Bild. AENDERUNG 2026: solide Markenfarbe statt hellem Pill.
+   Grundzustand Tintenblau (#243B6B), Hover Signalblau (#3B5BDB) – exakt die
+   Interaktionslogik aus dem Branding-Guide (Kap. 02 Farbe). Weiße Schrift =
+   Kontrast 10,98:1. Farben ändern? -> nur die zwei HEX-Werte hier anpassen. */
+.page-banner .page-banner-inner .post-tags .post-tag {
+  background: #243B6B;                         /* Tintenblau / Primär */
+  color: #ffffff;
+  padding: 6px 15px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: var(--shadow-sm);
+  transition: background 0.2s var(--ease), transform 0.2s var(--ease);
+}
+.page-banner .page-banner-inner .post-tags .post-tag:hover {
+  background: #3B5BDB;                         /* Signalblau / Interaktion */
+  color: #ffffff;
+  text-decoration: none;                       /* Theme-Unterstrich unterdrücken */
+  transform: translateY(-1px);
+}
+
 /* Badges (TOP/NEW) im Markenverlauf. */
 .post-badge {
   border-radius: 999px;
