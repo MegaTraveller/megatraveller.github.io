@@ -1,0 +1,41 @@
+# =============================================================================
+# Lighthouse-Audit als CI-Workflow
+# -----------------------------------------------------------------------------
+# Prüft die LIVE-Seite (Performance, Barrierefreiheit, Best Practices, SEO) und
+# lädt einen Report hoch. Auslösen:
+#   * manuell: GitHub -> Reiter "Actions" -> "Lighthouse" -> "Run workflow"
+#   * automatisch: wöchentlich, Montag 06:00 UTC
+#
+# Ergebnis:
+#   * "temporary-public-storage": im Log jedes Laufs steht pro Seite ein Link
+#     zum vollständigen HTML-Report (mit den Punktzahlen & Details).
+#   * Artefakte: die Report-Dateien lassen sich am Ende des Laufs herunterladen.
+#
+# Gitea-Umzug: Diese Datei ist mit Gitea Actions kompatibel. Dort wird nur ein
+# self-hosted Runner (act_runner) mit Chrome/Node benötigt – sonst identisch.
+# =============================================================================
+name: Lighthouse
+
+on:
+  workflow_dispatch: {}          # manueller Start-Knopf
+  schedule:
+    - cron: "0 6 * * 1"          # wöchentlich, Montag 06:00 UTC
+
+permissions:
+  contents: read
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Lighthouse gegen die Live-Seite
+        uses: treosh/lighthouse-ci-action@v12
+        with:
+          # Zu prüfende Seiten – hier bei Bedarf weitere URLs ergänzen.
+          urls: |
+            https://michael.krzyzanski.de/
+            https://michael.krzyzanski.de/about.html
+            https://michael.krzyzanski.de/services.html
+          runs: 3                 # 3 Durchläufe je Seite -> stabiler Medianwert
+          uploadArtifacts: true   # Reports als herunterladbare Artefakte
+          temporaryPublicStorage: true   # zusätzlich öffentlicher Report-Link im Log

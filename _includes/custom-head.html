@@ -4,3 +4,25 @@
   1. Head over to https://realfavicongenerator.net/ to add your own favicons.
   2. Customize default _includes/custom-head.html in your source directory and insert the given code snippet.
 {% endcomment %}
+
+{%- comment -%} AENDERUNG 2026: Structured Data (JSON-LD) – hilft Suchmaschinen,
+  das Angebot zu verstehen (Rich Results). Werte ziehen aus _config.yml. Wer die
+  Angaben ändern will: hier bzw. in _config.yml (description, url, email). {%- endcomment -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "Michael Krzyzanski – Informationssicherheit & Qualitätsmanagement",
+  "description": {{ site.description | jsonify }},
+  "url": {{ site.url | jsonify }},
+  "image": {{ "/assets/images/logo.svg" | absolute_url | jsonify }},
+  "email": {{ site.email | jsonify }},
+  "areaServed": "DE",
+  "knowsAbout": ["ISO 27001", "ISO 9001", "ISMS", "IMS", "Risikomanagement", "Prozessmodellierung", "Interne Audits", "Schulungen"],
+  "founder": {
+    "@type": "Person",
+    "name": {{ site.author | jsonify }},
+    "jobTitle": "Berater und Auditor für Informationssicherheit und Qualitätsmanagement"
+  }
+}
+</script>

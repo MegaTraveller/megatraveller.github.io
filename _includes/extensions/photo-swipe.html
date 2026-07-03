@@ -71,7 +71,7 @@
             Math.max(imgEl.naturalHeight, imgEl.height) * options.photo_scale
         }"
         data-pswp-caption="${imgEl.getAttribute("caption") || imgEl.alt}"
-        target="_blank">
+        target="_blank" rel="noopener">
         ${imgEl.outerHTML}
       </a>`;
         });
