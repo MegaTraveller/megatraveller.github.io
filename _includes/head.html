@@ -23,7 +23,12 @@
   </script>
 
   {%- seo -%}
-  <link rel="icon" href="{{ site.favicon }}">
+  <!-- AENDERUNG 2026: Favicons (Browser-Tab-Icon) aus dem Logo. SVG fuer moderne
+       Browser, PNG als Rueckfallebene, Apple-Touch-Icon fuer iOS-Homescreen. -->
+  <link rel="icon" type="image/svg+xml" href="{{ "/assets/images/favicon.svg" | relative_url }}">
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ "/assets/images/favicon-32.png" | relative_url }}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{{ "/assets/images/favicon-16.png" | relative_url }}">
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ "/assets/images/apple-touch-icon.png" | relative_url }}">
   <!-- AENDERUNG 2026: Der fruehere manuelle Canonical-Link wurde hier entfernt.
        Er zeigte auf JEDER Seite fest auf die Startseite und war doppelt: Der
        seo-Tag (weiter oben im head) erzeugt bereits automatisch den korrekten

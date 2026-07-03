@@ -322,9 +322,11 @@ html[data-scroll-status="top"] .site-header-transparent .menu-icon svg path { fi
   pointer-events: none;
 }
 
-/* Dezenter, langsamer "Ken-Burns"-Zoom des Hintergrundbildes. */
+/* Dezenter, langsamer "Ken-Burns"-Zoom des Hintergrundbildes.
+   AENDERUNG 2026: Zoom von 1.06 auf 1.03 reduziert, damit auf sehr breiten
+   Fenstern nichts Wichtiges (z. B. das Logo) aus dem Bild geschnitten wird. */
 .page-banner .page-banner-img > div {
-  transform: scale(1.06);
+  transform: scale(1.03);
   transition: transform 12s var(--ease);
   background-position: center;
   background-size: cover;
@@ -971,3 +973,24 @@ select:focus-visible, textarea:focus-visible, .feature-card:focus-visible {
 /* Etwas Innenabstand, damit die runden Ecken nicht an den Flaggen kleben. */
 .site-header .ct-language-dropdown li:first-child { padding-top: 8px; }
 .site-header .ct-language-dropdown li:last-child  { padding-bottom: 8px; }
+
+
+/* ============================================================================
+   SECTION 17 — HEADER-LOGO (AENDERUNG 2026)
+   Das Logo (aus site.favicon = logo.svg) erscheint links neben dem Namen.
+   Es sitzt auf einer weissen, abgerundeten Kachel, damit das dunkle Logo sowohl
+   ueber dem dunklen Hero (transparenter Header) als auch auf dem hellen
+   Glas-Header immer gut sichtbar ist.
+   ============================================================================ */
+.site-header .site-brand-inner .site-favicon {
+  height: 36px;
+  width: 36px;
+  object-fit: contain;
+  background: #ffffff;
+  border-radius: 9px;
+  padding: 3px;
+  margin-right: 6px;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.25s var(--ease);
+}
+.site-header .site-brand-inner:hover .site-favicon { transform: translateY(-1px); }

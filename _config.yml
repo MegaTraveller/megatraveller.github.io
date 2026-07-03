@@ -8,6 +8,10 @@ baseurl: "" # der Basispfad deiner Website, normalerweise ""
 email: michael@krzyzanski.de
 author: Michael Krzyzanski
 
+# AENDERUNG 2026: Logo. Wird im Header neben dem Namen angezeigt (site-brand).
+# Die Browser-Tab-Icons (Favicon) sind separat in _includes/head.html gesetzt.
+favicon: "/assets/images/logo.svg"
+
 # Jekyll und Plugin Einstellungen
 markdown: kramdown
 # theme: jekyll-theme-yat
