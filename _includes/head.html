@@ -37,15 +37,19 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <!-- AENDERUNG 2026: Noto-Sans-CDN entfernt. Schriften (Inter, Source Serif 4)
        werden jetzt selbst gehostet – siehe @font-face in custom.css. -->
-  <link rel="stylesheet" href="{{ "/assets/css/main.css" | relative_url }}">
-  <link rel="stylesheet" href="{{ "/assets/css/my.css" | relative_url }}">
+  {%- comment -%} AENDERUNG 2026: "?v=<Build-Zeit>" an eigene CSS/JS haengen.
+    Bei jedem GitHub-Pages-Build aendert sich die URL -> Browser laden garantiert
+    die frische Datei (verhindert "neue HTML + alte, gecachte CSS"). {%- endcomment -%}
+  {%- assign asset_v = site.time | date: '%s' -%}
+  <link rel="stylesheet" href="{{ "/assets/css/main.css" | relative_url }}?v={{ asset_v }}">
+  <link rel="stylesheet" href="{{ "/assets/css/my.css" | relative_url }}?v={{ asset_v }}">
   <!-- AENDERUNG (Redesign 2026): zentrale Design-Schicht. Laedt ZULETZT und
        gewinnt daher gegen Theme-CSS, ohne dessen Struktur zu veraendern. -->
-  <link rel="stylesheet" href="{{ "/assets/css/custom.css" | relative_url }}">
-  <script src="{{ "/assets/js/main.js" | relative_url }}"></script>
+  <link rel="stylesheet" href="{{ "/assets/css/custom.css" | relative_url }}?v={{ asset_v }}">
+  <script src="{{ "/assets/js/main.js" | relative_url }}?v={{ asset_v }}"></script>
   <!-- AENDERUNG (Redesign 2026): Animationen, Mobile-Nav, Mastodon-Feed,
        PeerTube. "defer" = laedt nicht-blockierend und laeuft nach dem Parsen. -->
-  <script defer src="{{ "/assets/js/custom.js" | relative_url }}"></script>
+  <script defer src="{{ "/assets/js/custom.js" | relative_url }}?v={{ asset_v }}"></script>
   {%- feed_meta -%}
   {%- if jekyll.environment == 'production' and site.google_analytics -%}
   {%- include extensions/google-analytics.html -%}
