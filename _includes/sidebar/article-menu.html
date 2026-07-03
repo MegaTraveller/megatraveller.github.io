@@ -30,10 +30,14 @@
       // about/services erzeugt Kramdown keine IDs) bekommen hier eine aus dem
       // Text abgeleitete id, damit die TOC-Sprungmarken funktionieren.
       if (!h.id) {
-        var slug = h.textContent.trim().toLowerCase()
+        var base = h.textContent.trim().toLowerCase()
           .replace(/[^\p{L}\p{N}\s-]/gu, '')
-          .replace(/\s+/g, '-');
-        h.id = slug || ('abschnitt-' + i);
+          .replace(/\s+/g, '-') || ('abschnitt-' + i);
+        // Eindeutig machen: existiert die id schon (z. B. doppelte Überschrift
+        // "Warum Ich?"), wird -1, -2 … angehängt.
+        var slug = base, n = 1;
+        while (document.getElementById(slug)) { slug = base + '-' + (n++); }
+        h.id = slug;
       }
       menuHTML += (
         '<li class="h-' + h.tagName.toLowerCase() + '">'
