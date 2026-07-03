@@ -4,8 +4,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="google-translate-customization" content="108d9124921d80c3-80e20d618ff053c8-g4f02ec6f3dba68b7-c">
 
-  <!-- AENDERUNG (Redesign 2026): Browser-Farbe (Adressleiste auf Mobilgeraeten). -->
-  <meta name="theme-color" content="#6366f1">
+  <!-- AENDERUNG 2026: Browser-Farbe (Adressleiste mobil) = Marken-Signalblau. -->
+  <meta name="theme-color" content="#3b5bdb">
 
   <!-- AENDERUNG (Redesign 2026): Schaltet die Scroll-Einblende-Animationen frei.
        Steht bewusst frueh im <head> und setzt die Klasse, BEVOR der Inhalt
@@ -35,7 +35,8 @@
        Canonical pro Seite. Hinweis: In Liquid-Vorlagen niemals Tags wie den
        seo-Tag in einen HTML-Kommentar schreiben, sie werden sonst ausgefuehrt. -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-noto-sans@0.0.72/index.min.css">
+  <!-- AENDERUNG 2026: Noto-Sans-CDN entfernt. Schriften (Inter, Source Serif 4)
+       werden jetzt selbst gehostet – siehe @font-face in custom.css. -->
   <link rel="stylesheet" href="{{ "/assets/css/main.css" | relative_url }}">
   <link rel="stylesheet" href="{{ "/assets/css/my.css" | relative_url }}">
   <!-- AENDERUNG (Redesign 2026): zentrale Design-Schicht. Laedt ZULETZT und

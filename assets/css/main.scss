@@ -24,6 +24,7 @@ $brand-colors: (
   "greatgold": #f2cb05,
   "greenblue": #389092,
   "modernindigo": #6366f1,
+  "signalblue": #3b5bdb,
 );
 
 $theme-name: "{{ site.theme_color }}";
@@ -43,8 +44,10 @@ $brand-color: map-get($brand-colors, "orangered");
   $brand-color: "{{ site.brand_color | default: '#ff5100' }}";
 }
 
-// AENDERUNG (Redesign 2026): Markenfarbe fest auf modernes Indigo setzen.
-$brand-color: map-get($brand-colors, "modernindigo");
+// AENDERUNG 2026: Markenfarbe fest auf Signalblau (Branding-Guide) setzen.
+// (War zuvor "modernindigo" #6366f1.) So nutzt auch das kompilierte Theme-CSS
+// die offizielle Interaktionsfarbe #3b5bdb.
+$brand-color: map-get($brand-colors, "signalblue");
 
 $content-width: "{{ site.content_width | default: '920px' }}";
 
