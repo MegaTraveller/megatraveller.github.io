@@ -37,5 +37,33 @@ jobs:
             https://michael.krzyzanski.de/about.html
             https://michael.krzyzanski.de/services.html
           runs: 3                 # 3 Durchläufe je Seite -> stabiler Medianwert
-          uploadArtifacts: true   # Reports als herunterladbare Artefakte
-          temporaryPublicStorage: true   # zusätzlich öffentlicher Report-Link im Log
+          uploadArtifacts: true   # Reports als Artefakt "lighthouse-results" (Download)
+
+      # Schreibt die Median-Scores direkt in die Lauf-Zusammenfassung – kein
+      # Download und kein externer Upload nötig (ersetzt das zuvor fehleranfällige
+      # temporary-public-storage).
+      - name: Scores in die Zusammenfassung schreiben
+        if: always()
+        run: |
+          python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import glob, json, statistics, collections
+          files = sorted(glob.glob('.lighthouseci/lhr-*.json'))
+          by_url = collections.defaultdict(lambda: collections.defaultdict(list))
+          for f in files:
+              d = json.load(open(f))
+              url = d.get('finalUrl') or d.get('requestedUrl') or f
+              for cat in d.get('categories', {}).values():
+                  by_url[url][cat['title']].append(round((cat.get('score') or 0) * 100))
+          print("## Lighthouse — Medianwerte")
+          print()
+          if not by_url:
+              print("_Keine Ergebnisdateien unter .lighthouseci/ gefunden – siehe Artefakt._")
+          for url, cats in by_url.items():
+              print(f"### {url}")
+              print()
+              print("| Kategorie | Score |")
+              print("|---|---|")
+              for name, scores in cats.items():
+                  print(f"| {name} | {int(statistics.median(scores))} |")
+              print()
+          PY
