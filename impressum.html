@@ -3,52 +3,6 @@ layout: about
 title: Impressum
 ---
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        var cookieSettings = JSON.parse(getCookie("cookie-settings"));
-        if (cookieSettings && cookieSettings.freeform) {
-            document.getElementById("form-container").innerHTML = `
-            <form id="contact-form" method="POST" action="https://formspree.io/f/xjkblvyl">
-                <label for="Grund">Grund der Kontaktaufnahme</label>
-                <select id="Grund" name="Grund" required>
-                    <option value="" disabled selected>Bitte wählen...</option>
-                    <option value="Kontaktaufbau">Kontakt herstellen</option>
-                    <option value="Support">Support-Ticket</option>
-                    <option value="Beschwerde">Beschwerde</option>
-                </select>
-                <br />
-                <label for="Name">Name</label>
-                <input type="text" id="Name" name="Name" required />
-                <br />
-                <label for="E-Mail">E-Mail</label>
-                <input type="E-Mail" id="E-Mail" name="E-Mail" required />
-                <br />
-                <label for="Nachricht">Nachricht</label>
-                <textarea id="Nachricht" name="Nachricht" required></textarea>
-                <br />
-                <input type="hidden" name="_next" value="/danke.html" />
-                <button type="submit">Senden</button>
-            </form>
-        `;
-        } else {
-            document.getElementById("form-container").innerHTML =
-                "<p>Bitte akzeptieren Sie die Cookies, um das Formular anzuzeigen.</p>";
-        }
-    });
-
-    function getCookie(name) {
-        var nameEQ = name + "=";
-        var ca = document.cookie.split(";");
-        for (var i = 0; i < ca.length; i++) {
-            var c = ca[i];
-            while (c.charAt(0) == " ") c = c.substring(1, c.length);
-            if (c.indexOf(nameEQ) == 0)
-                return c.substring(nameEQ.length, c.length);
-        }
-        return null;
-    }
-</script>
-
 <h2>Impressum</h2>
 
 <h3>Angaben gemäß § 5 TMG:</h3>
@@ -59,9 +13,8 @@ title: Impressum
     48025 Münster<br />
 </p>
 
-<div id="form-container">
-    <!-- Das Formular wird hier dynamisch eingefügt, wenn die Cookies akzeptiert wurden -->
-</div>
+<!-- AENDERUNG 2026: Formular-Markup liegt jetzt zentral im Include. -->
+{% include contact-form.html %}
 
 <h3>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:</h3>
 
@@ -113,6 +66,64 @@ title: Impressum
 <p>
     Eine Zusammenführung dieser Daten mit anderen Datenquellen wird nicht
     vorgenommen.
+</p>
+
+<!-- NEU 2026: Abschnitt zum Kontaktformular. Fehlte vorher vollstaendig,
+     obwohl ein Formular (ueber Formspree, USA) im Einsatz war.
+     AENDERUNG 2026: Dienst ist jetzt Formspring, Hosting in der EU. -->
+<h4>Kontaktformular</h4>
+<p>
+    Auf den Seiten „Über mich“ und „Impressum“ steht Ihnen ein
+    Kontaktformular zur Verfügung. Übermittelt werden ausschließlich die von
+    Ihnen eingegebenen Angaben: Grund der Kontaktaufnahme, Name, E-Mail-Adresse
+    und Ihre Nachricht. Diese Daten verwende ich allein zur Bearbeitung Ihrer
+    Anfrage und für den Fall von Anschlussfragen.
+</p>
+<p>
+    Das Formular wird erst dann im Browser aufgebaut, wenn Sie der Kategorie
+    „Kontaktformular (Formspring, EU)“ zugestimmt haben. Ohne diese Zustimmung
+    wird kein Formular angezeigt und es werden keine Daten an den Dienstleister
+    übertragen. Sie können die Zustimmung jederzeit in den
+    <a href="/cookie-settings.html">Cookie-Einstellungen</a> widerrufen.
+</p>
+<p>
+    <strong>Eingesetzter Dienstleister:</strong> Für die technische
+    Entgegennahme und Weiterleitung der Formularinhalte nutze ich den Dienst
+    <em>Formspring</em>. Anbieter ist die Pixel &amp; Process UG
+    (haftungsbeschränkt), Marliring 74, 23566 Lübeck, Deutschland. Der Anbieter
+    verarbeitet die Daten als Auftragsverarbeiter nach Art. 28 DSGVO auf
+    Grundlage eines mit mir geschlossenen Vertrages zur Auftragsverarbeitung.
+    Die Verarbeitung und Speicherung erfolgt nach Angaben des Anbieters in der
+    Europäischen Union; eine Übermittlung in ein Drittland findet dabei nicht
+    statt. Weitere Informationen finden Sie in der
+    <a href="https://formspring.io/privacy" rel="noopener"
+        >Datenschutzerklärung von Formspring</a
+    >
+    sowie in der
+    <a href="https://formspring.io/sub-processors" rel="noopener"
+        >Übersicht der Unterauftragsverarbeiter</a
+    >. Der Dienst setzt einen automatischen Spamschutz („Honeypot“) ein, der
+    ohne Auswertung Ihrer personenbezogenen Daten arbeitet.
+</p>
+<p>
+    <strong>Rechtsgrundlage:</strong> Die Einbindung des Formulars erfolgt auf
+    Grundlage Ihrer Einwilligung nach Art. 6 Abs. 1 lit. a DSGVO. Die
+    anschließende Verarbeitung Ihrer Anfrage stützt sich auf Art. 6 Abs. 1
+    lit. b DSGVO, sofern Ihre Anfrage auf den Abschluss oder die Durchführung
+    eines Vertrages gerichtet ist, andernfalls auf Art. 6 Abs. 1 lit. f DSGVO
+    (berechtigtes Interesse an der Beantwortung von Anfragen).
+</p>
+<p>
+    <strong>Speicherdauer:</strong> Beim Dienstleister eingegangene Einsendungen
+    lösche ich, sobald die Anfrage abgeschlossen ist und keine gesetzlichen
+    Aufbewahrungspflichten entgegenstehen. Der E-Mail-Verkehr zu Ihrer Anfrage
+    wird gelöscht, wenn er zur Bearbeitung nicht mehr erforderlich ist,
+    spätestens jedoch nach Ablauf der gesetzlichen Aufbewahrungsfristen.
+</p>
+<p>
+    Sie sind nicht verpflichtet, das Formular zu nutzen. Sie können mich
+    jederzeit stattdessen per E-Mail unter nospamreg_AT_krzyzanski.de oder
+    postalisch unter der oben genannten Adresse erreichen.
 </p>
 
 <h4>Google Analytics</h4>

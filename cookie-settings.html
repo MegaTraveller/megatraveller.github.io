@@ -30,7 +30,12 @@ exclude_from_nav: true
     ><br />
     <label> <input type="checkbox" name="trianglify" /> Trianglify </label
     ><br />
-    <label> <input type="checkbox" name="freeform" /> Freeform.io </label><br />
+    <!-- AENDERUNG 2026: war "freeform" / "Freeform.io" (irrefuehrend, lief
+         ueber Formspree in den USA). Jetzt Formspring, Hosting in der EU. -->
+    <label>
+        <input type="checkbox" name="formspring" /> Kontaktformular
+        (Formspring, EU) </label
+    ><br />
     <!-- NEU (Redesign 2026): steuert externe Social-Media-Inhalte
          (Mastodon-Feed im Footer, PeerTube-Videos). -->
     <label>
@@ -80,7 +85,7 @@ exclude_from_nav: true
             mathjax: form.mathjax.checked,
             photoswipe: form.photoswipe.checked,
             trianglify: form.trianglify.checked,
-            freeform: form.freeform.checked,
+            formspring: form.formspring.checked, // AENDERUNG 2026
             socialMedia: form.socialMedia.checked, // NEU (Redesign 2026)
         };
         setCookie("cookie-settings", JSON.stringify(settings), 365);
@@ -103,7 +108,7 @@ exclude_from_nav: true
             form.mathjax.checked = settings.mathjax || false;
             form.photoswipe.checked = settings.photoswipe || false;
             form.trianglify.checked = settings.trianglify || false;
-            form.freeform.checked = settings.freeform || false;
+            form.formspring.checked = settings.formspring || false; // AENDERUNG 2026
             form.socialMedia.checked = settings.socialMedia || false; // NEU (Redesign 2026)
         }
     });

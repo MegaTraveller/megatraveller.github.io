@@ -23,6 +23,15 @@
   </script>
 
   {%- seo -%}
+  {%- comment -%} NEU 11/2026: Seiten mit "noindex: true" im Front Matter aus dem
+    Suchindex halten. Genutzt von /danke.html -- eine Bestaetigungsseite hat in
+    Suchergebnissen nichts verloren und wuerde dort nur verwirren. "follow"
+    bleibt, damit die Links von dort trotzdem verfolgt werden.
+    Zusaetzlich gehoert "sitemap: false" ins Front Matter der Seite, sonst
+    taucht sie weiter in der sitemap.xml auf. {%- endcomment -%}
+  {%- if page.noindex -%}
+  <meta name="robots" content="noindex, follow">
+  {%- endif -%}
   <!-- AENDERUNG 2026: Favicons (Browser-Tab-Icon) aus dem Logo. SVG fuer moderne
        Browser, PNG als Rueckfallebene, Apple-Touch-Icon fuer iOS-Homescreen. -->
   <link rel="icon" type="image/svg+xml" href="{{ "/assets/images/favicon.svg" | relative_url }}">

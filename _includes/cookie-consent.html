@@ -67,7 +67,10 @@
             mathjax: true,
             photoswipe: true,
             trianglify: true,
-            freeform: true,
+            // AENDERUNG 2026: hiess "freeform" (Label war faelschlich
+            // "Freeform.io", tatsaechlich lief es ueber Formspree/USA).
+            // Jetzt Formspring (Pixel & Process UG, Luebeck, EU-Hosting).
+            formspring: true,
             socialMedia: true, // NEU (Redesign 2026): Mastodon-Feed & PeerTube
         };
         setCookie("cookie-settings", JSON.stringify(settings), 365);
@@ -89,7 +92,7 @@
             mathjax: false,
             photoswipe: false,
             trianglify: false,
-            freeform: false,
+            formspring: false, // AENDERUNG 2026: hiess "freeform"
             socialMedia: false, // NEU (Redesign 2026): Mastodon-Feed & PeerTube
         };
         setCookie("cookie-settings", JSON.stringify(settings), 365);

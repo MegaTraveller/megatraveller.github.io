@@ -664,6 +664,9 @@ button[type="submit"] {
    ============================================================================ */
 #form-container form,
 #cookie-settings-form {
+  /* position: relative -> Bezugsrahmen fuer das ausgelagerte Honeypot-Feld
+     (NEU 11/2026), damit es nicht am Seitenrand fuer Querscrollen sorgt. */
+  position: relative;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
@@ -700,6 +703,48 @@ button[type="submit"] {
   box-shadow: var(--ring);
 }
 #form-container textarea { min-height: 130px; resize: vertical; }
+
+/* NEU 2026 (Formspring-Umstellung): Hinweis statt Formular, wenn keine
+   Zustimmung vorliegt -- plus Datenschutzhinweis und Statuszeile im Formular. */
+.contact-form-notice {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius-lg);
+  padding: 18px 22px;
+  margin-top: 22px;
+  max-width: 560px;
+  color: var(--text-soft);
+  font-size: 0.95rem;
+}
+.contact-form-privacy {
+  margin: 18px 0 4px;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--text-soft);
+}
+.contact-form-status {
+  margin: 12px 0 0;
+  min-height: 1.2em;
+  font-size: 0.9rem;
+  color: var(--text-soft);
+}
+#form-container button[disabled] { opacity: 0.6; cursor: not-allowed; }
+
+/* NEU 11/2026: Honeypot-Feld (Spamschutz, Feldname "_gotcha").
+   ABSICHTLICH kein display:none und kein visibility:hidden -- manche Bots
+   erkennen das und ueberspringen solche Felder dann. Stattdessen aus dem
+   sichtbaren Bereich schieben. Fuer Menschen unsichtbar, fuer Bots verlockend. */
+.contact-form-gotcha {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+}
+
 /* Cookie-Einstellungen: Checkboxen mit etwas Luft. */
 #cookie-settings-form label { font-weight: 500; display: inline-flex; align-items: center; gap: 8px; }
 #cookie-settings-form input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--accent); }

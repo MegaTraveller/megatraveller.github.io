@@ -1,6 +1,84 @@
 ---
-layout: default
-title: Danke
+# AENDERUNG 11/2026: Aus der leeren Platzhalterseite ("<h2>Danke</h2>") ist eine
+# richtige Bestaetigungsseite geworden. Hierher leitet das Kontaktformular nach
+# erfolgreichem Absenden weiter (siehe _includes/contact-form.html).
+layout: about
+title: Nachricht erhalten
+description: "Ihre Nachricht ist angekommen. Ich melde mich so bald wie möglich bei Ihnen."
+# Bestaetigungsseiten gehoeren weder in den Suchindex noch in die Sitemap:
+# Leute sollen hier nur ueber das Formular landen, nicht ueber Google.
+noindex: true
+sitemap: false
+exclude_from_nav: true
 ---
 
-<h2>Danke</h2>
+<div class="prose">
+
+<section class="section-head reveal" style="margin-top: 8px">
+    <span class="eyebrow">Kontakt</span>
+    <h2>Vielen Dank &ndash; Ihre Nachricht ist angekommen.</h2>
+    <p>
+        Ich habe Ihre Anfrage erhalten und melde mich so bald wie möglich bei
+        Ihnen. Sie müssen nichts weiter tun.
+    </p>
+</section>
+
+<section class="reveal">
+    <h3>Wie es weitergeht</h3>
+    <p>
+        Ich sehe mir Ihr Anliegen persönlich an &ndash; hier antwortet niemand
+        automatisiert. Je nachdem, worum es geht, melde ich mich mit einer
+        ersten Einschätzung oder mit einer Rückfrage, falls mir für eine
+        belastbare Antwort noch etwas fehlt.
+    </p>
+    <p>
+        Sollte Ihre Anfrage dringend sein oder sollten Sie innerhalb weniger
+        Tage nichts hören, schreiben Sie mir gerne direkt an
+        <strong>nospamreg_AT_krzyzanski.de</strong>. Dann ist unterwegs etwas
+        schiefgegangen &ndash; etwa ein Spamfilter auf einer der beiden Seiten.
+    </p>
+</section>
+
+<section class="reveal">
+    <h3>Vertraulich schreiben</h3>
+    <p>
+        Wenn Ihre Anfrage sensible Informationen enthält, nutzen Sie bitte
+        nicht das Formular, sondern verschlüsselte E-Mail. Meinen öffentlichen
+        GPG-Schlüssel finden Sie
+        <a href="{{ "/mkrzyzanskigpg.asc" | relative_url }}">hier zum Download</a>.
+    </p>
+</section>
+
+<section class="reveal">
+    <h3>Was mit Ihren Angaben passiert</h3>
+    <p>
+        Ihre Angaben verwende ich ausschließlich zur Bearbeitung dieser
+        Anfrage. Welcher Dienstleister dabei beteiligt ist, auf welcher
+        Rechtsgrundlage das geschieht und wie lange ich die Daten aufbewahre,
+        steht im Abschnitt „Kontaktformular" der
+        <a href="/impressum#datenschutz">Datenschutzerklärung</a>. Ihre
+        Zustimmung können Sie jederzeit in den
+        <a href="/cookie-settings.html">Cookie-Einstellungen</a> widerrufen.
+    </p>
+</section>
+
+<section class="reveal">
+    <div
+        style="
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        "
+    >
+        <a class="btn btn-primary" href="/"
+            ><i class="fa fa-home" aria-hidden="true"></i>&nbsp;Zur
+            Startseite</a
+        >
+        <a class="btn btn-ghost" href="/services.html">Leistungen</a>
+        <a class="btn btn-ghost" href="/archives.html">Blog</a>
+    </div>
+</section>
+
+</div>

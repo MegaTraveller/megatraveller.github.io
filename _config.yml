@@ -8,6 +8,15 @@ baseurl: "" # der Basispfad deiner Website, normalerweise ""
 email: michael@krzyzanski.de
 author: Michael Krzyzanski
 
+# AENDERUNG 2026: Kontaktformular von Formspree (US) auf Formspring (DE/EU) umgestellt.
+# Die Endpoint-URL steht im Formspring-Dashboard beim jeweiligen Formular
+# ("Endpoint" / "Form action").
+# ACHTUNG: Die Endpoint-Domain ist "frmsp.io" (Kurzdomain), NICHT
+# "formspring.io" -- Format: https://frmsp.io/f/<FORM-ID>
+# NUR HIER aendern -- about.html und impressum.html ziehen sich den Wert ueber
+# _includes/contact-form.html. Nach dem Aendern: Jekyll neu bauen.
+formspring_endpoint: "https://frmsp.io/f/imo3JfmhL3Dh"
+
 # AENDERUNG 2026: Logo. Wird im Header neben dem Namen angezeigt (site-brand).
 # Die Browser-Tab-Icons (Favicon) sind separat in _includes/head.html gesetzt.
 favicon: "/assets/images/logo.svg"

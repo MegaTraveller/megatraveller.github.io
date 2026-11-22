@@ -1,0 +1,290 @@
+<!-- _includes/contact-form.html
+     NEU (2026): Kontaktformular als EIN zentraler Baustein.
+
+     Vorher stand das Markup doppelt (about.html + impressum.html) in
+     JS-Template-Strings -- jede Aenderung musste zweimal gemacht werden.
+
+     AENDERUNG 2026: Backend von Formspree (USA) auf Formspring
+     (Pixel & Process UG, Luebeck, EU-Hosting) umgestellt.
+     Endpoint steht in _config.yml -> formspring_endpoint.
+
+     DSGVO: Das Formular wird erst gerendert, wenn die Cookie-Kategorie
+     "formspring" zugestimmt wurde. Ohne Zustimmung verlaesst kein Datum
+     die Seite -- es wird gar kein Formular angezeigt.
+
+     Einbinden mit einem Liquid-include-Tag auf "contact-form.html"
+     (siehe about.html / impressum.html). Hier KEIN Liquid-Beispiel im
+     Kommentar -- siehe Lehre 8.10 im HANDBUCH.
+-->
+
+<div
+    id="form-container"
+    class="contact-form-container"
+    data-endpoint="{{ site.formspring_endpoint }}"
+>
+    <!-- Fallback-Text, bis das Skript entschieden hat (kein Flackern, kein
+         leerer Bereich wenn JS aus ist). -->
+    <p class="contact-form-notice">
+        Zum Anzeigen des Kontaktformulars ist Ihre Zustimmung erforderlich.
+        Sie können diese in den
+        <a href="/cookie-settings.html">Cookie-Einstellungen</a> erteilen
+        (Kategorie „Kontaktformular“). Alternativ erreichen Sie mich per
+        E-Mail unter <strong>nospamreg_AT_krzyzanski.de</strong>.
+    </p>
+</div>
+
+<!-- Das eigentliche Formular liegt in einem <template> und wird erst nach
+     Zustimmung in den Container geklont. Markup bleibt so lesbares HTML. -->
+<template id="contact-form-template">
+    <form id="contact-form" method="POST">
+        <!-- AENDERUNG 11/2026: Die technischen Feldnamen heissen jetzt
+             name / email / message -- vorher "Name", "E-Mail", "Nachricht".
+             Warum: Das Formspring-Formular laeuft im "Hosted"-Modus, d. h. der
+             Server prueft gegen ein Feld-Schema und VERWIRFT unbekannte
+             Schluessel stillschweigend. Das Schema des Formulars
+             imo3JfmhL3Dh verlangt genau name, email, message (alle Pflicht);
+             mit "Nachricht" kam ein 422 "Message is required." zurueck.
+             Die SICHTBAREN Beschriftungen bleiben deutsch -- nur die
+             name="..."-Werte muessen zum Schema passen.
+             Pruefen kann man das Schema mit einem leeren POST:
+               curl -X POST https://frmsp.io/f/<ID> -H "Accept: application/json"
+             Die Antwort listet alle Pflichtfelder auf. -->
+        <!-- AENDERUNG 11/2026: name="grund[]" MIT eckigen Klammern.
+             Das Feld ist bei Formspring vom Typ "Multiple choice" und erwartet
+             deshalb eine LISTE ("Grund must be a list of choices."), auch wenn
+             hier sichtbar nur ein Eintrag gewaehlt werden kann.
+             Die value="..."-Werte muessen exakt den GESPEICHERTEN Optionswerten
+             im Formspring-Baukasten entsprechen -- das sind die KLEIN
+             geschriebenen Werte in der zweiten Spalte der Optionsliste
+             (sichtbar ueber den Link "Advanced"), nicht die sichtbaren
+             Beschriftungen. Mit value="Support" kam
+             `grund.0: "Grund is not one of the available options."`
+             WICHTIG: Wird der Feldtyp im Baukasten auf Einfachauswahl
+             umgestellt, muessen hier die Klammern weg (name="grund"). -->
+        <label for="cf-grund">Grund der Kontaktaufnahme</label>
+        <select id="cf-grund" name="grund[]" required>
+            <option value="" disabled selected>Bitte wählen...</option>
+            <option value="kontaktaufbau">Kontakt herstellen</option>
+            <option value="support">Support-Ticket</option>
+            <option value="beschwerde">Beschwerde</option>
+        </select>
+        <br />
+        <label for="cf-name">Name</label>
+        <input
+            type="text"
+            id="cf-name"
+            name="name"
+            autocomplete="name"
+            maxlength="120"
+            required
+        />
+        <br />
+        <label for="cf-email">E-Mail</label>
+        <input
+            type="email"
+            id="cf-email"
+            name="email"
+            autocomplete="email"
+            maxlength="200"
+            required
+        />
+        <br />
+        <label for="cf-nachricht">Nachricht</label>
+        <textarea
+            id="cf-nachricht"
+            name="message"
+            rows="6"
+            maxlength="5000"
+            required
+        ></textarea>
+
+        <!-- NEU 11/2026: Honeypot gegen Spam-Bots. Bei eigenem HTML muss das
+             Feld selbst mitgeliefert werden -- Formspring wertet es nur aus.
+             Standardname ist "_gotcha" (im Dashboard aenderbar; dann hier auch
+             aendern). Kein display:none, weil manche Bots solche Felder
+             ueberspringen -- stattdessen per CSS aus dem Bild geschoben.
+             aria-hidden + tabindex=-1 + autocomplete=off halten es von
+             Screenreadern, Tastatur und Passwortmanagern fern. -->
+        <div class="contact-form-gotcha" aria-hidden="true">
+            <label for="cf-gotcha">Bitte dieses Feld leer lassen</label>
+            <input
+                type="text"
+                id="cf-gotcha"
+                name="_gotcha"
+                tabindex="-1"
+                autocomplete="off"
+            />
+        </div>
+
+        <p class="contact-form-privacy">
+            Ihre Angaben werden zur Bearbeitung Ihrer Anfrage über den
+            Auftragsverarbeiter Formspring (Pixel &amp; Process UG, Lübeck)
+            verarbeitet. Details in der
+            <a href="/impressum#datenschutz">Datenschutzerklärung</a>.
+        </p>
+        <button type="submit">Senden</button>
+        <p class="contact-form-status" role="status" aria-live="polite"></p>
+    </form>
+</template>
+
+<script>
+    (function () {
+        // Eigener Cookie-Leser, damit dieser Baustein nicht von der
+        // Lade-Reihenfolge von cookie-consent.html abhaengt.
+        function readCookie(name) {
+            var prefix = name + "=";
+            var parts = document.cookie.split(";");
+            for (var i = 0; i < parts.length; i++) {
+                var part = parts[i];
+                while (part.charAt(0) === " ") part = part.substring(1);
+                if (part.indexOf(prefix) === 0) {
+                    return part.substring(prefix.length);
+                }
+            }
+            return null;
+        }
+
+        function cookieSettings() {
+            var raw = readCookie("cookie-settings");
+            if (!raw) return {};
+            try {
+                return JSON.parse(decodeURIComponent(raw)) || {};
+            } catch (e) {
+                try {
+                    return JSON.parse(raw) || {};
+                } catch (e2) {
+                    return {};
+                }
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var container = document.getElementById("form-container");
+            var template = document.getElementById("contact-form-template");
+            if (!container || !template) return;
+
+            // AENDERUNG 2026: Schluessel hiess vorher "freeform".
+            if (!cookieSettings().formspring) return; // Hinweistext bleibt stehen
+
+            var endpoint = container.getAttribute("data-endpoint") || "";
+
+            // Hinweistext raus, Formular rein. (Kein replaceChildren() --
+            // das kennen aeltere Browser nicht.)
+            while (container.firstChild) {
+                container.removeChild(container.firstChild);
+            }
+            container.appendChild(template.content.cloneNode(true));
+
+            var form = container.querySelector("#contact-form");
+            var status = container.querySelector(".contact-form-status");
+            var button = container.querySelector('button[type="submit"]');
+            if (!form) return;
+
+            // Ohne gueltigen Endpoint nicht absenden -- sonst POST ins Leere.
+            // Erwartet https://<host>/f/<ID>, faengt damit auch den
+            // Platzhalter "DEINE-FORM-ID" aus _config.yml ab.
+            var looksValid = /^https:\/\/[^/\s]+\/f\/[A-Za-z0-9_-]+$/.test(
+                endpoint
+            );
+            if (!looksValid) {
+                form.setAttribute("action", "");
+                form.addEventListener("submit", function (event) {
+                    event.preventDefault(); // auch Enter-Taste blocken
+                });
+                if (status) {
+                    status.textContent =
+                        "Hinweis: Das Formular ist noch nicht konfiguriert " +
+                        "(formspring_endpoint in _config.yml).";
+                }
+                if (button) button.disabled = true;
+                return;
+            }
+            form.setAttribute("action", endpoint);
+
+            form.addEventListener("submit", function (event) {
+                // Progressive Enhancement: ohne fetch() greift der normale
+                // Browser-POST auf den Endpoint.
+                if (!window.fetch) return;
+                event.preventDefault();
+
+                if (!form.reportValidity()) return;
+
+                if (button) button.disabled = true;
+                status.textContent = "Wird gesendet …";
+
+                fetch(endpoint, {
+                    method: "POST",
+                    headers: { Accept: "application/json" },
+                    body: new FormData(form),
+                })
+                    .then(function (response) {
+                        if (response.ok) {
+                            window.location.href = "/danke.html";
+                            return null;
+                        }
+                        // NEU 11/2026: 429 = Rate-Limit (20 Einsendungen pro
+                        // IP und Formular je 60 Sekunden). Eigene, freundliche
+                        // Meldung statt "hat nicht funktioniert" -- und ein
+                        // konkreter Zeitwert aus dem Retry-After-Header.
+                        // Wichtig: NICHT automatisch erneut senden. Laut
+                        // Formspring setzt ein zu frueher Versuch die Sperre
+                        // neu ("retrying earlier just resets the cooldown").
+                        if (response.status === 429) {
+                            var wait = Number(
+                                response.headers.get("Retry-After")
+                            );
+                            if (!wait || wait < 1) wait = 60;
+                            throw new Error(
+                                "Zu viele Sendeversuche in kurzer Zeit. " +
+                                    "Bitte warten Sie etwa " +
+                                    Math.ceil(wait) +
+                                    " Sekunden – ein früherer Versuch " +
+                                    "verlängert die Sperre."
+                            );
+                        }
+                        // Bei 422 liefert Formspring
+                        // { "errors": { "feld": ["Meldung"] } }. Diese
+                        // Meldungen zeigen wir an, statt pauschal
+                        // "hat nicht funktioniert" -- sonst sucht der
+                        // Besucher im Dunkeln.
+                        return response
+                            .json()
+                            .catch(function () {
+                                return null;
+                            })
+                            .then(function (body) {
+                                var messages = [];
+                                if (body && body.errors) {
+                                    Object.keys(body.errors).forEach(function (
+                                        key
+                                    ) {
+                                        var list = body.errors[key];
+                                        messages = messages.concat(
+                                            Array.isArray(list) ? list : [list]
+                                        );
+                                    });
+                                }
+                                throw new Error(messages.join(" "));
+                            });
+                    })
+                    .catch(function (error) {
+                        if (button) button.disabled = false;
+                        // Konkrete Meldung (Validierung, Rate-Limit) wenn
+                        // vorhanden, sonst der allgemeine Fall. Danach immer
+                        // der E-Mail-Ausweg -- aber KEIN "versuchen Sie es
+                        // erneut", das wuerde der Rate-Limit-Meldung
+                        // widersprechen.
+                        var detail =
+                            error && error.message
+                                ? error.message
+                                : "Das Senden hat nicht funktioniert. Bitte " +
+                                  "versuchen Sie es erneut.";
+                        status.textContent =
+                            detail +
+                            " Alternativ erreichen Sie mich per E-Mail unter " +
+                            "nospamreg_AT_krzyzanski.de.";
+                    });
+            });
+        });
+    })();
+</script>
